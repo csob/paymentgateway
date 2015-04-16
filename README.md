@@ -1,6 +1,6 @@
 ![csob_rgb](https://cloud.githubusercontent.com/assets/6931405/6784580/c1b217be-d180-11e4-8353-edffe4a407d9.png)
 
-*please scroll down for [English](https://github.com/inoxive/mips-support-dev/blob/master/README.md#Čsob-online-payment-gateway)* :gb:
+*please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
 
 #Platební brána ČSOB
 
