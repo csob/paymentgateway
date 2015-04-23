@@ -30,13 +30,13 @@ require_once ('setup.php');
     </div>
   </div>
   <div class="form-group">
-    <label for="total_amount" class="col-sm-2 control-label">Total amount</label>
+    <label for="total_amount" class="col-sm-2 control-label">Total amount (CZK)</label>
     <div class="col-sm-4">
-    <input class="form-control text-right" name="total_amount" id="total_amount" value="1789600"/>
+    <input class="form-control text-right" name="total_amount" id="total_amount" value="1"/>
     </div>
   </div>
   <div class="form-group">
-    <label for="shipping_amount" class="col-sm-2 control-label">Shipping amount</label>
+    <label for="shipping_amount" class="col-sm-2 control-label">Shipping amount (CZK)</label>
     <div class="col-sm-4">
     <input class="form-control text-right" name="shipping_amount" id="shipping_amount" value="0"/>
     </div>
