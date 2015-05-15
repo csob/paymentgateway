@@ -3,7 +3,7 @@ Requirements:
 - installed maven 3
 
 1. download and unzip or clone git repository with java plugin for CSOB payment gateway
-   (TODO specify path after github csob support account is set)
+   (https://github.com/csob/paymentgateway)
 
 2. goto current directory where pom.xml is located and run "mvn package"
 
