@@ -40,5 +40,5 @@ Our GitHub repository contains example PHP and Java integration, including a ful
 
 ##3. Issues, Troubleshooting and Support 
 
-Nejrychleji najdete pomoc v sekci často kladených otázek. The [technical section](https://github.com/csob/paymentgateway/wiki/Technical-FAQ) is devoted mainly to integration, the [functional and commercial section](https://github.com/csob/paymentgateway/wiki/FAQ:-Features-and-Commercial-Issues) includes answers related mainly to the business functionality of the gateway. More detail to previously solved problems can be also found in the GitHub Issues. 
+Please have a loot at the FAQ first. The [technical section](https://github.com/csob/paymentgateway/wiki/Technical-FAQ) is devoted mainly to integration, the [functional and commercial section](https://github.com/csob/paymentgateway/wiki/FAQ:-Features-and-Commercial-Issues) includes answers related mainly to the business functionality of the gateway. More detail to previously solved problems can be also found in the GitHub Issues. 
 
