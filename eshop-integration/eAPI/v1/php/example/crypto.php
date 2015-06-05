@@ -24,7 +24,8 @@ function createCartData($goodsDesc, $totalAmount, $shippingTotal) {
 			1 => array(
 				"name" 		=>  Constants::$SHOP_SHIPPING,
 				"quantity" 	=>	Constants::$SHOP_CART_QUANTITY,
-				"amount"	=>	$shippingTotal
+				"amount"	=>	$shippingTotal,
+				"description" 	=>	Constants::$SHOP_SHIPPING_DESC
 			)
 	);
 	return $cartData;
@@ -85,7 +86,7 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 	
 	$cart2Sign = $data["cart"][0]["name"] . "|" . $data["cart"][0]["quantity"] . "|" . $data["cart"][0]["amount"] . "|" . $data["cart"][0]["description"] . "|" 
-		. $data["cart"][1]["name"] . "|" . $data["cart"][1]["quantity"] . "|" . $data["cart"][1]["amount"];
+		. $data["cart"][1]["name"] . "|" . $data["cart"][1]["quantity"] . "|" . $data["cart"][1]["amount"] . "|" . $data["cart"][1]["description"];
 	
 	$data2Sign = $data["merchantId"] . "|" .  $data["orderNo"] . "|" . $data["dttm"] . "|" . $data["payOperation"] . "|" . $data["payMethod"] . "|" . $data["totalAmount"]
 		."|". $data["currency"] ."|". $data["closePayment"]  . "|". $data["returnUrl"] ."|". $data["returnMethod"] . "|" . $cart2Sign . "|" . $data["description"];

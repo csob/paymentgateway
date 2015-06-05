@@ -13,29 +13,25 @@ require_once ('setup.php');
 
 echo "preparing payment init data ...\n\n";
 
-$merchantId = $_POST ['merchant_id'];
-$orderNo = $_POST ['order_no'];
-$totalAmount = $_POST ['total_amount'];
-$shippingAmount = $_POST ['shipping_amount'];
-$returnUrl = $_POST ['return_url'];
-$goods_desc = $_POST ['goods_desc'];
-$description = $_POST ['description'];
-$customerId = $_POST ['customer_id'];
-$returnMethodPOST = "yes";
-$closePayment = false;
-$merchantData = null;
+$initdata = $_POST ['initdata'];
+$data = json_decode($initdata, true);
+
+if(is_null($data)) {
+	echo 'parsing JSON failed, please go back, update and try again';
+	return;
+}
+
+echo "parsed payment/init request:\n";
+echo json_encode($data, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE ) . "\n\n";
 
 $dttm = (new DateTime ())->format ( "YmdHis" );
+$data["dttm"] = $dttm;
+$data["closePayment"] = ($data["closePayment"] == '1') ? "true" : "false";
 
-$cart = createCartData($goods_desc, $totalAmount, $shippingAmount);
-echo "preparing cart data:\n";
-echo json_encode($cart, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE) . "\n\n";
-
-$data = createPaymentInitData($merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description,
-		$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST);
+$data["signature"] = signPaymentInitData ($data, $privateKey, $privateKeyPassword);
 
 echo "prepared payment/init request:\n";
-echo json_encode($data, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE) . "\n\n";
+echo json_encode($data, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE ) . "\n\n";
 
 echo "processing payment/init request ...\n\n";
 

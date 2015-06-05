@@ -4,6 +4,7 @@ class Constants {
 	static $SHOP_CART_NAME = 'Shopping at ...';
 	static $SHOP_CART_QUANTITY = 1;
 	static $SHOP_SHIPPING = 'Shipping';
+	static $SHOP_SHIPPING_DESC = 'PPL';
 	static $LANGUAGE = 'CZ';
 	static $CURRENCY = 'CZK';
 	static $PAYMETHOD = 'card';

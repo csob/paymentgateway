@@ -52,7 +52,7 @@ switch ($action) {
 echo "http method: " . $custom_req . "\n";
 echo "gateway url: " . $gateway_url . "\n";
 if (!is_null($data)) {
-	echo "req: " . json_encode ( $data, JSON_UNESCAPED_SLASHES ) . "\n";
+	echo "req: " . json_encode ( $data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE ) . "\n";
 }
 
 if (!is_null($action))
@@ -61,7 +61,7 @@ if (!is_null($action))
 	curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
 	curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false);
 	if ($custom_req == 'PUT') {
-		$putData = json_encode ( $data, JSON_UNESCAPED_SLASHES );
+		$putData = json_encode ( $data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE);
 		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $custom_req);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $putData);
 		curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
@@ -121,6 +121,7 @@ if (!is_null($action))
 <a href="payment.php?action=reverse&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/reverse</a><br/>
 <a href="payment.php?action=refund&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/refund</a><br/>
 <br/>
-<a href="index.php">new payment/init</a><br/>
+<a href="index.php">new FORM payment/init</a><br/>
+<a href="index-json.php">new JSON payment/init</a><br/>
 </body>
 </html>
