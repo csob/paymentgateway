@@ -1,4 +1,4 @@
-![csob_rgb](https://cloud.githubusercontent.com/assets/6931405/6784580/c1b217be-d180-11e4-8353-edffe4a407d9.png)
+<a href="https://github.com/csob/paymentgateway/wiki/img/banner_high.png"><img src="https://github.com/csob/paymentgateway/wiki/img/banner_high.png" height="407"/></a>
 
 *please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
 
