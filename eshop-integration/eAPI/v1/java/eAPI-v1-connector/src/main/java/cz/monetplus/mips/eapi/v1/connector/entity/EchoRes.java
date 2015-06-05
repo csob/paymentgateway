@@ -21,6 +21,8 @@ public class EchoRes extends SignBase {
 	public String toSign() {
 		StringBuffer sb = new StringBuffer(); 
 		add(sb, dttm);
+		add(sb, resultCode);
+		add(sb, resultMessage);
 		deleteLast(sb);
 		return sb.toString();
 	}
