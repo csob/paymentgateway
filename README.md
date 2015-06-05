@@ -1,4 +1,4 @@
-<a href="https://github.com/csob/paymentgateway/wiki/img/banner_high.png"><img src="https://github.com/csob/paymentgateway/wiki/img/banner_high.png" height="407"/></a>
+<a href="https://github.com/csob/paymentgateway/wiki/img/banner_high.png"><img src="https://github.com/csob/paymentgateway/wiki/img/banner_high.png"></a>
 
 *please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
 
