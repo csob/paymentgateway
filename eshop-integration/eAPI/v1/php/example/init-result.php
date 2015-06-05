@@ -6,9 +6,7 @@
 </head>
 
 <body>
-<pre>
-
-<?php
+<pre><?php
 require_once ('logger.php');
 require_once ('crypto.php');
 require_once ('setup.php');
@@ -30,9 +28,13 @@ $merchantData = null;
 $dttm = (new DateTime ())->format ( "YmdHis" );
 
 $cart = createCartData($goods_desc, $totalAmount, $shippingAmount);
+echo "preparing cart data:\n";
+echo json_encode($cart, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES) . "\n\n";
+
 $data = createPaymentInitData($merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description,
 		$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST);
 
+echo "prepared payment/init request:\n";
 echo json_encode($data, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES) . "\n\n";
 
 echo "processing payment/init request ...\n\n";
@@ -62,7 +64,7 @@ if($httpCode != 200) {
 
 curl_close($ch);
 
-echo 'payment/init result: ' . $result . "\n\n";
+echo "payment/init result:\n" . $result . "\n\n";
 
 $result_array = json_decode ( $result, true );
 if(is_null($result_array ['resultCode'])) {

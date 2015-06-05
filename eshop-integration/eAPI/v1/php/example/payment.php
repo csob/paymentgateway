@@ -101,7 +101,7 @@ if (!is_null($action))
 		return;
 	}
 
-	if (verifyResponse($result_array, $publicKey, "payment/' . $action . ' verify") == false) {
+	if (verifyResponse($result_array, $publicKey, "payment/" . $action . " verify") == false) {
 		echo 'payment/' . $action . ' failed, unable to verify signature';
 		return;
 	}

@@ -105,6 +105,8 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 	if ($data2Sign [strlen ( $data2Sign ) - 1] == '|') {
 		$data2Sign = substr ( $data2Sign, 0, strlen ( $data2Sign ) - 1 ); 
 	}
+
+	echo "data to sign:\n\"" . $data2Sign . "\"\n\n";
 	
 	return sign ( $data2Sign, $privateKey, $privateKeyPassword, "payment/init data to sign:");
 	
@@ -113,7 +115,7 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 
 function createGetParams($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword) {
 	$text =  $merchantId . "|" . $payId . "|" . $dttm;
-	$signature = sign($text, $privateKey, $privateKeyPassword, "payment/process data to sign:");
+	$signature = sign($text, $privateKey, $privateKeyPassword, "data to sign:");
 	return $merchantId . "/" . $payId . "/" . $dttm . "/" . urlencode($signature); 
 }
 
