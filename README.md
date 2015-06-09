@@ -12,7 +12,11 @@ Produktové informace najdete na [https://platebnibrana.csob.cz](https://platebn
 
 ##2. Specifikace API, jak integrovat a testovat
 
-Než začnete bránu do vašeho shopu nebo mobilní aplikace integrovat, podívejte se, prosím, do [Wiki](https://github.com/csob/paymentgateway/wiki). Najdete zde kompletní dokumentaci k eAPI mezi e-shopem a bránou, návod jak simulovat různé transakční stavy a jaké používat testovací karty. 
+Platební brána má momentálně dvě rozhraní. Legacy API umožňuje přechod z již používané brány GP Webpay pro většinu obchodníků bez vývoje. eAPI je zcela novém, moderní RESTful API pro komunikaci e-shopu s platební bránou a také základ pro rozvoj nových služeb. Legacy API nebude již nadále rozvíjeno a proto doporučujeme v horizontu do léta 2016 vyvinout ve vašem e-shopu podporu eAPI. Jedině tak budete moci využívat všechny chystané funkce nové platební brány.
+
+Než začnete bránu do vašeho shopu nebo mobilní aplikace eAPI integrovat, podívejte se, prosím, do [Wiki](https://github.com/csob/paymentgateway/wiki). Najdete zde kompletní dokumentaci k eAPI mezi e-shopem a bránou, návod jak simulovat různé transakční stavy a jaké používat testovací karty. 
+
+Návod na migraci z platební brány ČSOB GP Webpay na novou platební bránu ČSOB najdete [zde](https://github.com/csob/paymentgateway/wiki/Přechod-z-již-použ%C3%ADvané-platebn%C3%AD-brány-GP-Webpay).
 
 ##3. Repozitář
 
