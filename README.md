@@ -12,7 +12,7 @@ Produktové informace najdete na [https://platebnibrana.csob.cz](https://platebn
 
 ##2. Specifikace API, jak integrovat a testovat
 
-Platební brána má momentálně dvě rozhraní. Legacy API umožňuje přechod z již používané brány GP Webpay pro většinu obchodníků bez vývoje. Legacy API podporuje základní trasakční funkce, nepodporuje však funkce související se zjišťováním stavu transakcí a správou objednávek. Pokud ve Vašem e-shopu používáte SOAP rozhraní půavodní platební brány GP Webpay pro zjišťování stavů objednávek, implementujte, prosím, rovnou nové eAPI, protože Legacy API tuto funkci nemá. 
+Platební brána má momentálně dvě rozhraní. Legacy API umožňuje přechod z již používané brány GP Webpay pro většinu obchodníků bez vývoje. Legacy API podporuje základní trasakční funkce, nepodporuje však funkce související se zjišťováním stavu transakcí a správou objednávek. Pokud ve Vašem e-shopu používáte SOAP rozhraní původní platební brány GP Webpay pro zjišťování stavů objednávek, implementujte, prosím, rovnou nové eAPI, protože Legacy API tuto funkci nemá. 
 eAPI je zcela nové, moderní RESTful API pro komunikaci e-shopu s platební bránou a také základ pro rozvoj nových služeb. Kombinuje do jednoho interfacu jak transakční, tak obslužné funkce. 
 Legacy API nebude již nadále rozvíjeno a proto doporučujeme v horizontu do léta 2016 vyvinout ve vašem e-shopu podporu eAPI. Jedině tak budete moci využívat všechny chystané funkce nové platební brány.
 
