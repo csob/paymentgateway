@@ -10,7 +10,7 @@
  * License: GNU General Public License v2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
  */
-add_action ( 'plugins_loaded', 'woocommerce_monet_pay_uni_init', 0 );
+add_action ( 'plugins_loaded', 'woocommerce_monet_pay_init', 0 );
 
 register_activation_hook ( __FILE__, 'install_transaction_db_table' );
 function install_transaction_db_table() {
@@ -34,7 +34,7 @@ function install_transaction_db_table() {
 	
 	$wpdb->query ( $sql );
 }
-function woocommerce_monet_pay_uni_init() {
+function woocommerce_monet_pay_init() {
 	require_once (ABSPATH . "/monetWebPay/MonetWebPay.php");
 	
 	if (! class_exists ( 'WC_Payment_Gateway' ))
@@ -59,12 +59,14 @@ function woocommerce_monet_pay_uni_init() {
 			$this->privateKeyPassword = $this->get_option ( 'privateKeyPassword' );
 			$this->moneyTransfer = $this->get_option ( 'moneyTransfer' );
 			$this->returnMethodPOST = $this->get_option( 'returnMethodPOST' );
+			$this->firstCartItemDesc = $this->get_option ( 'firstCartItemDesc' );
+			$this->secondCartItemDesc = $this->get_option ( 'secondCartItemDesc' );
 			$this->msg ['message'] = "";
 			$this->msg ['class'] = "";
 			
-			$uniMonetWebPay = new MonetWebPay ( $this->prepareDatabaseConfig () );
+			$monetWebPay = new MonetWebPay ( $this->prepareDatabaseConfig () );
 			
-			$this->uniMonetWebPay = $uniMonetWebPay;
+			$this->monetWebPay = $monetWebPay;
 			
 			add_action ( 'woocommerce_update_options_payment_gateways_' . $this->id, array (
 					&$this,
@@ -116,7 +118,10 @@ function woocommerce_monet_pay_uni_init() {
 		public function save_order_process($order_id) {
 			global $woocommerce;
 			$order = new WC_Order($order_id);
+			$this->monetWebPay->log->write('orderNumber ' .  $order->get_order_number());
+
 			$partsOforderNumber = $this->exploderOrderNumber($order->get_order_number());
+			$this->monetWebPay->log->write('parts of orderNumber ' .  $partsOforderNumber[0] . ', '  .  $partsOforderNumber[1]);
 			$orderNo = $order->get_order_number();
 			$location = $this->get_return_url ( $order );
 			$customer = $woocommerce->customer;
@@ -124,36 +129,39 @@ function woocommerce_monet_pay_uni_init() {
 			$data;
 			$returnUrl = plugins_url ( 'returnUrl.php?orderNumber=' . $order_id, __FILE__ ); 
 			
-			$this->uniMonetWebPay->log->write('Checking order ' .  $orderNo . ", orderId " . $order_id);
-			$row = $this->uniMonetWebPay->selectTransaction ( $partsOforderNumber[1] ); // kontrola jestli existuje objednavka
+			$this->monetWebPay->log->write('Checking order ' .  $orderNo . ", orderId " . $order_id);
+			$row = $this->monetWebPay->selectTransaction ( $partsOforderNumber[0] ); // kontrola jestli existuje objednavka
+			$this->monetWebPay->log->write('after select');
 
-			$cart = createCartData($woocommerce->cart, $order->get_total());
+			$cart = createCartData($woocommerce->cart, $order->get_total(), $this->firstCartItemDesc, $this->secondCartItemDesc);
+			$this->monetWebPay->log->write('cart created');
 			$paymentId = $row['payId'];
 			$paymentStatus = $row['paymentStatus'];
-			$this->uniMonetWebPay->log->write('loaded paymentStatus: ' . $paymentStatus . ' PayId: ' . $paymentId );
-			
+			$this->monetWebPay->log->write('loaded paymentStatus: ' . $paymentStatus . ' PayId: ' . $paymentId );
+
 			// pokud neni dosud platba inicializovana anebo byla zrusena nebo zamitnuta (payId null) anebo se zmenil kosik, provedeme payment/init
 			if (is_null($paymentId) || (!is_null($row['cart']) && ($row['cart'] !== json_encode($cart)))) { 
 
-				$this->uniMonetWebPay->log->write('payment not inicialized OR payment cancelled or declined OR detected cart changes');
+				$this->monetWebPay->log->write('payment not inicialized OR payment cancelled or declined OR detected cart changes');
 
 				$urlGate = $this->urlGate . NativeApiMethod::$init;
-				$this->uniMonetWebPay->log->write('payment/init, url: ' . $urlGate);
+				$this->monetWebPay->log->write('payment/init, url: ' . $urlGate);
 
 				if(!is_null($row['paymentStatus']) && (($row['paymentStatus'] == PaymentStatus::$canceled) || ($row['paymentStatus'] == PaymentStatus::$declined))) {
-					$this->uniMonetWebPay->log->write('payment cancelled or declined, setting up cart from db: ' . $row['cart']);
+					$this->monetWebPay->log->write('payment cancelled or declined, setting up cart from db: ' . $row['cart']);
 					$cart = json_decode($row['cart'], true);
 				}
 				
-				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[1], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(),
+				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(),
 						$order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST );
 				
-				$this->uniMonetWebPay->log->write('payment/init data: ' . json_encode ( $data ));
+				$this->monetWebPay->log->write('payment/init data: ' . json_encode ( $data ));
 
 				$ch = curl_init ( $urlGate );
 				curl_setopt ( $ch, CURLOPT_CUSTOMREQUEST, "POST" );
 				curl_setopt ( $ch, CURLOPT_POSTFIELDS, json_encode ( $data ) );
 				curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+				curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false);
 				curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 						'Content-Type: application/json',
 						'Accept: application/json;charset=UTF-8' 
@@ -170,7 +178,7 @@ function woocommerce_monet_pay_uni_init() {
 
 				curl_close($ch);
 
-				$this->uniMonetWebPay->log->write('payment/init result: ' . $result);
+				$this->monetWebPay->log->write('payment/init result: ' . $result);
 
 				$result_array = json_decode ( $result, true );
 				if(is_null($result_array ['resultCode'])) {
@@ -181,7 +189,7 @@ function woocommerce_monet_pay_uni_init() {
 				}
 
 				$response = $this->prepareResponse($result_array);
-				if ($this->uniMonetWebPay->verifyPaymentInitSignature($response, $this->publicKey, "payment/init verify") == false) {
+				if ($this->monetWebPay->verifyPaymentInitSignature($response, $this->publicKey, "payment/init verify") == false) {
 					$this->msg ['message'] = 'Inicilizace platby na platební bráně se nezdařila, nepodařilo se ověřit podpis odpovědi';
 					$this->msg ['class'] = 'error';
 					wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
@@ -197,16 +205,16 @@ function woocommerce_monet_pay_uni_init() {
 				
 				$paymentId = $result_array ['payId'];
 				if(is_null($row['paymentStatus'])) {
-					$this->uniMonetWebPay->insertTransaction($response, $partsOforderNumber[1], $data['cart']);
+					$this->monetWebPay->insertTransaction($response, $partsOforderNumber[0], $data['cart']);
 				} else {
-					$this->uniMonetWebPay->updateTransaction($partsOforderNumber[1], $response, $data['cart']);
+					$this->monetWebPay->updateTransaction($partsOforderNumber[0], $response, $data['cart']);
 				}
 			}
 			
 			$dttm = (new DateTime ())->format ( "YmdHis" );
 			$urlProccessPart = createPaymentProcessUrl( $this->merchantId, $paymentId, $dttm, $this->privateKey, $this->privateKeyPassword);
 			$processUrlGate = $this->urlGate . NativeApiMethod::$process . $urlProccessPart;
-			$this->uniMonetWebPay->log->write('executing payment/process, url: ' . $processUrlGate);
+			$this->monetWebPay->log->write('executing payment/process, url: ' . $processUrlGate);
 
 			header ( 'Location: ' . $processUrlGate );
 		}		
@@ -215,19 +223,23 @@ function woocommerce_monet_pay_uni_init() {
 			$this->form_fields = array (
 					'merchantId' => array (
 							'title' => 'ID obchodníka',
-							'type' => 'text' 
+							'type' => 'text',
+							'required'  => true 
 					),
 					'urlGate' => array (
 							'title' => 'Adresa brány',
-							'type' => 'text' 
+							'type' => 'text',
+							'required'  => true 
 					),
 					'publicKey' => array (
 							'title' => 'Veřejný klíč',
-							'type' => 'text' 
+							'type' => 'text',
+							'required'  => true 
 					),
 					'privateKey' => array (
 							'title' => 'Soubor privátního klíče',
-							'type' => 'text' 
+							'type' => 'text',
+							'required'  => true 
 					),
 					'privateKeyPassword' => array (
 							'title' => 'Heslo privátního klíče',
@@ -262,6 +274,19 @@ function woocommerce_monet_pay_uni_init() {
 							'title' => 'Popis',
 							'type' => 'textarea',
 							'desc_tip' => true 
+					),
+					'firstCartItemDesc' => array (
+							'title' => 'Název první položky košíku',
+							'type' => 'text',
+                			'placeholder' => 'Nákup v obchodě ...',
+							'required'  => true 
+					),
+					'secondCartItemDesc' => array (
+							'title' => 'Název druhé položky košíku',
+							'type' => 'text',
+                			'placeholder' => 'Poštovné',
+							'required'  => true 
+
 					) 
 			);
 		}
@@ -322,9 +347,9 @@ function woocommerce_monet_pay_uni_init() {
 			$partsOforderNumber = $this->exploderOrderNumber($order->get_order_number());
 			$response = $this->prepareResponse();
 					
-			$this->uniMonetWebPay->log->write("Processing response, payId: " . $response->payId . " dttm: " . $response->dttm . " resultCode: " . $response->resultCode . " resultMessage: " . $response->resultMessage . " authCode: " . $response->authCode . " signature: " . $response->signature );
-			if ($this->uniMonetWebPay->verifyPaymentResponseSignature($response, $this->publicKey, "payment response verify") == false) {
-				$this->uniMonetWebPay->log->write('Response signature verification failed for payId ' . $response->payId);
+			$this->monetWebPay->log->write("Processing response, payId: " . $response->payId . " dttm: " . $response->dttm . " resultCode: " . $response->resultCode . " resultMessage: " . $response->resultMessage . " authCode: " . $response->authCode . " signature: " . $response->signature );
+			if ($this->monetWebPay->verifyPaymentResponseSignature($response, $this->publicKey, "payment response verify") == false) {
+				$this->monetWebPay->log->write('Response signature verification failed for payId ' . $response->payId);
 				$redirect = $order->get_checkout_payment_url ( true );
 				$this->msg ['message'] = 'Nepodařilo se ověřit podpis odpovědi';
 				$this->msg ['class'] = 'error';
@@ -333,15 +358,15 @@ function woocommerce_monet_pay_uni_init() {
 			}
 
 			if ($response->resultCode != 0) {
-				$this->uniMonetWebPay->log->write('Response resultCode is ' . $response->resultCode . " [" . $response->resultMessage . "] for payId " . $response->payId);
+				$this->monetWebPay->log->write('Response resultCode is ' . $response->resultCode . " [" . $response->resultMessage . "] for payId " . $response->payId);
 			}
 						
 			if ($response->paymentStatus == PaymentStatus::$approved) {
 				
-				$this->uniMonetWebPay->log->write('Received approved status for payId: ' . $response->payId);
-				$this->uniMonetWebPay->updateTransactionStatus ( $partsOforderNumber[1], $response);
+				$this->monetWebPay->log->write('Received approved status for payId: ' . $response->payId);
+				$this->monetWebPay->updateTransactionStatus ( $partsOforderNumber[0], $response);
 				$this->msg ['class'] = 'woocommerce_message';
-				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a čeká v bance na zařazení do zúčtovaní. Číslo objednávky: %s', 'monet' ), $partsOforderNumber [1] );
+				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a čeká v bance na zařazení do zúčtovaní. Číslo objednávky: %s', 'monet' ), $partsOforderNumber [0] );
 				$order->add_order_note( $this->msg ['message'] );
 				$woocommerce->cart->empty_cart ();
 				$order->payment_complete();
@@ -349,9 +374,9 @@ function woocommerce_monet_pay_uni_init() {
 
 			} else if ($response->paymentStatus == PaymentStatus::$canceled) {
 				
-				$this->uniMonetWebPay->log->write('Received cancelled status for payId: ' . $response->payId);
-				$this->uniMonetWebPay->clearTransaction($partsOforderNumber[1], $response);
-				$this->msg ['message'] = sprintf ( __ ( 'Platba byla na platební bráně zrušena zákazníkem. Číslo objednávky: %s', 'monet' ), $partsOforderNumber[1] );
+				$this->monetWebPay->log->write('Received cancelled status for payId: ' . $response->payId);
+				$this->monetWebPay->clearTransaction($partsOforderNumber[0], $response);
+				$this->msg ['message'] = sprintf ( __ ( 'Platba byla na platební bráně zrušena zákazníkem. Číslo objednávky: %s', 'monet' ), $partsOforderNumber[0] );
 				$this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
 				$order->add_order_note ( $this->msg ['message'] );
 				$order->update_status ( 'failed' );							
@@ -359,9 +384,9 @@ function woocommerce_monet_pay_uni_init() {
 
 			} else if ($response->paymentStatus == PaymentStatus::$declined) {
 
-				$this->uniMonetWebPay->log->write('Received declined status for payId: ' . $response->payId);
-				$this->uniMonetWebPay->clearTransaction($partsOforderNumber[1], $response);
-				$this->msg ['message'] = 'Platba byla na platební bráně zamítnuta. Číslo objednávky: ' . $partsOforderNumber[1];
+				$this->monetWebPay->log->write('Received declined status for payId: ' . $response->payId);
+				$this->monetWebPay->clearTransaction($partsOforderNumber[0], $response);
+				$this->msg ['message'] = 'Platba byla na platební bráně zamítnuta. Číslo objednávky: ' . $partsOforderNumber[0];
 				$this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
 				$order->add_order_note ( sprintf ( $this->msg ['message'] ) );
 				$order->update_status ( 'failed' );
@@ -369,10 +394,10 @@ function woocommerce_monet_pay_uni_init() {
 
 			} else if ($response->paymentStatus == PaymentStatus::$toClearing) {
 
-				$this->uniMonetWebPay->log->write('Received to_clearing status for payId: ' . $response->payId);
-				$this->uniMonetWebPay->updateTransactionStatus ( $partsOforderNumber[1], $response);
+				$this->monetWebPay->log->write('Received to_clearing status for payId: ' . $response->payId);
+				$this->monetWebPay->updateTransactionStatus ( $partsOforderNumber[0], $response);
 				$this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
-				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a je v bance zařazena do zúčtovaní. Číslo objednavky: %s', 'monet' ), $partsOforderNumber[1] );
+				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a je v bance zařazena do zúčtovaní. Číslo objednavky: %s', 'monet' ), $partsOforderNumber[0] );
 				$order->add_order_note ( $this->msg ['message'] );
 				$woocommerce->cart->empty_cart ();
 				$order->payment_complete();

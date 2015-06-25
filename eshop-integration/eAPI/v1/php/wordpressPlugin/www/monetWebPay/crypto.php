@@ -2,9 +2,7 @@
 require_once ('logger.php');
 
 class Constants {
-	static $SHOP_CART_NAME = 'Nákup na geekshop';
 	static $SHOP_CART_QUANTITY = 1;
-	static $SHOP_POSTAGE = 'Poštovné';
 	static $LANGUAGE = 'CZ';
 	static $CURRENCY = 'CZK';
 	static $PAYMETHOD = 'card';
@@ -18,7 +16,7 @@ class Constants {
  * @param cart woo commerce cart structure
  * @param totalAmount total order amount in CZK
  */
-function createCartData($cart, $totalAmount) {
+function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItemDesc) {
 	$titles;
 	// extract the titles of products for description
 	foreach ($cart->get_cart() as $item => $values) { 
@@ -34,13 +32,13 @@ function createCartData($cart, $totalAmount) {
 
 	$cartData = array(
 			0 => array(
-				"name" 			=> 	Constants::$SHOP_CART_NAME,
+				"name" 			=> 	$firstCartItemDesc,
 				"quantity"		=>	Constants::$SHOP_CART_QUANTITY,
 				"amount"		=>	$totalAmount - $shippingTotal,
 				"description" 	=>	$titles
 			),
 			1 => array(
-				"name" 		=>  Constants::$SHOP_POSTAGE,
+				"name" 		=>  $secondCartItemDesc,
 				"quantity" 	=>	Constants::$SHOP_CART_QUANTITY,
 				"amount"	=>	$shippingTotal
 			)
