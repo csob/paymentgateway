@@ -30,9 +30,10 @@ V [repozitáři](https://github.com/csob/paymentgateway/tree/master/eshop-integr
 
 Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce] (https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky [link]. Větší detail k některým již dříve řešeným problémům najdete v issues. 
 
-
-![verified_by_visa](https://cloud.githubusercontent.com/assets/6931405/6785258/cc39fcca-d184-11e4-863d-90280b977493.png)             ![mc_secure_code](https://cloud.githubusercontent.com/assets/6931405/6785260/cc3e5f2c-d184-11e4-9e7d-73ae1f0e569c.png)
-
+<p align="center">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/vbv.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/mcseccode.png/">
+</p>
 
 #ČSOB Online Payment Gateway
 
