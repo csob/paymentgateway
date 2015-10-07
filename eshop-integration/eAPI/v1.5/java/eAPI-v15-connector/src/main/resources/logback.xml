@@ -1,0 +1,18 @@
+<configuration>
+
+	<property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %.-1level -- %m%n"/>
+
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${CONSOLE_LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="INFO" />
+	<logger name="org.apache.cxf" level="INFO" />
+	<logger name="org.apache.cxf.interceptor" level="DEBUG"/>
+
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
