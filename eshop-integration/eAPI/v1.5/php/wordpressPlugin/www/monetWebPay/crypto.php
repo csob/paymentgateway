@@ -7,6 +7,7 @@ class Constants {
 	static $PAYOPERATION = 'payment';
 	static $GET_RETURNMETHOD = 'GET';
 	static $POST_RETURNMETHOD = 'POST';
+	static $SUPPORTED_LANGUAGES = ['CZ', 'EN', 'DE', 'SK'];
 }
 
 /**
@@ -74,13 +75,11 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 	$titles = $cart[0]['description'];
 	$shippingTotal = $cart[1]['amount'];
 
-	$supportedLanguages = ['CZ', 'EN', 'DE', 'SK'];
-
 	if ($language == 'CS') { // ČSOB chybně používá kódy zemí místo kódu jazyka (ISO 639-1)
 		$language = 'CZ';
 	}
 
-	if (!in_array($language, $supportedLanguages)) {
+	if (!in_array($language, Constants::$SUPPORTED_LANGUAGES)) {
 		$language = 'EN';
 	}
 	
