@@ -3,8 +3,6 @@ require_once ('logger.php');
 
 class Constants {
 	static $SHOP_CART_QUANTITY = 1;
-	static $LANGUAGE = 'CZ';
-	static $CURRENCY = 'CZK';
 	static $PAYMETHOD = 'card';
 	static $PAYOPERATION = 'payment';
 	static $GET_RETURNMETHOD = 'GET';
@@ -61,19 +59,30 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
  * @param closePayment close payment flag (0/1)
  * @param merchantData merchant base64 encoded data
  * @param returnMethodPOST indicator if return method POST should be used
+ * @param currency currency in which the order is being made
+ * @param language language of the payment interface
  */
 function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description, 
-	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST) { 
+	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST, $currency = "CZK", $language = "CS") { 
 	
 	$payOperation = Constants::$PAYOPERATION;
 	$payMethod = Constants::$PAYMETHOD;
-	$currency = Constants::$CURRENCY;
 
 	$returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
 	$closePayment = ($closePayment == '1') ? "true" : "false";
 	$totalAmount = $totalAmount * 100;
 	$titles = $cart[0]['description'];
 	$shippingTotal = $cart[1]['amount'];
+
+	$supportedLanguages = ['CZ', 'EN', 'DE', 'SK'];
+
+	if ($language == 'CS') { // ČSOB chybně používá kódy zemí místo kódu jazyka (ISO 639-1)
+		$language = 'CZ';
+	}
+
+	if (!in_array($language, $supportedLanguages)) {
+		$language = 'EN';
+	}
 	
 	$data = array (			
 			"merchantId"	=>	$merchantId,
@@ -88,13 +97,13 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 			"returnMethod"	=>	$returnMethod,
 			"cart"			=>	$cart,
 			"description"	=>	$description,
-			"merchantData"	=>	$merchantData
+			"merchantData"	=>	$merchantData,
+			"language"		=>	$language
 	);
 	if(!is_null($customerId) && $customerId != '0') {
 		$data["customerId"]	= $customerId;
 	}
 
-	$data["language"] = Constants::$LANGUAGE;
 	$data["signature"]=	signPaymentInitData ($data, $privateKey, $privateKeyPassword);
 
  	return $data;
