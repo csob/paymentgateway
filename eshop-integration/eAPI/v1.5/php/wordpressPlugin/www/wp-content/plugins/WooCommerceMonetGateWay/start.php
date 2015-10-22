@@ -157,7 +157,7 @@ function woocommerce_monet_pay_init() {
 					global $sitepress;
 					$language = strtoupper($sitepress->get_current_language());
 				} else {
-					$language = 'CS';
+					$language = strtoupper(substr(get_bloginfo('language')), 0, 2);
 				}
 				
 				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, _("Order ", "woocommerce") . $order->get_order_number(),
