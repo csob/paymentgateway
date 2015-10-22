@@ -160,7 +160,7 @@ function woocommerce_monet_pay_init() {
 					$language = strtoupper(substr(get_bloginfo('language')), 0, 2);
 				}
 				
-				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, _("Order ", "woocommerce") . $order->get_order_number(),
+				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, __("Order ", "woocommerce") . $order->get_order_number(),
 						$order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST, $currency, $language );
 				
 				$this->monetWebPay->log->write('payment/init data: ' . json_encode ( $data ));
