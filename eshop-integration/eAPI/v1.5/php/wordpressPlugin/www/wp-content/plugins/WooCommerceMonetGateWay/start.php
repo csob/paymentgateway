@@ -48,7 +48,7 @@ function woocommerce_monet_pay_init() {
 			$this->init_settings ();
 			$this->id = 'MonetWebPay';
 			$this->medthod_title = $this->id; // MonetWebPay
-			$this->icon = get_bloginfo ( 'url' ) . "/monetWebPay/cards.png";
+			$this->icon = get_site_url() . "/monetWebPay/cards.png";
 			$this->urlGate = isset ( $this->settings ['urlGate'] ) ? $this->settings ['urlGate'] : '';
 			$this->title = $this->get_option ( 'title' );
 			$this->description = $this->get_option ( 'description' );
@@ -126,7 +126,6 @@ function woocommerce_monet_pay_init() {
 			$location = $this->get_return_url ( $order );
 			$customer = $woocommerce->customer;
 			$dttm = (new DateTime ())->format ( "YmdHis" );
-			$data;
 			$returnUrl = plugins_url ( 'returnUrl.php?orderNumber=' . $order_id, __FILE__ ); 
 			
 			$this->monetWebPay->log->write('Checking order ' .  $orderNo . ", orderId " . $order_id);
@@ -151,9 +150,18 @@ function woocommerce_monet_pay_init() {
 					$this->monetWebPay->log->write('payment cancelled or declined, setting up cart from db: ' . $row['cart']);
 					$cart = json_decode($row['cart'], true);
 				}
+
+				$currency = $order->get_order_currency();
+
+				if (function_exists('icl_object_id')) {
+					global $sitepress;
+					$language = strtoupper($sitepress->get_current_language());
+				} else {
+					$language = 'CS';
+				}
 				
-				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(),
-						$order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST );
+				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, _("Order ", "woocommerce") . $order->get_order_number(),
+						$order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST, $currency, $language );
 				
 				$this->monetWebPay->log->write('payment/init data: ' . json_encode ( $data ));
 
