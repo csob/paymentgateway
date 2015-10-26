@@ -21,7 +21,7 @@ require_once ('setup.php');
   <div class="col-sm-10">
 <textarea style="font-family:monospace;" name="initdata" id="initdata" rows="30" cols="150">
 {
-  "merchantId":"<?= $merchantId ?>",
+  "merchantId":"<?= htmlspecialchars($merchantId); ?>",
   "orderNo":"554822",
   "payOperation":"payment",
   "payMethod":"card",

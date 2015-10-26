@@ -19,7 +19,7 @@ require_once ('setup.php');
     <label for="merchant_id" class="col-sm-2 control-label">Merchant ID</label>
     <div class="col-sm-4">
 		<select class="form-control text-right" name="merchant_id" id="merchant_id">
-        <option value="<?= $merchantId ?>"><?= $merchantId ?></option>
+        <option value="<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>"><?= htmlspecialchars($merchantId, ENT_QUOTES); ?></option>
       </select>
     </div>
   </div>

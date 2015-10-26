@@ -107,7 +107,7 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 		$data2Sign = substr ( $data2Sign, 0, strlen ( $data2Sign ) - 1 );
 	}
 
-	echo "data to sign:\n\"" . $data2Sign . "\"\n\n";
+	echo "data to sign:\n\"" . htmlspecialchars($data2Sign, ENT_QUOTES) . "\"\n\n";
 
 	return sign ( $data2Sign, $privateKey, $privateKeyPassword, "payment/init data to sign:");
 

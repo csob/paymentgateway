@@ -14,7 +14,7 @@ require_once ('setup.php');
 
 $action = $_GET ['action'];
 
-echo 'processing payment/' . $action . "\n\n";
+echo 'processing payment/' . htmlspecialchars($action) . "\n\n";
 
 $gateway_url = null;
 
@@ -49,10 +49,10 @@ switch ($action) {
     	break;
 }
 
-echo "http method: " . $custom_req . "\n";
-echo "gateway url: " . $gateway_url . "\n";
+echo "http method: " . htmlspecialchars($custom_req) . "\n";
+echo "gateway url: " . htmlspecialchars($gateway_url) . "\n";
 if (!is_null($data)) {
-	echo "req: " . json_encode ( $data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE ) . "\n";
+	echo "req: " . htmlspecialchars(json_encode ( $data, JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE )) . "\n";
 }
 
 if (!is_null($action))
@@ -80,34 +80,34 @@ if (!is_null($action))
 	echo "\n";
 
 	if(curl_errno($ch)) {
-		echo 'payment/' . $action . ' failed, reason: ' . curl_error($ch);
+		echo 'payment/' . htmlspecialchars($action) . ' failed, reason: ' . htmlspecialchars(curl_error($ch));
 		return;
 	}
 
 	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-	echo "http status: " . $httpCode . "\n\n";
+	echo "http status: " . htmlspecialchars($httpCode) . "\n\n";
 
 	if($httpCode != 200) {
-		echo 'payment/' . $action . ' failed, http response: ' . $httpCode;
+		echo 'payment/' . htmlspecialchars($action) . ' failed, http response: ' . htmlspecialchars($httpCode);
 		return;
 	}
 	curl_close($ch);
 
-	echo 'response: ' . $result . "\n\n";
+	echo 'response: ' . htmlspecialchars($result) . "\n\n";
 
 	$result_array = json_decode ( $result, true );
 	if(is_null($result_array ['resultCode'])) {
-		echo 'payment/' . $action . ' failed, missing resultCode';
+		echo 'payment/' . htmlspecialchars($action) . ' failed, missing resultCode';
 		return;
 	}
 
 	if (verifyResponse($result_array, $publicKey, "payment/" . $action . " verify") == false) {
-		echo 'payment/' . $action . ' failed, unable to verify signature';
+		echo 'payment/' . htmlspecialchars($action) . ' failed, unable to verify signature';
 		return;
 	}
 
 	if ($result_array ['resultCode'] != '0') {
-		echo 'payment/' . $action . ' failed, reason: ' . $result_array ['resultMessage'];
+		echo 'payment/' . htmlspecialchars($action) . ' failed, reason: ' . htmlspecialchars($result_array ['resultMessage']);
 	}
 
 }
@@ -115,11 +115,11 @@ if (!is_null($action))
 
 ?>
 </pre>
-<a href="<?= $url . NativeApiMethod::$process . $params ?>">payment/process</a><br/>
-<a href="payment.php?action=status&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/status</a><br/>
-<a href="payment.php?action=close&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/close</a><br/>
-<a href="payment.php?action=reverse&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/reverse</a><br/>
-<a href="payment.php?action=refund&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/refund</a><br/>
+<a href="<?= htmlspecialchars($url . NativeApiMethod::$process . $params, ENT_QUOTES); ?>">payment/process</a><br/>
+<a href="payment.php?action=status&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/status</a><br/>
+<a href="payment.php?action=close&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/close</a><br/>
+<a href="payment.php?action=reverse&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/reverse</a><br/>
+<a href="payment.php?action=refund&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/refund</a><br/>
 <br/>
 <a href="index.php">new FORM payment/init</a><br/>
 <a href="index-json.php">new JSON payment/init</a><br/>
