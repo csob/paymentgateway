@@ -14,7 +14,7 @@ class Constants {
 }
 
 class Response {
-	var $payId; 
+	var $payId;
 	var $dttm;
 	var $resultCode;
 	var $resultMessage;

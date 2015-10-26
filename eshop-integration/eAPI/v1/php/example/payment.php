@@ -29,7 +29,7 @@ $data = null;
 $custom_req = null;
 switch ($action) {
     case 'status':
-    	$gateway_url = $url .  NativeApiMethod::$status . $params;   
+    	$gateway_url = $url .  NativeApiMethod::$status . $params;
     	$custom_req = "GET";
     	break;
     case 'close':
@@ -38,12 +38,12 @@ switch ($action) {
 		$data = preparePutRequest($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword);
     	break;
     case 'reverse':
-    	$gateway_url = $url .  NativeApiMethod::$reverse;   
+    	$gateway_url = $url .  NativeApiMethod::$reverse;
     	$custom_req = "PUT";
 		$data = preparePutRequest($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword);
     	break;
     case 'refund':
-    	$gateway_url = $url .  NativeApiMethod::$refund;   
+    	$gateway_url = $url .  NativeApiMethod::$refund;
     	$custom_req = "PUT";
 		$data = preparePutRequest($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword);
     	break;
@@ -74,27 +74,27 @@ if (!is_null($action))
 				'Accept: application/json;charset=UTF-8'
 		) );
 	}
-	
-	
+
+
 	$result = curl_exec ( $ch );
 	echo "\n";
-	
+
 	if(curl_errno($ch)) {
 		echo 'payment/' . $action . ' failed, reason: ' . curl_error($ch);
 		return;
 	}
-	
+
 	$httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 	echo "http status: " . $httpCode . "\n\n";
-	
+
 	if($httpCode != 200) {
 		echo 'payment/' . $action . ' failed, http response: ' . $httpCode;
 		return;
 	}
 	curl_close($ch);
-	
+
 	echo 'response: ' . $result . "\n\n";
-	
+
 	$result_array = json_decode ( $result, true );
 	if(is_null($result_array ['resultCode'])) {
 		echo 'payment/' . $action . ' failed, missing resultCode';
@@ -105,11 +105,11 @@ if (!is_null($action))
 		echo 'payment/' . $action . ' failed, unable to verify signature';
 		return;
 	}
-	
+
 	if ($result_array ['resultCode'] != '0') {
 		echo 'payment/' . $action . ' failed, reason: ' . $result_array ['resultMessage'];
 	}
-	
+
 }
 
 

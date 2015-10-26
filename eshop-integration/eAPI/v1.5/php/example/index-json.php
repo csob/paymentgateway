@@ -47,11 +47,11 @@ require_once ('setup.php');
   "description":"Nákup žluťoučký kůň na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)",
   "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
   "language":"CZ"
-}        
+}
 </textarea>
   </div>
 </div>
-  
+
 <div class="form-group">
   <div class="col-sm-2">
     <input id="submit" type="submit" class="form-control btn btn-primary" value="Test">
