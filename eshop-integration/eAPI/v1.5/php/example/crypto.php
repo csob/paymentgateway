@@ -47,9 +47,9 @@ function createCartData($goodsDesc, $totalAmount, $shippingTotal) {
  * @param merchantData merchant base64 encoded data
  * @param returnMethodPOST indicator if return method POST should be used
  */
-function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description, 
-	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST) { 
-	
+function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description,
+	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST) {
+
 	$payOperation = Constants::$PAYOPERATION;
 	$payMethod = Constants::$PAYMETHOD;
 	$currency = Constants::$CURRENCY;
@@ -57,8 +57,8 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 	$returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
 	$closePayment = ($closePayment == '1') ? "true" : "false";
 	$totalAmount = $totalAmount * 100;
-	
-	$data = array (			
+
+	$data = array (
 			"merchantId"	=>	$merchantId,
 			"orderNo" 		=>	$orderNo,
 			"dttm"			=>	$dttm,
@@ -84,40 +84,40 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 }
 
 function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
-	
-	$cart2Sign = $data["cart"][0]["name"] . "|" . $data["cart"][0]["quantity"] . "|" . $data["cart"][0]["amount"] . "|" . $data["cart"][0]["description"] . "|" 
+
+	$cart2Sign = $data["cart"][0]["name"] . "|" . $data["cart"][0]["quantity"] . "|" . $data["cart"][0]["amount"] . "|" . $data["cart"][0]["description"] . "|"
 		. $data["cart"][1]["name"] . "|" . $data["cart"][1]["quantity"] . "|" . $data["cart"][1]["amount"] . "|" . $data["cart"][1]["description"];
-	
+
 	$data2Sign = $data["merchantId"] . "|" .  $data["orderNo"] . "|" . $data["dttm"] . "|" . $data["payOperation"] . "|" . $data["payMethod"] . "|" . $data["totalAmount"]
 		."|". $data["currency"] ."|". $data["closePayment"]  . "|". $data["returnUrl"] ."|". $data["returnMethod"] . "|" . $cart2Sign . "|" . $data["description"];
-	
+
 	$merchantData = $data["merchantData"];
 	if(!is_null($merchantData)) {
 		$data2Sign = $data2Sign . "|" . $merchantData;
 	}
-	
+
 	$customerId = $data["customerId"];
 	if(!is_null($customerId) && $customerId != '0') {
 		$data2Sign = $data2Sign . "|" . $customerId;
 	}
-	
+
 	$data2Sign = $data2Sign . "|" . $data["language"];
-	
+
 	if ($data2Sign [strlen ( $data2Sign ) - 1] == '|') {
-		$data2Sign = substr ( $data2Sign, 0, strlen ( $data2Sign ) - 1 ); 
+		$data2Sign = substr ( $data2Sign, 0, strlen ( $data2Sign ) - 1 );
 	}
 
-	echo "data to sign:\n\"" . $data2Sign . "\"\n\n";
-	
+	echo "data to sign:\n\"" . htmlspecialchars($data2Sign, ENT_QUOTES) . "\"\n\n";
+
 	return sign ( $data2Sign, $privateKey, $privateKeyPassword, "payment/init data to sign:");
-	
+
 }
 
 
 function createGetParams($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword) {
 	$text =  $merchantId . "|" . $payId . "|" . $dttm;
 	$signature = sign($text, $privateKey, $privateKeyPassword, "data to sign:");
-	return $merchantId . "/" . $payId . "/" . $dttm . "/" . urlencode($signature); 
+	return $merchantId . "/" . $payId . "/" . $dttm . "/" . urlencode($signature);
 }
 
 function preparePutRequest($merchantId, $payId, $dttm, $privateKey, $privateKeyPassword) {
@@ -128,18 +128,18 @@ function preparePutRequest($merchantId, $payId, $dttm, $privateKey, $privateKeyP
 	);
 	$text =  $merchantId . "|" . $payId . "|" . $dttm;
 	$data['signature'] = sign($text, $privateKey, $privateKeyPassword, "data to sign:");
-	return $data; 
+	return $data;
 }
 
 
 
 function verifyResponse($response, $key, $logMsg) {
 	$text = $response ['payId'] . "|" . $response ['dttm'] . "|" . $response ['resultCode'] . "|" . $response ['resultMessage'];
-	
+
 	if(!is_null($response ['paymentStatus'])) {
 		$text = $text  . "|" . $response ['paymentStatus'];
 	}
-	
+
 	if(isset($response ['authCode']) && !is_null($response ['authCode'])) {
 		$text = $text  . "|" . $response ['authCode'];
 	}
@@ -147,7 +147,7 @@ function verifyResponse($response, $key, $logMsg) {
 	if(isset($response ['merchantData']) && !is_null($response ['merchantData'])) {
 		$text = $text  . "|" . $response ['merchantData'];
 	}
-	
+
 	return verify($text, $response ['signature'], $key, $logMsg);
 }
 

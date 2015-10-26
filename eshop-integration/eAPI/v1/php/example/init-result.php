@@ -29,7 +29,7 @@ $dttm = (new DateTime ())->format ( "YmdHis" );
 
 $cart = createCartData($goods_desc, $totalAmount, $shippingAmount);
 echo "preparing cart data:\n";
-echo json_encode($cart, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE) . "\n\n";
+echo htmlspecialchars(json_encode($cart, JSON_PRETTY_PRINT + JSON_UNESCAPED_SLASHES + JSON_UNESCAPED_UNICODE)) . "\n\n";
 
 $data = createPaymentInitData($merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description,
 		$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST);
@@ -52,19 +52,19 @@ curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 $result = curl_exec ( $ch );
 
 if(curl_errno($ch)) {
-	echo 'payment/init failed, reason: ' . curl_error($ch);
+	echo 'payment/init failed, reason: ' . htmlspecialchars(curl_error($ch));
 	return;
 }
 
 $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
 if($httpCode != 200) {
-	echo 'payment/init failed, http response: ' . $httpCode;
+	echo 'payment/init failed, http response: ' . htmlspecialchars($httpCode);
 	return;
 }
 
 curl_close($ch);
 
-echo "payment/init result:\n" . $result . "\n\n";
+echo "payment/init result:\n" . htmlspecialchars($result) . "\n\n";
 
 $result_array = json_decode ( $result, true );
 if(is_null($result_array ['resultCode'])) {
@@ -78,7 +78,7 @@ if (verifyResponse($result_array, $publicKey, "payment/init verify") == false) {
 }
 
 if ($result_array ['resultCode'] != '0') {
-	echo 'payment/init failed, reason: ' . $result_array ['resultMessage'];
+	echo 'payment/init failed, reason: ' . htmlspecialchars($result_array ['resultMessage']);
 	return;
 }
 
@@ -87,11 +87,11 @@ $params = createGetParams($merchantId, $payId, $dttm, $privateKey, $privateKeyPa
 
 ?>
 </pre>
-<a href="<?= $url . NativeApiMethod::$process . $params ?>">payment/process</a><br/>
-<a href="payment.php?action=status&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/status</a><br/>
-<a href="payment.php?action=close&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/close</a><br/>
-<a href="payment.php?action=reverse&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/reverse</a><br/>
-<a href="payment.php?action=refund&merchant_id=<?= $merchantId ?>&pay_id=<?= $payId ?>">payment/refund</a><br/>
+<a href="<?= htmlspecialchars($url . NativeApiMethod::$process . $params, ENT_QUOTES); ?>">payment/process</a><br/>
+<a href="payment.php?action=status&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/status</a><br/>
+<a href="payment.php?action=close&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/close</a><br/>
+<a href="payment.php?action=reverse&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/reverse</a><br/>
+<a href="payment.php?action=refund&merchant_id=<?= htmlspecialchars($merchantId, ENT_QUOTES); ?>&pay_id=<?= htmlspecialchars($payId, ENT_QUOTES); ?>">payment/refund</a><br/>
 <br/>
 <a href="index.php">new FORM payment/init</a><br/>
 <a href="index-json.php">new JSON payment/init</a><br/>
