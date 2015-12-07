@@ -17,7 +17,7 @@ function install_transaction_db_table() {
 	global $wpdb;
 	$sql = "DROP TABLE IF EXISTS monetTransaction";
 	$wpdb->query ( $sql );
-	
+
 	$sql = "
 	        CREATE TABLE IF NOT EXISTS monetTransaction (
 	        	orderNumber varchar(10) DEFAULT NULL,
@@ -31,23 +31,23 @@ function install_transaction_db_table() {
 	          	PRIMARY KEY (orderNumber)
 	        );
 	    ";
-	
+
 	$wpdb->query ( $sql );
 }
 function woocommerce_monet_pay_init() {
 	require_once (ABSPATH . "/monetWebPay/MonetWebPay.php");
-	
+
 	if (! class_exists ( 'WC_Payment_Gateway' ))
 		return;
-	
+
 	$log = new Logger();
 	class WC_Monet_Payment_Gateway extends WC_Payment_Gateway {
-		
+
 		public function __construct() {
-			
+
 			$this->init_settings ();
 			$this->id = 'MonetWebPay';
-			$this->medthod_title = $this->id; // MonetWebPay
+			$this->method_title = 'CSOB Platební brána' // MonetWebPay
 			$this->icon = get_bloginfo ( 'url' ) . "/monetWebPay/cards.png";
 			$this->urlGate = isset ( $this->settings ['urlGate'] ) ? $this->settings ['urlGate'] : '';
 			$this->title = $this->get_option ( 'title' );
@@ -63,20 +63,20 @@ function woocommerce_monet_pay_init() {
 			$this->secondCartItemDesc = $this->get_option ( 'secondCartItemDesc' );
 			$this->msg ['message'] = "";
 			$this->msg ['class'] = "";
-			
+
 			$monetWebPay = new MonetWebPay ( $this->prepareDatabaseConfig () );
-			
+
 			$this->monetWebPay = $monetWebPay;
-			
+
 			add_action ( 'woocommerce_update_options_payment_gateways_' . $this->id, array (
 					&$this,
-					'process_admin_options' 
+					'process_admin_options'
 			) );
 			$this->init_form_fields ();
-			
+
 			add_action ( 'woocommerce_receipt_' . $this->id, array (
 					&$this,
-					'receipt_page' 
+					'receipt_page'
 			) );
 		}
 		public function prepareDatabaseConfig() {
@@ -86,10 +86,10 @@ function woocommerce_monet_pay_init() {
 			$databaseConfig->name = $wpdb->dbname;
 			$databaseConfig->user = $wpdb->dbuser;
 			$databaseConfig->password = $wpdb->dbpassword;
-			
+
 			return $databaseConfig;
 		}
-		
+
 		/**
 		 * Admin Panel Options
 		 */
@@ -106,7 +106,7 @@ function woocommerce_monet_pay_init() {
 			if ($this->description)
 				echo wpautop ( wptexturize ( $this->description ) );
 		}
-		
+
 		/**
 		 * Receipt Page
 		 */
@@ -127,8 +127,8 @@ function woocommerce_monet_pay_init() {
 			$customer = $woocommerce->customer;
 			$dttm = (new DateTime ())->format ( "YmdHis" );
 			$data;
-			$returnUrl = plugins_url ( 'returnUrl.php?orderNumber=' . $order_id, __FILE__ ); 
-			
+			$returnUrl = plugins_url ( 'returnUrl.php?orderNumber=' . $order_id, __FILE__ );
+
 			$this->monetWebPay->log->write('Checking order ' .  $orderNo . ", orderId " . $order_id);
 			$row = $this->monetWebPay->selectTransaction ( $partsOforderNumber[0] ); // kontrola jestli existuje objednavka
 			$this->monetWebPay->log->write('after select');
@@ -140,7 +140,7 @@ function woocommerce_monet_pay_init() {
 			$this->monetWebPay->log->write('loaded paymentStatus: ' . $paymentStatus . ' PayId: ' . $paymentId );
 
 			// pokud neni dosud platba inicializovana anebo byla zrusena nebo zamitnuta (payId null) anebo se zmenil kosik, provedeme payment/init
-			if (is_null($paymentId) || (!is_null($row['cart']) && ($row['cart'] !== json_encode($cart)))) { 
+			if (is_null($paymentId) || (!is_null($row['cart']) && ($row['cart'] !== json_encode($cart)))) {
 
 				$this->monetWebPay->log->write('payment not inicialized OR payment cancelled or declined OR detected cart changes');
 
@@ -151,10 +151,10 @@ function woocommerce_monet_pay_init() {
 					$this->monetWebPay->log->write('payment cancelled or declined, setting up cart from db: ' . $row['cart']);
 					$cart = json_decode($row['cart'], true);
 				}
-				
+
 				$data = createPaymentInitData ( $this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(),
 						$order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST );
-				
+
 				$this->monetWebPay->log->write('payment/init data: ' . json_encode ( $data ));
 
 				$ch = curl_init ( $urlGate );
@@ -164,9 +164,9 @@ function woocommerce_monet_pay_init() {
 				curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false);
 				curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
 						'Content-Type: application/json',
-						'Accept: application/json;charset=UTF-8' 
+						'Accept: application/json;charset=UTF-8'
 				) );
-				
+
 				$result = curl_exec ( $ch );
 
 				if(curl_errno($ch)) {
@@ -202,7 +202,7 @@ function woocommerce_monet_pay_init() {
 					wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
 					return;
 				}
-				
+
 				$paymentId = $result_array ['payId'];
 				if(is_null($row['paymentStatus'])) {
 					$this->monetWebPay->insertTransaction($response, $partsOforderNumber[0], $data['cart']);
@@ -210,48 +210,48 @@ function woocommerce_monet_pay_init() {
 					$this->monetWebPay->updateTransaction($partsOforderNumber[0], $response, $data['cart']);
 				}
 			}
-			
+
 			$dttm = (new DateTime ())->format ( "YmdHis" );
 			$urlProccessPart = createPaymentProcessUrl( $this->merchantId, $paymentId, $dttm, $this->privateKey, $this->privateKeyPassword);
 			$processUrlGate = $this->urlGate . NativeApiMethod::$process . $urlProccessPart;
 			$this->monetWebPay->log->write('executing payment/process, url: ' . $processUrlGate);
 
 			header ( 'Location: ' . $processUrlGate );
-		}		
-				
+		}
+
 		public function init_form_fields() {
 			$this->form_fields = array (
 					'merchantId' => array (
 							'title' => 'ID obchodníka',
 							'type' => 'text',
-							'required'  => true 
+							'required'  => true
 					),
 					'urlGate' => array (
 							'title' => 'Adresa brány',
 							'type' => 'text',
-							'required'  => true 
+							'required'  => true
 					),
 					'publicKey' => array (
 							'title' => 'Veřejný klíč',
 							'type' => 'text',
-							'required'  => true 
+							'required'  => true
 					),
 					'privateKey' => array (
 							'title' => 'Soubor privátního klíče',
 							'type' => 'text',
-							'required'  => true 
+							'required'  => true
 					),
 					'privateKeyPassword' => array (
 							'title' => 'Heslo privátního klíče',
-							'type' => 'text' 
+							'type' => 'text'
 					),
 					'moneyTransfer' => array (
 							'title' => 'Převod peněz',
 							'type' => 'select',
 							'options' => array (
 									'1' => 'Převést ihned',
-									'0' => 'Převést až po zařazení do zúčtování' 
-							) 
+									'0' => 'Převést až po zařazení do zúčtování'
+							)
 					),
 					'returnMethodPOST' => array (
 							'title' => 'Návratová metoda POST',
@@ -263,31 +263,31 @@ function woocommerce_monet_pay_init() {
 							'title' => __ ( 'Povolit/Zakázat', 'monet' ),
 							'type' => 'checkbox',
 							'label' => 'Zapnuto',
-							'default' => 'yes' 
+							'default' => 'yes'
 					),
 					'title' => array (
 							'title' => 'Titulek',
 							'type' => 'text',
-							'desc_tip' => true 
+							'desc_tip' => true
 					),
 					'description' => array (
 							'title' => 'Popis',
 							'type' => 'textarea',
-							'desc_tip' => true 
+							'desc_tip' => true
 					),
 					'firstCartItemDesc' => array (
 							'title' => 'Název první položky košíku',
 							'type' => 'text',
                 			'placeholder' => 'Nákup v obchodě ...',
-							'required'  => true 
+							'required'  => true
 					),
 					'secondCartItemDesc' => array (
 							'title' => 'Název druhé položky košíku',
 							'type' => 'text',
                 			'placeholder' => 'Poštovné',
-							'required'  => true 
+							'required'  => true
 
-					) 
+					)
 			);
 		}
 
@@ -296,12 +296,12 @@ function woocommerce_monet_pay_init() {
 			if (version_compare ( WOOCOMMERCE_VERSION, '2.1.0', '<=' )) {
 				$return = array (
 						'result' => 'success',
-						'redirect' => get_permalink ( get_option ( 'woocommerce_pay_page_id' ) ) 
+						'redirect' => get_permalink ( get_option ( 'woocommerce_pay_page_id' ) )
 				);
 			} else {
 				$return = array (
 						'result' => 'success',
-						'redirect' => $order->get_checkout_payment_url ( true ) 
+						'redirect' => $order->get_checkout_payment_url ( true )
 				);
 			}
 			return $return;
@@ -310,10 +310,10 @@ function woocommerce_monet_pay_init() {
 		public function showMessage() {
 			return '<div class="box ' . $this->msg ['class'] . '-box">' . $this->msg ['message'] . '</div>' . $content;
 		}
-		
-		public function prepareResponse($result_array = null) {			
+
+		public function prepareResponse($result_array = null) {
 			$response = new Response();
-			
+
 			if($result_array != null) {
 				$response->payId = $result_array ['payId'];
 				$response->dttm = $result_array ['dttm'];
@@ -333,20 +333,20 @@ function woocommerce_monet_pay_init() {
 				$response->merchantData = (is_null($_GET ['merchantData'])) ? $_POST ['merchantData'] : $_GET ['merchantData'];
 				$response->signature = (is_null($_GET ['signature'])) ? $_POST ['signature'] : $_GET ['signature'];
 			}
-			
+
 			return $response;
 		}
-		
+
 		public function exploderOrderNumber($orderNumber) {
 			return explode ( '.', $orderNumber );
 		}
-		
+
 		public function processOrder($order_id) {
 			global $woocommerce;
 			$order = new WC_Order ( $order_id );
 			$partsOforderNumber = $this->exploderOrderNumber($order->get_order_number());
 			$response = $this->prepareResponse();
-					
+
 			$this->monetWebPay->log->write("Processing response, payId: " . $response->payId . " dttm: " . $response->dttm . " resultCode: " . $response->resultCode . " resultMessage: " . $response->resultMessage . " authCode: " . $response->authCode . " signature: " . $response->signature );
 			if ($this->monetWebPay->verifyPaymentResponseSignature($response, $this->publicKey, "payment response verify") == false) {
 				$this->monetWebPay->log->write('Response signature verification failed for payId ' . $response->payId);
@@ -360,9 +360,9 @@ function woocommerce_monet_pay_init() {
 			if ($response->resultCode != 0) {
 				$this->monetWebPay->log->write('Response resultCode is ' . $response->resultCode . " [" . $response->resultMessage . "] for payId " . $response->payId);
 			}
-						
+
 			if ($response->paymentStatus == PaymentStatus::$approved) {
-				
+
 				$this->monetWebPay->log->write('Received approved status for payId: ' . $response->payId);
 				$this->monetWebPay->updateTransactionStatus ( $partsOforderNumber[0], $response);
 				$this->msg ['class'] = 'woocommerce_message';
@@ -370,16 +370,16 @@ function woocommerce_monet_pay_init() {
 				$order->add_order_note( $this->msg ['message'] );
 				$woocommerce->cart->empty_cart ();
 				$order->payment_complete();
-				$order->update_status ( 'on-hold' );							
+				$order->update_status ( 'on-hold' );
 
 			} else if ($response->paymentStatus == PaymentStatus::$canceled) {
-				
+
 				$this->monetWebPay->log->write('Received cancelled status for payId: ' . $response->payId);
 				$this->monetWebPay->clearTransaction($partsOforderNumber[0], $response);
 				$this->msg ['message'] = sprintf ( __ ( 'Platba byla na platební bráně zrušena zákazníkem. Číslo objednávky: %s', 'monet' ), $partsOforderNumber[0] );
 				$this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
 				$order->add_order_note ( $this->msg ['message'] );
-				$order->update_status ( 'failed' );							
+				$order->update_status ( 'failed' );
 				wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
 
 			} else if ($response->paymentStatus == PaymentStatus::$declined) {
@@ -403,7 +403,7 @@ function woocommerce_monet_pay_init() {
 				$order->payment_complete();
 
 			}
-            
+
 			$location = $this->get_return_url ( $order );
 			wp_safe_redirect ( $location );
 			exit ();
@@ -414,7 +414,7 @@ function woocommerce_monet_pay_init() {
 		$methods [] = 'WC_Monet_Payment_Gateway';
 		return $methods;
 	}
-	
+
 	add_filter ( 'woocommerce_payment_gateways', 'woocommerce_add_monetwebpay_gateway' );
 }
 
