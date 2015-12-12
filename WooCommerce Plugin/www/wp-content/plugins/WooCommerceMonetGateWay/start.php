@@ -47,7 +47,7 @@ function woocommerce_monet_pay_init() {
 
 			$this->init_settings ();
 			$this->id = 'MonetWebPay';
-			$this->method_title = 'CSOB Platební brána' // MonetWebPay
+			$this->method_title = 'CSOB Platební brána'; // MonetWebPay
 			$this->icon = get_bloginfo ( 'url' ) . "/monetWebPay/cards.png";
 			$this->urlGate = isset ( $this->settings ['urlGate'] ) ? $this->settings ['urlGate'] : '';
 			$this->title = $this->get_option ( 'title' );
