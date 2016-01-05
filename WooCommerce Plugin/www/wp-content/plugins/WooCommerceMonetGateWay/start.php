@@ -116,7 +116,6 @@ function woocommerce_monet_pay_init() {
 		}
 
 		public function save_order_process($order_id) {
-			global $woocommerce;
 			$order = new WC_Order($order_id);
 			$this->monetWebPay->log->write('orderNumber ' .  $order->get_order_number());
 
@@ -124,7 +123,7 @@ function woocommerce_monet_pay_init() {
 			$this->monetWebPay->log->write('parts of orderNumber ' .  $partsOforderNumber[0] . ', '  .  $partsOforderNumber[1]);
 			$orderNo = $order->get_order_number();
 			$location = $this->get_return_url ( $order );
-			$customer = $woocommerce->customer;
+			$customer = WC()->customer;
 			$dttm = (new DateTime ())->format ( "YmdHis" );
 			$data;
 			$returnUrl = plugins_url ( 'returnUrl.php?orderNumber=' . $order_id, __FILE__ );
@@ -133,7 +132,7 @@ function woocommerce_monet_pay_init() {
 			$row = $this->monetWebPay->selectTransaction ( $partsOforderNumber[0] ); // kontrola jestli existuje objednavka
 			$this->monetWebPay->log->write('after select');
 
-			$cart = createCartData($woocommerce->cart, $order->get_total(), $this->firstCartItemDesc, $this->secondCartItemDesc);
+			$cart = createCartData(WC()->cart, $order->get_total(), $this->firstCartItemDesc, $this->secondCartItemDesc);
 			$this->monetWebPay->log->write('cart created');
 			$paymentId = $row['payId'];
 			$paymentStatus = $row['paymentStatus'];
@@ -342,7 +341,6 @@ function woocommerce_monet_pay_init() {
 		}
 
 		public function processOrder($order_id) {
-			global $woocommerce;
 			$order = new WC_Order ( $order_id );
 			$partsOforderNumber = $this->exploderOrderNumber($order->get_order_number());
 			$response = $this->prepareResponse();
@@ -368,7 +366,7 @@ function woocommerce_monet_pay_init() {
 				$this->msg ['class'] = 'woocommerce_message';
 				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a čeká v bance na zařazení do zúčtovaní. Číslo objednávky: %s', 'monet' ), $partsOforderNumber [0] );
 				$order->add_order_note( $this->msg ['message'] );
-				$woocommerce->cart->empty_cart ();
+				WC()->cart->empty_cart ();
 				$order->payment_complete();
 				$order->update_status ( 'on-hold' );
 
@@ -399,7 +397,7 @@ function woocommerce_monet_pay_init() {
 				$this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
 				$this->msg ['message'] = sprintf ( __ ( 'Platba byla zpracována a je v bance zařazena do zúčtovaní. Číslo objednavky: %s', 'monet' ), $partsOforderNumber[0] );
 				$order->add_order_note ( $this->msg ['message'] );
-				$woocommerce->cart->empty_cart ();
+				WC()->cart->empty_cart ();
 				$order->payment_complete();
 
 			}
