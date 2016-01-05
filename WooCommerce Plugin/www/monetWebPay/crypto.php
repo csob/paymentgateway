@@ -23,7 +23,7 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
 		$product = $values['data'];
 		$titles = ' ' . $product -> get_title();					
 	}
-	$titles = mb_substr(trim($titles), 0, 37, 'utf-8') . "...";;
+	$titles = mb_substr(trim($titles), 0, 37, 'utf-8') . "...";
 	$totalAmount = $totalAmount * 100;
 
 	// extract shippingTotal from string <span class="amount">99&nbsp;Kc</span>
@@ -32,13 +32,13 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
 
 	$cartData = array(
 			0 => array(
-				"name" 			=> 	$firstCartItemDesc,
+				"name" 			=> 	mb_substr(trim($firstCartItemDesc), 0, 20, 'utf-8'),
 				"quantity"		=>	Constants::$SHOP_CART_QUANTITY,
 				"amount"		=>	$totalAmount - $shippingTotal,
 				"description" 	=>	$titles
 			),
 			1 => array(
-				"name" 		=>  $secondCartItemDesc,
+				"name" 		=>  mb_substr(trim($secondCartItemDesc), 0, 20, 'utf-8'),
 				"quantity" 	=>	Constants::$SHOP_CART_QUANTITY,
 				"amount"	=>	$shippingTotal
 			)

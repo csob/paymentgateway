@@ -48,7 +48,7 @@ function woocommerce_monet_pay_init() {
 			$this->init_settings ();
 			$this->id = 'MonetWebPay';
 			$this->method_title = 'CSOB Platební brána'; // MonetWebPay
-			$this->icon = get_bloginfo ( 'url' ) . "/monetWebPay/cards.png";
+			$this->icon = get_bloginfo ( 'wpurl' ) . "/monetWebPay/cards.png";
 			$this->urlGate = isset ( $this->settings ['urlGate'] ) ? $this->settings ['urlGate'] : '';
 			$this->title = $this->get_option ( 'title' );
 			$this->description = $this->get_option ( 'description' );
@@ -278,12 +278,14 @@ function woocommerce_monet_pay_init() {
 							'title' => 'Název první položky košíku',
 							'type' => 'text',
                 			'placeholder' => 'Nákup v obchodě ...',
+							'description' => 'max 20 znaků',
 							'required'  => true
 					),
 					'secondCartItemDesc' => array (
 							'title' => 'Název druhé položky košíku',
 							'type' => 'text',
                 			'placeholder' => 'Poštovné',
+							'description' => 'max 20 znaků',
 							'required'  => true
 
 					)
