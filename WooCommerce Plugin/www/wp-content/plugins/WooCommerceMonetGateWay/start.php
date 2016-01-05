@@ -141,7 +141,7 @@ function woocommerce_monet_pay_init() {
 			// pokud neni dosud platba inicializovana anebo byla zrusena nebo zamitnuta (payId null) anebo se zmenil kosik, provedeme payment/init
 			if (is_null($paymentId) || (!is_null($row['cart']) && ($row['cart'] !== json_encode($cart)))) {
 
-				$this->monetWebPay->log->write('payment not inicialized OR payment cancelled or declined OR detected cart changes');
+				$this->monetWebPay->log->write('payment not initialized OR payment cancelled or declined OR detected cart changes');
 
 				$urlGate = $this->urlGate . NativeApiMethod::$init;
 				$this->monetWebPay->log->write('payment/init, url: ' . $urlGate);
@@ -169,7 +169,7 @@ function woocommerce_monet_pay_init() {
 				$result = curl_exec ( $ch );
 
 				if(curl_errno($ch)) {
-					$this->msg ['message'] = 'Inicilizace platby na platební bráně se nezdařila, důvod: ' . curl_error($ch);
+					$this->msg ['message'] = 'Inicializace platby na platební bráně se nezdařila, důvod: ' . curl_error($ch);
 					$this->msg ['class'] = 'error';
 					wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
 					return;
@@ -189,14 +189,14 @@ function woocommerce_monet_pay_init() {
 
 				$response = $this->prepareResponse($result_array);
 				if ($this->monetWebPay->verifyPaymentInitSignature($response, $this->publicKey, "payment/init verify") == false) {
-					$this->msg ['message'] = 'Inicilizace platby na platební bráně se nezdařila, nepodařilo se ověřit podpis odpovědi';
+					$this->msg ['message'] = 'Inicializace platby na platební bráně se nezdařila, nepodařilo se ověřit podpis odpovědi';
 					$this->msg ['class'] = 'error';
 					wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
 					return;
 				}
 
 				if ($result_array ['resultCode'] != '0') {
-					$this->msg ['message'] = 'Iniclizace platby na platební bráně se nezdařila, důvod: ' . $result_array ['resultMessage'];
+					$this->msg ['message'] = 'Inicializace platby na platební bráně se nezdařila, důvod: ' . $result_array ['resultMessage'];
 					$this->msg ['class'] = 'error';
 					wc_add_notice ( __ ( $this->msg ['message'], 'monet' ) . $error_message, 'error' );
 					return;
