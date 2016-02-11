@@ -1,74 +1,105 @@
 <?php
-require_once(dirname(__FILE__)."/crypto.php");
-require_once(dirname(__FILE__)."/db.php");
-require_once(dirname(__FILE__)."/logger.php");
-require_once(dirname(__FILE__)."/struct.php");
+
+require_once(dirname(__FILE__) . "/crypto.php");
+require_once(dirname(__FILE__) . "/logger.php");
+require_once(dirname(__FILE__) . "/struct.php");
 
 class MonetWebPay {
-	var $log;
-	public function __construct($databaseConfig) {
-		global $mysql;
-		$this->log = new Logger();
-		$mysql = array(
-				'host' => $databaseConfig -> host,
-				'name' => $databaseConfig -> name,
-				'user' => $databaseConfig -> user,
-				'password' => $databaseConfig -> password
-		);
-	}
-	
-	function verifyPaymentInitSignature($response, $publicKey, $logMsg) {
-		return verifyResponse($response, $publicKey, $logMsg);
-	}
 
-	function verifyPaymentResponseSignature($response, $publicKey, $logMsg) {
-		return verifyResponse($response, $publicKey, $logMsg);
-	}
+    public $log = null;
+    private $mysqlConfig = null;
+    private $dbConnect = null;
 
-	function insertTransaction($response, $orderNumber, $cart) {
-		sqlconnect();
-		$sql = "insert into monetTransaction(orderNumber, payId, paymentStatus, created, updated, paymentResponse, authCode, cart) values (" 
-				. toSql($orderNumber) . ", "
-				. toSql($response->payId) .", "
-				. toSql($response->paymentStatus) .", "
-				. "NOW()" .", "
-				. toSql(null) .", "
-				. toSql(strtotime($response->dttm)) .", "
-				. toSql(null) . ", "
-				. toSql(json_encode($cart)) . ")";
-		$this->log->write($sql);
-		sqlExecute($sql);
-	}
-	
-	function updateTransaction($orderNumber, $response, $cart) {
-		sqlconnect();
-		$sql = "update monetTransaction set cart = " . toSql(json_encode($cart)) . ", authCode = " . toSql($response -> authCode) .", paymentStatus=" . toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . toSql(strtotime($response->dttm)) . " where orderNumber = " . toSql($orderNumber);
-		$this->log->write($sql);
-		sqlExecute($sql);		
-	}
+    public function __construct($databaseConfig) {
+        //global $mysql;
+        $this->log = new Logger();
+        $this->mysqlConfig = array(
+            'host' => $databaseConfig->host,
+            'name' => $databaseConfig->name,
+            'user' => $databaseConfig->user,
+            'password' => $databaseConfig->password
+        );
+        $this->dbConnect = $this->sqlconnect($this->mysqlConfig);
+    }
 
-	function updateTransactionStatus($orderNumber, $response) {
-		sqlconnect();
-		$sql = "update monetTransaction set authCode = " . toSql($response -> authCode) .", paymentStatus=" . toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . toSql(strtotime($response->dttm)) . " where orderNumber = " . toSql($orderNumber);
-		$this->log->write($sql);
-		sqlExecute($sql);		
-	}
-	
-	function selectTransaction($orderNumber) {
-		sqlconnect();
-		$sql = "select * from monetTransaction where orderNumber=" . $orderNumber;
-		$result = sqlExecute($sql);
-		$row = mysql_fetch_assoc($result);
-		$this->log->write($sql);
-		return $row;
-	}
-	
-	function clearTransaction($orderNumber, $response) {
-		sqlconnect();
-		$sql = "update monetTransaction set paymentStatus = " .  toSql($response->paymentStatus) . ", authCode = " . toSql(null) .", updated=NOW(), payId=" . toSql(null) . " where orderNumber = " . toSql($orderNumber);
-		$this->log->write($sql);
-		sqlExecute($sql);
-	}
+    public function verifyPaymentInitSignature($response, $publicKey, $logMsg) {
+        return verifyResponse($response, $publicKey, $logMsg);
+    }
+
+    public function verifyPaymentResponseSignature($response, $publicKey, $logMsg) {
+        return verifyResponse($response, $publicKey, $logMsg);
+    }
+
+    public function insertTransaction($response, $orderNumber, $cart) {
+        $sql = "INSERT INTO monetTransaction(orderNumber, payId, paymentStatus, created, updated, paymentResponse, authCode, cart) VALUES ("
+                . $this->toSql($orderNumber) . ", "
+                . $this->toSql($response->payId) . ", "
+                . $this->toSql($response->paymentStatus) . ", "
+                . "NOW()" . ", "
+                . $this->toSql(null) . ", "
+                . $this->toSql(strtotime($response->dttm)) . ", "
+                . $this->toSql(null) . ", "
+                . $this->toSql(json_encode($cart)) . ")";
+        $this->log->write($sql);
+        $this->sqlExecute($sql);
+    }
+
+    public function updateTransaction($orderNumber, $response, $cart) {
+        $sql = "update monetTransaction set cart = " . $this->toSql(json_encode($cart)) . ", authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql(strtotime($response->dttm)) . " where orderNumber = " . $this->toSql($orderNumber);
+        $this->log->write($sql);
+        $this->sqlExecute($sql);
+    }
+
+    public function updateTransactionStatus($orderNumber, $response) {
+        $sql = "UPDATE monetTransaction SET authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql(strtotime($response->dttm)) . " WHERE orderNumber = " . $this->toSql($orderNumber);
+        $this->log->write($sql);
+        $this->sqlExecute($sql);
+    }
+
+    public function selectTransaction($orderNumber) {
+        $sql = "SELECT * FROM monetTransaction WHERE orderNumber=" . $orderNumber;
+        $result = $this->sqlExecute($sql);
+        $row = mysqli_fetch_assoc($result);
+        $this->log->write($sql);
+        return $row;
+    }
+
+    function clearTransaction($orderNumber, $response) {
+        $sql = "UPDATE monetTransaction SET paymentStatus = " . $this->toSql($response->paymentStatus) . ", authCode = " . $this->toSql(null) . ", updated=NOW(), payId=" . $this->toSql(null) . " WHERE orderNumber = " . $this->toSql($orderNumber);
+        $this->log->write($sql);
+        $this->sqlExecute($sql);
+    }
+
+    private function sqlconnect($mysql) {
+
+        $dbconn = mysqli_connect($mysql['host'], $mysql['user'], $mysql['password']);
+        mysqli_select_db($dbconn, $mysql['name']) or die(mysql_error($this->dbConnect));
+        mysqli_query($dbconn, "SET NAMES 'UTF-8'");
+        return $dbconn;
+    }
+
+    private function sqlexecute($sql) {
+        $res = mysqli_query($this->dbConnect, $sql) or trigger_error(mysql_error($this->dbConnect) . "<br/>SQL: " . $sql, E_USER_ERROR);
+        return $res;
+    }
+
+    private function sqlquery($sql) {
+        $res = $this->sqlexecute($sql);
+
+        $ar = array();
+        while ($row = mysqli_fetch_array($res)) {
+            $ar[] = $row;
+        }
+
+        return $ar;
+    }
+
+    private function toSql($text) {
+        if (is_null($text)) {
+            return "null";
+        } else {
+            return "'" . mysqli_real_escape_string($this->dbConnect, $text) . "'";
+        }
+    }
+
 }
-
-?>
