@@ -37,7 +37,7 @@ class MonetWebPay {
                 . $this->toSql($response->paymentStatus) . ", "
                 . "NOW()" . ", "
                 . $this->toSql(null) . ", "
-                . $this->toSql(strtotime($response->dttm)) . ", "
+                . $this->toSql($response->dttm) . ", "
                 . $this->toSql(null) . ", "
                 . $this->toSql(json_encode($cart)) . ")";
         $this->log->write($sql);
@@ -45,13 +45,13 @@ class MonetWebPay {
     }
 
     public function updateTransaction($orderNumber, $response, $cart) {
-        $sql = "update monetTransaction set cart = " . $this->toSql(json_encode($cart)) . ", authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql(strtotime($response->dttm)) . " where orderNumber = " . $this->toSql($orderNumber);
+        $sql = "update monetTransaction set cart = " . $this->toSql(json_encode($cart)) . ", authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql($response->dttm) . " where orderNumber = " . $this->toSql($orderNumber);
         $this->log->write($sql);
         $this->sqlExecute($sql);
     }
 
     public function updateTransactionStatus($orderNumber, $response) {
-        $sql = "UPDATE monetTransaction SET authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql(strtotime($response->dttm)) . " WHERE orderNumber = " . $this->toSql($orderNumber);
+        $sql = "UPDATE monetTransaction SET authCode = " . $this->toSql($response->authCode) . ", paymentStatus=" . $this->toSql($response->paymentStatus) . ", updated=" . "NOW()" . ", paymentResponse=" . $this->toSql($response->dttm) . " WHERE orderNumber = " . $this->toSql($orderNumber);
         $this->log->write($sql);
         $this->sqlExecute($sql);
     }
@@ -73,13 +73,13 @@ class MonetWebPay {
     private function sqlconnect($mysql) {
 
         $dbconn = mysqli_connect($mysql['host'], $mysql['user'], $mysql['password']);
-        mysqli_select_db($dbconn, $mysql['name']) or die(mysql_error($this->dbConnect));
+        mysqli_select_db($dbconn, $mysql['name']) or die(mysqli_error($this->dbConnect));
         mysqli_query($dbconn, "SET NAMES 'UTF-8'");
         return $dbconn;
     }
 
     private function sqlexecute($sql) {
-        $res = mysqli_query($this->dbConnect, $sql) or trigger_error(mysql_error($this->dbConnect) . "<br/>SQL: " . $sql, E_USER_ERROR);
+        $res = mysqli_query($this->dbConnect, $sql) or trigger_error(mysqli_error($this->dbConnect) . "<br/>SQL: " . $sql, E_USER_ERROR);
         return $res;
     }
 
