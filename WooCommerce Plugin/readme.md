@@ -30,4 +30,4 @@
 
 1. My shop crashes when I activate the plugin: please make sure you uploaded the folder /monetWebPay/ correctly to your www root, make sure the folder /monetWebPay/keys contains correct keys
 2. I can not see the "MonetWebPay" gateway as available option in my WooCommerce Plugin settings
-3. The gateway is returning "Invalid length of cart/name parameter" - please make sure that cart items are no longer tha 20 characters
+3. The gateway is returning "Invalid length of cart/name parameter" - please make sure that cart items are no longer than 20 characters
