@@ -4,7 +4,7 @@
  * Plugin Name: Payment gateway plugin for Woo Commerce e-shop
  * Plugin URI: www.monet.cz
  * Description: e-commerce plugin for CSOB Payment Gateway (https://platebnibrana.csob.cz) implemented as extension of Woo Commerce e-shop
- * Version: 1.00
+ * Version: 1.1
  * Author: MONET+, a.s.
  * Author URI: www.monetplus.cz
  * License: GNU General Public License v2 or later
@@ -51,7 +51,7 @@ function woocommerce_monet_pay_init() {
         public function __construct() {
 
             $this->init_settings();
-            $this->id = 'MonetWebPay';
+            $this->id = 'WC_Monet_Payment_Gateway';
             $this->method_title = 'CSOB Platební brána'; // MonetWebPay
             $this->icon = get_bloginfo('wpurl') . "/monetWebPay/cards.png";
             $this->urlGate = isset($this->settings ['urlGate']) ? $this->settings ['urlGate'] : '';
