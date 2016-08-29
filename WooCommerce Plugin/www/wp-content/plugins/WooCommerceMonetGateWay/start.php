@@ -52,7 +52,7 @@ function woocommerce_monet_pay_init() {
 
             $this->init_settings();
             $this->id = 'WC_Monet_Payment_Gateway';
-            $this->method_title = 'CSOB Platební brána'; // MonetWebPay
+            $this->method_title = 'ČSOB Platební brána'; // MonetWebPay
             $this->icon = get_bloginfo('wpurl') . "/monetWebPay/cards.png";
             $this->urlGate = isset($this->settings ['urlGate']) ? $this->settings ['urlGate'] : '';
             $this->title = $this->get_option('title');
@@ -66,6 +66,9 @@ function woocommerce_monet_pay_init() {
             $this->returnMethodPOST = $this->get_option('returnMethodPOST');
             $this->firstCartItemDesc = $this->get_option('firstCartItemDesc');
             $this->secondCartItemDesc = $this->get_option('secondCartItemDesc');
+            $this->ttlSec = $this->get_option('ttlSec');
+            $this->logoVersion = $this->get_option('logoVersion');
+            $this->colorSchemeVersion = $this->get_option('colorSchemeVersion');
             $this->msg ['message'] = "";
             $this->msg ['class'] = "";
 
@@ -158,7 +161,7 @@ function woocommerce_monet_pay_init() {
                     $cart = json_decode($row['cart'], true);
                 }
 
-                $data = createPaymentInitData($this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(), $order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST);
+                $data = createPaymentInitData($this->merchantId, $partsOforderNumber[0], $dttm, $order->get_total(), $returnUrl, $cart, "Objednavka " . $order->get_order_number(), $order->get_user_id(), $this->privateKey, $this->privateKeyPassword, $this->moneyTransfer, null, $this->returnMethodPOST, $this->ttlSec, $this->logoVersion, $this->colorSchemeVersion);
 
                 $this->monetWebPay->log->write('payment/init data: ' . json_encode($data));
 
@@ -293,7 +296,25 @@ function woocommerce_monet_pay_init() {
                     'placeholder' => 'Poštovné',
                     'description' => 'max 20 znaků',
                     'required' => true
-                )
+                ),
+                'ttlSec' => array(
+                    'title' => 'Životnost transakce na bráně',
+                    'type' => 'text',
+                    'placeholder' => '300',
+                    'description' => 'Zadejte ve vteřinách (minimum 300, maximum 1800, tj. 5-30 minut)',
+                ),
+                'logoVersion' => array(
+                    'title' => 'ID loga obchodníka',
+                    'type' => 'text',
+                    'placeholder' => '0',
+                    'description' => 'Dle nastavení v POS Merchantu',
+                ),
+                'colorSchemeVersion' => array(
+                    'title' => 'ID barevného schématu obchodníka',
+                    'type' => 'text',
+                    'placeholder' => '0',
+                    'description' => 'Dle nastavení v POS Merchantu',
+                ),
             );
         }
 

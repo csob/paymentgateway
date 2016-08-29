@@ -63,7 +63,7 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
  * @param returnMethodPOST indicator if return method POST should be used
  */
 function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description, 
-	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST) { 
+	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST, $ttlSec, $logoVersion, $colorSchemeVersion) {
 	
 	$payOperation = Constants::$PAYOPERATION;
 	$payMethod = Constants::$PAYMETHOD;
@@ -76,26 +76,35 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 	$shippingTotal = $cart[1]['amount'];
 	
 	$data = array (			
-			"merchantId"	=>	$merchantId,
-			"orderNo" 		=>	$orderNo,
-			"dttm"			=>	$dttm,
-			"payOperation"	=>	$payOperation,
-			"payMethod"		=> 	$payMethod,
-			"totalAmount"	=>	$totalAmount,
-			"currency"		=>	$currency,
-			"closePayment"	=>	$closePayment,
-			"returnUrl"		=>	$returnUrl,
-			"returnMethod"	=>	$returnMethod,
-			"cart"			=>	$cart,
-			"description"	=>	$description,
-			"merchantData"	=>	$merchantData
+			"merchantId"			=>	$merchantId,
+			"orderNo" 				=>	$orderNo,
+			"dttm"					=>	$dttm,
+			"payOperation"			=>	$payOperation,
+			"payMethod"				=> 	$payMethod,
+			"totalAmount"			=>	$totalAmount,
+			"currency"				=>	$currency,
+			"closePayment"			=>	$closePayment,
+			"returnUrl"				=>	$returnUrl,
+			"returnMethod"			=>	$returnMethod,
+			"cart"					=>	$cart,
+			"description"			=>	$description,
+			"merchantData"			=>	$merchantData
 	);
 	if(!is_null($customerId) && $customerId != '0') {
 		$data["customerId"]	= $customerId;
 	}
-
 	$data["language"] = Constants::$LANGUAGE;
-	$data["signature"]=	signPaymentInitData ($data, $privateKey, $privateKeyPassword);
+    if(!is_null($ttlSec) && $ttlSec != '') {
+        $data["ttlSec"]	= (int)$ttlSec;
+    }
+    if(!is_null($logoVersion) && $logoVersion != '') {
+        $data["logoVersion"]	= (int)$logoVersion;
+    }
+    if(!is_null($colorSchemeVersion) && $colorSchemeVersion != '') {
+        $data["colorSchemeVersion"]	= (int)$colorSchemeVersion;
+    }
+
+	$data["signature"] = signPaymentInitData ($data, $privateKey, $privateKeyPassword);
 
  	return $data;
 }
@@ -119,7 +128,21 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 	}
 	
 	$data2Sign = $data2Sign . "|" . $data["language"];
-	
+
+    $ttlSec = $data["ttlSec"];
+    if(!is_null($ttlSec) && $ttlSec != '0') {
+        $data2Sign = $data2Sign . "|" . $ttlSec;
+    }
+
+    $logoVersion = $data["logoVersion"];
+    if(!is_null($logoVersion) && $logoVersion != '0') {
+        $data2Sign = $data2Sign . "|" . $logoVersion;
+    }
+
+    $colorSchemeVersion = $data["colorSchemeVersion"];
+    if(!is_null($colorSchemeVersion) && $colorSchemeVersion != '0') {
+        $data2Sign = $data2Sign . "|" . $colorSchemeVersion;
+    }
 	if ($data2Sign [strlen ( $data2Sign ) - 1] == '|') {
 		$data2Sign = substr ( $data2Sign, 0, strlen ( $data2Sign ) - 1 ); 
 	}
