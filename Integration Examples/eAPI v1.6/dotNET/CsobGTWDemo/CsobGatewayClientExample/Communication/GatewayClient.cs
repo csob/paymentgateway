@@ -18,7 +18,7 @@ namespace CsobGatewayClientExample.Communication
     public static class GatewayClient
     {
         public static string MerchantId { get; set; }
-        
+
         public static async Task<ClientResponse> CallEchoGet() => await CallEcho(RequestType.Get);
 
         public static async Task<ClientResponse> CallEchoPost() => await CallEcho(RequestType.Post);
@@ -77,7 +77,7 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreateGetRequest(method, request, true);
+            return await CreateGetRequest(method, request, true, (method != "payment/process"));
         }
 
         public static async Task<ClientResponse> CallClose(string payId)
@@ -101,7 +101,7 @@ namespace CsobGatewayClientExample.Communication
                 DateTime = $"{DateTime.Now:yyyyMMddHHmmss}"
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
-            
+
             if (type == RequestType.Get)
                 return await CreateGetRequest("echo", request);
             else
@@ -175,7 +175,7 @@ namespace CsobGatewayClientExample.Communication
             return await GetRequestResponse(url);
         }
 
-        private static async Task<ClientResponse> CreateGetRequest(string method, PayReq request, bool actLikeBrowser = false)
+        private static async Task<ClientResponse> CreateGetRequest(string method, PayReq request, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -185,7 +185,7 @@ namespace CsobGatewayClientExample.Communication
                 $"{request.DateTime}/" +
                 $"{HttpUtility.UrlEncode(request.Signature, Encoding.UTF8)}";
 
-            return await GetRequestResponse(url, actLikeBrowser);
+            return await GetRequestResponse(url, actLikeBrowser, autoRedirectHeader);
         }
 
         private static async Task<ClientResponse> CreateGetRequest(string method, CustReq request)
@@ -201,11 +201,14 @@ namespace CsobGatewayClientExample.Communication
             return await GetRequestResponse(url);
         }
 
-        private static async Task<ClientResponse> GetRequestResponse(string url, bool actLikeBrowser = false)
+        private static async Task<ClientResponse> GetRequestResponse(string url, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             try
             {
-                using (var client = new HttpClient())
+                HttpClientHandler httpClientHandler = new HttpClientHandler();
+                httpClientHandler.AllowAutoRedirect = autoRedirectHeader;
+
+                using (var client = new HttpClient(httpClientHandler))
                 {
                     if (actLikeBrowser)
                     {
@@ -214,7 +217,16 @@ namespace CsobGatewayClientExample.Communication
 
                     using (var response = await client.GetAsync(url))
                     {
-                        if (response.StatusCode == HttpStatusCode.OK)
+                        if (response.StatusCode == HttpStatusCode.RedirectMethod)
+                        {
+                            return new ClientResponse()
+                            {
+                                ResponseValue = response.Headers.Location.ToString(),
+                                ResponseCode = "303 - RedirectMethod"
+
+                            };
+                        }
+                        else if (response.StatusCode == HttpStatusCode.OK)
                         {
                             using (var content = response.Content)
                             {
@@ -222,7 +234,7 @@ namespace CsobGatewayClientExample.Communication
 
                                 return new ClientResponse()
                                 {
-                                    ResponseCode = response.StatusCode.ToString(),
+                                    ResponseCode = "200 - OK",
                                     ResponseValue =
                                         content.Headers.ContentType.MediaType == "text/html"
                                             ? "Content is html page."
@@ -261,18 +273,19 @@ namespace CsobGatewayClientExample.Communication
 
                     var result = await client.PostAsync(url, content);
 
-                    if (result.StatusCode != HttpStatusCode.OK)
+                    if (result.StatusCode == HttpStatusCode.OK)
+                        return new ClientResponse()
+                        {
+                            ResponseCode = "200 - OK",
+                            ResponseValue = result.Content.ReadAsStringAsync().Result
+                        };
+                    else
                         return new ClientResponse()
                         {
                             ResponseCode = result.StatusCode.ToString(),
                             ResponseValue = result.ReasonPhrase
-                        };
 
-                    return new ClientResponse()
-                    {
-                        ResponseCode = result.StatusCode.ToString(),
-                        ResponseValue = result.Content.ReadAsStringAsync().Result
-                    };
+                        };
                 }
             }
             catch (Exception e)
@@ -295,18 +308,21 @@ namespace CsobGatewayClientExample.Communication
 
                     var result = await client.PutAsync(url, content);
 
-                    if (result.StatusCode != HttpStatusCode.OK)
+                    if (result.StatusCode == HttpStatusCode.OK)
+                        return new ClientResponse()
+                        {
+                            ResponseCode = "200 - OK",
+
+                            ResponseValue = result.Content.ReadAsStringAsync().Result
+                        };
+                    else
                         return new ClientResponse()
                         {
                             ResponseCode = result.StatusCode.ToString(),
                             ResponseValue = result.ReasonPhrase
                         };
 
-                    return new ClientResponse()
-                    {
-                        ResponseCode = result.StatusCode.ToString(),
-                        ResponseValue = result.Content.ReadAsStringAsync().Result
-                    };
+
                 }
             }
             catch (Exception e)

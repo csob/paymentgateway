@@ -135,7 +135,7 @@ namespace CsobGatewayClientExample
             Console.WriteLine();
 
             Console.Write("ResponseCode: ");
-            Console.ForegroundColor = response.ResponseCode == "OK" ? ConsoleColor.Green : ConsoleColor.Red;
+            Console.ForegroundColor = (response.ResponseCode.StartsWith("200")|| response.ResponseCode.StartsWith("303")) ? ConsoleColor.Green : ConsoleColor.Red;
             Console.WriteLine(response.ResponseCode);
             Console.ResetColor();
 
