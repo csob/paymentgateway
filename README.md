@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/banner-new-9-2015.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/mktg/banner-new-9-2015.png/">
 </p>
 
 *please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
@@ -27,7 +27,9 @@ Návod na migraci z platební brány ČSOB GP Webpay na novou platební bránu �
 V [repozitáři](https://github.com/csob/paymentgateway/tree/master/eshop-integration) najdete ukázkovou PHP a Java integraci, včetně plně funkčního pluginu pro WooCommerce. Z repozitáře si také stáhněte veřejný klíč brány, který budete potřebovat pro zabezpečení komunikace s platební bránou. Vlastní sadu klíčů si pak vygenerujte pomocí online nástroje, který jsme pro vás připravili na [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). Klíče pro iBránu (otevřené vývojové prostředí přístupné beze smlouvy) si můžete vygenerovat na [https://iplatebnibrana.csob.cz/keygen/](https://iplatebnibrana.csob.cz/keygen/)
 
 K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Vašem uvážení např:
+
 [ondrakoupil](https://github.com/ondrakoupil/csob)
+
 [slevomat](https://github.com/slevomat/csob-gateway)
 
 ##4. Problémy a pomoc při jejich řešení 
@@ -35,8 +37,8 @@ K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Va�
 Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce] (https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues. 
 
 <p align="center">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/vbv.png/">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/mcseccode.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/visa/vbv.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/mc/mc_securecode.png/">
 </p>
 
 #ČSOB Online Payment Gateway
