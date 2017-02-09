@@ -4,7 +4,7 @@
 
 *please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
 
-**Novinka: od února 2017 bude platební brána podporovat EET a může vám významně pomoci s evidencí tržeb v e-shopu! Již nyní najdete základní informace v [přehledu EET funkcionality](Spouštěn%C3%AD-služby-EET) a [častých otázkách na téma EET](Časté-otázky-k-EET). Technickou specifikaci rozšíření API platební brány zveřejníme během několika následujících dní.**
+**Novinka: od února 2017 bude platební brána podporovat EET a může vám významně pomoci s evidencí tržeb v e-shopu! Již nyní najdete základní informace v [přehledu EET funkcionality](https://github.com/csob/paymentgateway/wiki/Spouštěn%C3%AD-služby-EET) a [častých otázkách na téma EET](https://github.com/csob/paymentgateway/wiki/Časté-otázky-k-EET). Technickou specifikaci rozšíření API platební brány zveřejníme během několika následujících dní.**
 
 #Platební brána ČSOB
 
