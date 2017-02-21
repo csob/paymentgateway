@@ -91,14 +91,12 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 	$data2Sign = $data["merchantId"] . "|" .  $data["orderNo"] . "|" . $data["dttm"] . "|" . $data["payOperation"] . "|" . $data["payMethod"] . "|" . $data["totalAmount"]
 		."|". $data["currency"] ."|". $data["closePayment"]  . "|". $data["returnUrl"] ."|". $data["returnMethod"] . "|" . $cart2Sign . "|" . $data["description"];
 
-	$merchantData = $data["merchantData"];
-	if(!is_null($merchantData)) {
-		$data2Sign = $data2Sign . "|" . $merchantData;
+	if(!isset($data["merchantData"])) {
+		$data2Sign = $data2Sign . "|" . $data["merchantData"];
 	}
 
-	$customerId = $data["customerId"];
-	if(!is_null($customerId) && $customerId != '0') {
-		$data2Sign = $data2Sign . "|" . $customerId;
+	if(isset($data["customerId"]) && $data["customerId"] != '0') {
+		$data2Sign = $data2Sign . "|" . $data["customerId"];
 	}
 
 	$data2Sign = $data2Sign . "|" . $data["language"];
