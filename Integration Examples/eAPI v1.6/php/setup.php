@@ -1,6 +1,6 @@
 <?php
 
-$url = "https://iapi.iplatebnibrana.csob.cz/api/v1.5";
+$url = "https://iapi.iplatebnibrana.csob.cz/api/v1.6";
 $publicKey = "mips_iplatebnibrana.csob.cz.pub";
 
 $merchantId="A1029DTmM7";
