@@ -2,9 +2,9 @@
 
 /*
  * Plugin Name: Payment gateway plugin for Woo Commerce e-shop
- * Plugin URI: www.monet.cz
+ * Plugin URI: www.monetplus.cz
  * Description: e-commerce plugin for CSOB Payment Gateway (https://platebnibrana.csob.cz) implemented as extension of Woo Commerce e-shop
- * Version: 1.1
+ * Version: 1.2
  * Author: MONET+, a.s.
  * Author URI: www.monetplus.cz
  * License: GNU General Public License v2 or later
@@ -21,7 +21,7 @@ function install_transaction_db_table() {
 
     $sql = "
 	        CREATE TABLE IF NOT EXISTS monetTransaction (
-	        	orderNumber varchar(10) DEFAULT NULL,
+	        	orderNumber varchar(10) NOT NULL,
 	          	payId varchar(20) DEFAULT NULL,
 	          	paymentStatus int(11) NOT NULL,
 	          	created datetime NOT NULL,
