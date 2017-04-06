@@ -11,4 +11,3 @@ class Logger {
 		file_put_contents($this->log, $line, FILE_APPEND | LOCK_EX);
 	}
 }
-?>

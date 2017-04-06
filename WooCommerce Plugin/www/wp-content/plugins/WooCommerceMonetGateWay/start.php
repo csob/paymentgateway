@@ -4,7 +4,7 @@
  * Plugin Name: Payment gateway plugin for Woo Commerce e-shop
  * Plugin URI: www.monetplus.cz
  * Description: e-commerce plugin for CSOB Payment Gateway (https://platebnibrana.csob.cz) implemented as extension of Woo Commerce e-shop
- * Version: 1.2
+ * Version: 1.3
  * Author: MONET+, a.s.
  * Author URI: www.monetplus.cz
  * License: GNU General Public License v2 or later
@@ -53,8 +53,8 @@ function woocommerce_monet_pay_init() {
             $this->init_settings();
             $this->id = 'WC_Monet_Payment_Gateway';
             $this->method_title = 'ČSOB Platební brána'; // MonetWebPay
-            $this->icon = get_bloginfo('wpurl') . "/monetWebPay/cards.png";
-            $this->urlGate = isset($this->settings ['urlGate']) ? $this->settings ['urlGate'] : '';
+            $this->icon = get_site_url() . "/monetWebPay/cards.png";
+            $this->urlGate = isset($this->settings ['urlGate']) ? $this->settings['urlGate'] : '';
             $this->title = $this->get_option('title');
             $this->description = $this->get_option('description');
             $this->urlGate = $this->get_option('urlGate');
@@ -69,8 +69,9 @@ function woocommerce_monet_pay_init() {
             $this->ttlSec = $this->get_option('ttlSec');
             $this->logoVersion = $this->get_option('logoVersion');
             $this->colorSchemeVersion = $this->get_option('colorSchemeVersion');
-            $this->msg ['message'] = "";
-            $this->msg ['class'] = "";
+            $this->currency = get_woocommerce_currency();
+            $this->msg['message'] = "";
+            $this->msg['class'] = "";
 
             $monetWebPay = new MonetWebPay($this->prepareDatabaseConfig());
 
@@ -440,5 +441,3 @@ function woocommerce_monet_pay_init() {
 
     add_filter('woocommerce_payment_gateways', 'woocommerce_add_monetwebpay_gateway');
 }
-
-?>
