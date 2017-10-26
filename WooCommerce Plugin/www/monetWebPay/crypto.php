@@ -139,12 +139,12 @@ function signPaymentInitData($data, $privateKey, $privateKeyPassword) {
     }
 
     $logoVersion = $data["logoVersion"];
-    if (!is_null($logoVersion) && $logoVersion != '0') {
+    if (!is_null($logoVersion)) {
         $data2Sign = $data2Sign . "|" . $logoVersion;
     }
 
     $colorSchemeVersion = $data["colorSchemeVersion"];
-    if (!is_null($colorSchemeVersion) && $colorSchemeVersion != '0') {
+    if (!is_null($colorSchemeVersion)) {
         $data2Sign = $data2Sign . "|" . $colorSchemeVersion;
     }
     if ($data2Sign [strlen($data2Sign) - 1] == '|') {
