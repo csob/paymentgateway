@@ -26,7 +26,7 @@ Návod na migraci z platební brány ČSOB GP Webpay na novou platební bránu �
 
 ## 3. Repozitář
 
-V [repozitáři](https://github.com/csob/paymentgateway/tree/master/eshop-integration) najdete ukázkovou PHP a Java integraci, včetně plně funkčního pluginu pro WooCommerce. Z repozitáře si také stáhněte veřejný klíč brány, který budete potřebovat pro zabezpečení komunikace s platební bránou. Vlastní sadu klíčů si pak vygenerujte pomocí online nástroje, který jsme pro vás připravili na [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). Klíče pro iBránu (otevřené vývojové prostředí přístupné beze smlouvy) si můžete vygenerovat na [https://iplatebnibrana.csob.cz/keygen/](https://iplatebnibrana.csob.cz/keygen/)
+V [repozitáři](https://github.com/csob/paymentgateway/tree/master/Integration%20Examples) najdete ukázkovou PHP a Java integraci, včetně plně funkčního pluginu pro WooCommerce. Z repozitáře si také stáhněte veřejný klíč brány, který budete potřebovat pro zabezpečení komunikace s platební bránou. Vlastní sadu klíčů si pak vygenerujte pomocí online nástroje, který jsme pro vás připravili na [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). Klíče pro iBránu (otevřené vývojové prostředí přístupné beze smlouvy) si můžete vygenerovat na [https://iplatebnibrana.csob.cz/keygen/](https://iplatebnibrana.csob.cz/keygen/)
 
 K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Vašem uvážení např:
 
