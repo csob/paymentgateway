@@ -17,6 +17,18 @@ namespace CsobGatewayClientExample.Communication
 {
     public static class GatewayClient
     {
+        static Lazy<HttpClient> httpClient = new Lazy<HttpClient>(() => CreateHttpClient(autoRedirectAllow: true));
+        static Lazy<HttpClient> httpClientAutoRedirectDisabled = new Lazy<HttpClient>(() => CreateHttpClient(autoRedirectAllow: false));
+
+        private static HttpClient CreateHttpClient(bool autoRedirectAllow)
+        {
+            HttpClientHandler httpClientHandler = new HttpClientHandler();
+            httpClientHandler.AllowAutoRedirect = autoRedirectAllow;
+
+            var client = new HttpClient(httpClientHandler);
+            return client;
+        }
+
         public static string MerchantId { get; set; }
 
         public static async Task<ClientResponse> CallEchoGet() => await CallEcho(RequestType.Get);
@@ -205,17 +217,16 @@ namespace CsobGatewayClientExample.Communication
         {
             try
             {
-                HttpClientHandler httpClientHandler = new HttpClientHandler();
-                httpClientHandler.AllowAutoRedirect = autoRedirectHeader;
+                HttpClient client = (autoRedirectHeader ? httpClient : httpClientAutoRedirectDisabled).Value;
 
-                using (var client = new HttpClient(httpClientHandler))
+                using (var request = new HttpRequestMessage(HttpMethod.Get, url))
                 {
                     if (actLikeBrowser)
                     {
-                        client.DefaultRequestHeaders.TryAddWithoutValidation("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
+                        request.Headers.TryAddWithoutValidation("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.2; .NET CLR 1.0.3705;)");
                     }
 
-                    using (var response = await client.GetAsync(url))
+                    using (var response = await client.SendAsync(request))
                     {
                         if (response.StatusCode == HttpStatusCode.RedirectMethod)
                         {
@@ -267,25 +278,29 @@ namespace CsobGatewayClientExample.Communication
         {
             try
             {
-                using (var client = new HttpClient())
-                {
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                HttpClient client = httpClient.Value;
 
-                    var result = await client.PostAsync(url, content);
+                using (var request = new HttpRequestMessage(HttpMethod.Post, url))
+                { 
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    request.Content = content;
 
-                    if (result.StatusCode == HttpStatusCode.OK)
-                        return new ClientResponse()
-                        {
-                            ResponseCode = "200 - OK",
-                            ResponseValue = result.Content.ReadAsStringAsync().Result
-                        };
-                    else
-                        return new ClientResponse()
-                        {
-                            ResponseCode = result.StatusCode.ToString(),
-                            ResponseValue = result.ReasonPhrase
+                    using (var result = await client.SendAsync(request))
+                    {
+                        if (result.StatusCode == HttpStatusCode.OK)
+                            return new ClientResponse()
+                            {
+                                ResponseCode = "200 - OK",
+                                ResponseValue = result.Content.ReadAsStringAsync().Result
+                            };
+                        else
+                            return new ClientResponse()
+                            {
+                                ResponseCode = result.StatusCode.ToString(),
+                                ResponseValue = result.ReasonPhrase
 
-                        };
+                            };
+                    }
                 }
             }
             catch (Exception e)
@@ -302,27 +317,31 @@ namespace CsobGatewayClientExample.Communication
         {
             try
             {
-                using (var client = new HttpClient())
+                HttpClient client = httpClient.Value;
+
+                using (var request = new HttpRequestMessage(HttpMethod.Put, url))
                 {
-                    client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    request.Content = content;
+                    request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                    var result = await client.PutAsync(url, content);
+                    using (var result = await client.SendAsync(request))
+                    {
 
-                    if (result.StatusCode == HttpStatusCode.OK)
-                        return new ClientResponse()
-                        {
-                            ResponseCode = "200 - OK",
+                        if (result.StatusCode == HttpStatusCode.OK)
+                            return new ClientResponse()
+                            {
+                                ResponseCode = "200 - OK",
 
-                            ResponseValue = result.Content.ReadAsStringAsync().Result
-                        };
-                    else
-                        return new ClientResponse()
-                        {
-                            ResponseCode = result.StatusCode.ToString(),
-                            ResponseValue = result.ReasonPhrase
-                        };
+                                ResponseValue = result.Content.ReadAsStringAsync().Result
+                            };
+                        else
+                            return new ClientResponse()
+                            {
+                                ResponseCode = result.StatusCode.ToString(),
+                                ResponseValue = result.ReasonPhrase
+                            };
 
-
+                    }
                 }
             }
             catch (Exception e)
