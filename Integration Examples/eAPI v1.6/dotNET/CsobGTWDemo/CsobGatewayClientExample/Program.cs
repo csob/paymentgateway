@@ -31,11 +31,14 @@ namespace CsobGatewayClientExample
 
         static void Main(string[] args)
         {
-            GatewayClient.MerchantId = Constants.MerchantId;
-            ChooseMethod();
+            var gatewayClient = new GatewayClient()
+            {
+                MerchantId = Constants.MerchantId
+            };
+            ChooseMethod(gatewayClient);
         }
 
-        private static void ChooseMethod(bool error = false)
+        private static void ChooseMethod(GatewayClient gatewayClient, bool error = false)
         {
             Console.Clear();
             Console.WriteLine("Press number representing action:");
@@ -50,15 +53,15 @@ namespace CsobGatewayClientExample
 
             var result = CheckInput(Console.ReadLine());
             if (result == null)
-                ChooseMethod(true);
+                ChooseMethod(gatewayClient, true);
 
             Console.WriteLine($"\nSelected method: {result} - {MethodList[result.Value]}");
 
-            Start(result.Value);
+            Start(gatewayClient, result.Value);
 
             Console.ReadLine();
 
-            ChooseMethod();
+            ChooseMethod(gatewayClient);
         }
 
         private static int? CheckInput(string id)
@@ -72,7 +75,7 @@ namespace CsobGatewayClientExample
             return value;
         }
 
-        private static async void Start(int value)
+        private static async void Start(GatewayClient gatewayClient, int value)
         {
             Console.WriteLine();
             Console.WriteLine("Processing ...");
@@ -82,53 +85,53 @@ namespace CsobGatewayClientExample
             switch (value)
             {
                 case 1:
-                    response = await GatewayClient.CallEchoGet();
+                    response = await gatewayClient.CallEchoGet();
                     break;
                 case 2:
-                    response = await GatewayClient.CallEchoPost();
+                    response = await gatewayClient.CallEchoPost();
                     break;
                 case 3:
-                    response = await GatewayClient.CallInit();
+                    response = await gatewayClient.CallInit();
                     var responseObject = JsonConvert.DeserializeObject<PayRes>(response.ResponseValue);
                     paymentId = responseObject.PayId;
                     break;
                 case 4:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallProcess(paymentId);
+                    response = await gatewayClient.CallProcess(paymentId);
                     break;
                 case 5:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallStatus(paymentId);
+                    response = await gatewayClient.CallStatus(paymentId);
                     break;
                 case 6:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallClose(paymentId);
+                    response = await gatewayClient.CallClose(paymentId);
                     break;
                 case 7:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallReverse(paymentId);
+                    response = await gatewayClient.CallReverse(paymentId);
                     break;
                 case 8:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallRefund(paymentId, 150000);
+                    response = await gatewayClient.CallRefund(paymentId, 150000);
                     break;
                 case 9:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallOneClickInit(paymentId);
+                    response = await gatewayClient.CallOneClickInit(paymentId);
                     break;
                 case 10:
                     if (!CheckPaymentId())
                         return;
-                    response = await GatewayClient.CallOneClickStart(paymentId);
+                    response = await gatewayClient.CallOneClickStart(paymentId);
                     break;
                 case 11:
-                    response = await GatewayClient.CallCustomerInfo("xxx");
+                    response = await gatewayClient.CallCustomerInfo("xxx");
                     break;
             }
 

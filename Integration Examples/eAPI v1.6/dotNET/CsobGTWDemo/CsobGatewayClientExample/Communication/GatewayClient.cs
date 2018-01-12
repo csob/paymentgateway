@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace CsobGatewayClientExample.Communication
 {
-    public static class GatewayClient
+    public class GatewayClient
     {
         static Lazy<HttpClient> httpClient = new Lazy<HttpClient>(() => CreateHttpClient(autoRedirectAllow: true));
         static Lazy<HttpClient> httpClientAutoRedirectDisabled = new Lazy<HttpClient>(() => CreateHttpClient(autoRedirectAllow: false));
@@ -29,17 +29,17 @@ namespace CsobGatewayClientExample.Communication
             return client;
         }
 
-        public static string MerchantId { get; set; }
+        public string MerchantId { get; set; }
 
-        public static async Task<ClientResponse> CallEchoGet() => await CallEcho(RequestType.Get);
+        public async Task<ClientResponse> CallEchoGet() => await CallEcho(RequestType.Get);
 
-        public static async Task<ClientResponse> CallEchoPost() => await CallEcho(RequestType.Post);
+        public async Task<ClientResponse> CallEchoPost() => await CallEcho(RequestType.Post);
 
-        public static async Task<ClientResponse> CallProcess(string payId) => await CallPaymenProcess(payId, "payment/process");
+        public async Task<ClientResponse> CallProcess(string payId) => await CallPaymenProcess(payId, "payment/process");
 
-        public static async Task<ClientResponse> CallStatus(string payId) => await CallPaymenProcess(payId, "payment/status");
+        public async Task<ClientResponse> CallStatus(string payId) => await CallPaymenProcess(payId, "payment/status");
 
-        public static async Task<ClientResponse> CallInit()
+        public async Task<ClientResponse> CallInit()
         {
             PayInitReq request;
             using (var file = File.OpenText(Constants.PaymentInitBaseFilePath))
@@ -52,7 +52,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePostRequest("payment/init", request);
         }
 
-        public static async Task<ClientResponse> CallReverse(string payId)
+        public async Task<ClientResponse> CallReverse(string payId)
         {
             var request = new PayReq()
             {
@@ -65,7 +65,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePutRequest("payment/reverse", request);
         }
 
-        public static async Task<ClientResponse> CallRefund(string payId, long amount)
+        public async Task<ClientResponse> CallRefund(string payId, long amount)
         {
             var request = new PayRefundReq()
             {
@@ -79,7 +79,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePutRequest("payment/refund", request);
         }
 
-        private static async Task<ClientResponse> CallPaymenProcess(string payId, string method)
+        private async Task<ClientResponse> CallPaymenProcess(string payId, string method)
         {
             var request = new PayReq()
             {
@@ -92,7 +92,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreateGetRequest(method, request, true, (method != "payment/process"));
         }
 
-        public static async Task<ClientResponse> CallClose(string payId)
+        public async Task<ClientResponse> CallClose(string payId)
         {
             var request = new PayReq()
             {
@@ -105,7 +105,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePutRequest("payment/close", request);
         }
 
-        private static async Task<ClientResponse> CallEcho(RequestType type)
+        private async Task<ClientResponse> CallEcho(RequestType type)
         {
             var request = new EchoRequest
             {
@@ -120,7 +120,7 @@ namespace CsobGatewayClientExample.Communication
                 return await CreatePostRequest("echo", request);
         }
 
-        public static async Task<ClientResponse> CallOneClickInit(string payId)
+        public async Task<ClientResponse> CallOneClickInit(string payId)
         {
             PayOneclickInitReq request;
             using (var file = File.OpenText(Constants.PaymentOneclickBaseFilePath))
@@ -133,7 +133,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePostRequest("payment/oneclick/init", request);
         }
 
-        public static async Task<ClientResponse> CallOneClickStart(string payId)
+        public async Task<ClientResponse> CallOneClickStart(string payId)
         {
             var request = new PayReq()
             {
@@ -146,7 +146,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreatePostRequest("payment/oneclick/start", request);
         }
 
-        public static async Task<ClientResponse> CallCustomerInfo(string customerId)
+        public async Task<ClientResponse> CallCustomerInfo(string customerId)
         {
             var request = new CustReq()
             {
@@ -159,7 +159,7 @@ namespace CsobGatewayClientExample.Communication
             return await CreateGetRequest("customer/info", request);
         }
 
-        private static async Task<ClientResponse> CreatePostRequest(string method, IBaseRequest request)
+        private async Task<ClientResponse> CreatePostRequest(string method, IBaseRequest request)
         {
             var url = $"{Constants.GatewayUrl}/{method}";
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
@@ -167,7 +167,7 @@ namespace CsobGatewayClientExample.Communication
             return await PostRequestResponse(url, content);
         }
 
-        private static async Task<ClientResponse> CreatePutRequest(string method, IBaseRequest request)
+        private async Task<ClientResponse> CreatePutRequest(string method, IBaseRequest request)
         {
             var url = $"{Constants.GatewayUrl}/{method}";
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
@@ -175,7 +175,7 @@ namespace CsobGatewayClientExample.Communication
             return await PutRequestResponse(url, content);
         }
 
-        private static async Task<ClientResponse> CreateGetRequest(string method, EchoRequest request)
+        private async Task<ClientResponse> CreateGetRequest(string method, EchoRequest request)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -187,7 +187,7 @@ namespace CsobGatewayClientExample.Communication
             return await GetRequestResponse(url);
         }
 
-        private static async Task<ClientResponse> CreateGetRequest(string method, PayReq request, bool actLikeBrowser = false, bool autoRedirectHeader = true)
+        private async Task<ClientResponse> CreateGetRequest(string method, PayReq request, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -200,7 +200,7 @@ namespace CsobGatewayClientExample.Communication
             return await GetRequestResponse(url, actLikeBrowser, autoRedirectHeader);
         }
 
-        private static async Task<ClientResponse> CreateGetRequest(string method, CustReq request)
+        private async Task<ClientResponse> CreateGetRequest(string method, CustReq request)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -213,7 +213,7 @@ namespace CsobGatewayClientExample.Communication
             return await GetRequestResponse(url);
         }
 
-        private static async Task<ClientResponse> GetRequestResponse(string url, bool actLikeBrowser = false, bool autoRedirectHeader = true)
+        private async Task<ClientResponse> GetRequestResponse(string url, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             try
             {
@@ -274,7 +274,7 @@ namespace CsobGatewayClientExample.Communication
             }
         }
 
-        private static async Task<ClientResponse> PostRequestResponse(string url, StringContent content)
+        private async Task<ClientResponse> PostRequestResponse(string url, StringContent content)
         {
             try
             {
@@ -313,7 +313,7 @@ namespace CsobGatewayClientExample.Communication
             }
         }
 
-        private static async Task<ClientResponse> PutRequestResponse(string url, StringContent content)
+        private async Task<ClientResponse> PutRequestResponse(string url, StringContent content)
         {
             try
             {
