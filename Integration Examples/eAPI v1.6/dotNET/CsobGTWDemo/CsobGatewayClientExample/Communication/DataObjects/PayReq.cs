@@ -22,7 +22,7 @@ namespace CsobGatewayClientExample.Communication.DataObjects
             this.PayId = payId;
         }
 
-        public string ToSign()
+        public virtual string ToSign()
         {
             StringBuilder sb = new StringBuilder();
             Add(sb, MerchantId);
