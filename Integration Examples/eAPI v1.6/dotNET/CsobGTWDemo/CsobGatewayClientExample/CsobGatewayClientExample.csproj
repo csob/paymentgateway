@@ -63,6 +63,7 @@
     <Compile Include="Communication\DataObjects\PayReq.cs" />
     <Compile Include="Communication\DataObjects\PayRes.cs" />
     <Compile Include="Communication\DataObjects\SignBase.cs" />
+    <Compile Include="Communication\DataObjects\SignBaseRequest.cs" />
     <Compile Include="Communication\GatewayClient.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

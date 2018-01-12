@@ -29,7 +29,32 @@ namespace CsobGatewayClientExample.Communication
             return client;
         }
 
-        public string MerchantId { get; set; }
+        public GatewayClient(string merchantId, string privateKeyFilePath)
+        {
+            if (string.IsNullOrWhiteSpace(merchantId))
+            {
+                throw new ArgumentException("message", nameof(merchantId));
+            }
+
+            if (string.IsNullOrWhiteSpace(privateKeyFilePath))
+            {
+                throw new ArgumentException("message", nameof(privateKeyFilePath));
+            }
+
+            MerchantId = merchantId;
+            pemKey = Crypto.DecodePemKey(File.ReadAllText(privateKeyFilePath));
+        }
+
+        public string MerchantId { get; }
+
+        private byte[] pemKey;
+
+        private void FillAndSign(SignBaseRequest request)
+        {
+            request.FillDateTime();
+            request.MerchantId = MerchantId;
+            request.Signature = Crypto.Sign(request.ToSign(), pemKey);
+        }
 
         public async Task<ClientResponse> CallEchoGetAsync() => await CallEchoAsync(RequestType.Get);
 
@@ -45,9 +70,7 @@ namespace CsobGatewayClientExample.Communication
             using (var file = File.OpenText(Constants.PaymentInitBaseFilePath))
                 request = JsonConvert.DeserializeObject<PayInitReq>(file.ReadToEnd());
 
-            request.DateTime = $"{DateTime.Now:yyyyMMddHHmmss}";
-            request.MerchantId = MerchantId;
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+            FillAndSign(request);
 
             return await CreatePostRequestAsync("payment/init", request);
         }
@@ -56,11 +79,10 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new PayReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 PayId = payId
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreatePutRequestAsync("payment/reverse", request);
         }
@@ -69,12 +91,11 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new PayRefundReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 PayId = payId,
                 Amount = amount
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreatePutRequestAsync("payment/refund", request);
         }
@@ -83,11 +104,10 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new PayReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 PayId = payId
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreateGetRequestAsync(method, request, true, (method != "payment/process"));
         }
@@ -96,23 +116,18 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new PayReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 PayId = payId
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreatePutRequestAsync("payment/close", request);
         }
 
         private async Task<ClientResponse> CallEchoAsync(RequestType type)
         {
-            var request = new EchoRequest
-            {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}"
-            };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+            var request = new EchoRequest();
+            FillAndSign(request);
 
             if (type == RequestType.Get)
                 return await CreateGetRequestAsync("echo", request);
@@ -126,9 +141,7 @@ namespace CsobGatewayClientExample.Communication
             using (var file = File.OpenText(Constants.PaymentOneclickBaseFilePath))
                 request = JsonConvert.DeserializeObject<PayOneclickInitReq>(file.ReadToEnd());
 
-            request.DateTime = $"{DateTime.Now:yyyyMMddHHmmss}";
-            request.MerchantId = MerchantId;
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+            FillAndSign(request);
 
             return await CreatePostRequestAsync("payment/oneclick/init", request);
         }
@@ -137,11 +150,10 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new PayReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 PayId = payId
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreatePostRequestAsync("payment/oneclick/start", request);
         }
@@ -150,11 +162,10 @@ namespace CsobGatewayClientExample.Communication
         {
             var request = new CustReq()
             {
-                MerchantId = MerchantId,
-                DateTime = $"{DateTime.Now:yyyyMMddHHmmss}",
                 CustomerId = customerId
             };
-            request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
+
+            FillAndSign(request);
 
             return await CreateGetRequestAsync("customer/info", request);
         }

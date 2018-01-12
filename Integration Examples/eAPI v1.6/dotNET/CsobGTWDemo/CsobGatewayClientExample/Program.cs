@@ -31,10 +31,11 @@ namespace CsobGatewayClientExample
 
         static void Main(string[] args)
         {
-            var gatewayClient = new GatewayClient()
-            {
-                MerchantId = Constants.MerchantId
-            };
+            var gatewayClient = new GatewayClient(
+                merchantId: Constants.MerchantId, 
+                privateKeyFilePath: Constants.PrivateKeyFilePath
+            );
+
             ChooseMethod(gatewayClient);
         }
 
