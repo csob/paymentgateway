@@ -31,15 +31,15 @@ namespace CsobGatewayClientExample.Communication
 
         public string MerchantId { get; set; }
 
-        public async Task<ClientResponse> CallEchoGet() => await CallEcho(RequestType.Get);
+        public async Task<ClientResponse> CallEchoGetAsync() => await CallEchoAsync(RequestType.Get);
 
-        public async Task<ClientResponse> CallEchoPost() => await CallEcho(RequestType.Post);
+        public async Task<ClientResponse> CallEchoPostAsync() => await CallEchoAsync(RequestType.Post);
 
-        public async Task<ClientResponse> CallProcess(string payId) => await CallPaymenProcess(payId, "payment/process");
+        public async Task<ClientResponse> CallProcessAsync(string payId) => await CallPaymenProcessAsync(payId, "payment/process");
 
-        public async Task<ClientResponse> CallStatus(string payId) => await CallPaymenProcess(payId, "payment/status");
+        public async Task<ClientResponse> CallStatusAsync(string payId) => await CallPaymenProcessAsync(payId, "payment/status");
 
-        public async Task<ClientResponse> CallInit()
+        public async Task<ClientResponse> CallInitAsync()
         {
             PayInitReq request;
             using (var file = File.OpenText(Constants.PaymentInitBaseFilePath))
@@ -49,10 +49,10 @@ namespace CsobGatewayClientExample.Communication
             request.MerchantId = MerchantId;
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePostRequest("payment/init", request);
+            return await CreatePostRequestAsync("payment/init", request);
         }
 
-        public async Task<ClientResponse> CallReverse(string payId)
+        public async Task<ClientResponse> CallReverseAsync(string payId)
         {
             var request = new PayReq()
             {
@@ -62,10 +62,10 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePutRequest("payment/reverse", request);
+            return await CreatePutRequestAsync("payment/reverse", request);
         }
 
-        public async Task<ClientResponse> CallRefund(string payId, long amount)
+        public async Task<ClientResponse> CallRefundAsync(string payId, long amount)
         {
             var request = new PayRefundReq()
             {
@@ -76,10 +76,10 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePutRequest("payment/refund", request);
+            return await CreatePutRequestAsync("payment/refund", request);
         }
 
-        private async Task<ClientResponse> CallPaymenProcess(string payId, string method)
+        private async Task<ClientResponse> CallPaymenProcessAsync(string payId, string method)
         {
             var request = new PayReq()
             {
@@ -89,10 +89,10 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreateGetRequest(method, request, true, (method != "payment/process"));
+            return await CreateGetRequestAsync(method, request, true, (method != "payment/process"));
         }
 
-        public async Task<ClientResponse> CallClose(string payId)
+        public async Task<ClientResponse> CallCloseAsync(string payId)
         {
             var request = new PayReq()
             {
@@ -102,10 +102,10 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePutRequest("payment/close", request);
+            return await CreatePutRequestAsync("payment/close", request);
         }
 
-        private async Task<ClientResponse> CallEcho(RequestType type)
+        private async Task<ClientResponse> CallEchoAsync(RequestType type)
         {
             var request = new EchoRequest
             {
@@ -115,12 +115,12 @@ namespace CsobGatewayClientExample.Communication
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
             if (type == RequestType.Get)
-                return await CreateGetRequest("echo", request);
+                return await CreateGetRequestAsync("echo", request);
             else
-                return await CreatePostRequest("echo", request);
+                return await CreatePostRequestAsync("echo", request);
         }
 
-        public async Task<ClientResponse> CallOneClickInit(string payId)
+        public async Task<ClientResponse> CallOneClickInitAsync(string payId)
         {
             PayOneclickInitReq request;
             using (var file = File.OpenText(Constants.PaymentOneclickBaseFilePath))
@@ -130,10 +130,10 @@ namespace CsobGatewayClientExample.Communication
             request.MerchantId = MerchantId;
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePostRequest("payment/oneclick/init", request);
+            return await CreatePostRequestAsync("payment/oneclick/init", request);
         }
 
-        public async Task<ClientResponse> CallOneClickStart(string payId)
+        public async Task<ClientResponse> CallOneClickStartAsync(string payId)
         {
             var request = new PayReq()
             {
@@ -143,10 +143,10 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreatePostRequest("payment/oneclick/start", request);
+            return await CreatePostRequestAsync("payment/oneclick/start", request);
         }
 
-        public async Task<ClientResponse> CallCustomerInfo(string customerId)
+        public async Task<ClientResponse> CallCustomerInfoAsync(string customerId)
         {
             var request = new CustReq()
             {
@@ -156,26 +156,26 @@ namespace CsobGatewayClientExample.Communication
             };
             request.Signature = Crypto.Sign(request.ToSign(), Constants.PrivateKeyFilePath);
 
-            return await CreateGetRequest("customer/info", request);
+            return await CreateGetRequestAsync("customer/info", request);
         }
 
-        private async Task<ClientResponse> CreatePostRequest(string method, IBaseRequest request)
+        private async Task<ClientResponse> CreatePostRequestAsync(string method, IBaseRequest request)
         {
             var url = $"{Constants.GatewayUrl}/{method}";
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            return await PostRequestResponse(url, content);
+            return await PostRequestResponseAsync(url, content);
         }
 
-        private async Task<ClientResponse> CreatePutRequest(string method, IBaseRequest request)
+        private async Task<ClientResponse> CreatePutRequestAsync(string method, IBaseRequest request)
         {
             var url = $"{Constants.GatewayUrl}/{method}";
             var content = new StringContent(JsonConvert.SerializeObject(request), Encoding.UTF8, "application/json");
 
-            return await PutRequestResponse(url, content);
+            return await PutRequestResponseAsync(url, content);
         }
 
-        private async Task<ClientResponse> CreateGetRequest(string method, EchoRequest request)
+        private async Task<ClientResponse> CreateGetRequestAsync(string method, EchoRequest request)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -184,10 +184,10 @@ namespace CsobGatewayClientExample.Communication
                 $"{request.DateTime}/" +
                 $"{HttpUtility.UrlEncode(request.Signature, Encoding.UTF8)}";
 
-            return await GetRequestResponse(url);
+            return await GetRequestResponseAsync(url);
         }
 
-        private async Task<ClientResponse> CreateGetRequest(string method, PayReq request, bool actLikeBrowser = false, bool autoRedirectHeader = true)
+        private async Task<ClientResponse> CreateGetRequestAsync(string method, PayReq request, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -197,10 +197,10 @@ namespace CsobGatewayClientExample.Communication
                 $"{request.DateTime}/" +
                 $"{HttpUtility.UrlEncode(request.Signature, Encoding.UTF8)}";
 
-            return await GetRequestResponse(url, actLikeBrowser, autoRedirectHeader);
+            return await GetRequestResponseAsync(url, actLikeBrowser, autoRedirectHeader);
         }
 
-        private async Task<ClientResponse> CreateGetRequest(string method, CustReq request)
+        private async Task<ClientResponse> CreateGetRequestAsync(string method, CustReq request)
         {
             var url =
                 $"{Constants.GatewayUrl}/" +
@@ -210,10 +210,10 @@ namespace CsobGatewayClientExample.Communication
                 $"{request.DateTime}/" +
                 $"{HttpUtility.UrlEncode(request.Signature, Encoding.UTF8)}";
 
-            return await GetRequestResponse(url);
+            return await GetRequestResponseAsync(url);
         }
 
-        private async Task<ClientResponse> GetRequestResponse(string url, bool actLikeBrowser = false, bool autoRedirectHeader = true)
+        private async Task<ClientResponse> GetRequestResponseAsync(string url, bool actLikeBrowser = false, bool autoRedirectHeader = true)
         {
             try
             {
@@ -274,7 +274,7 @@ namespace CsobGatewayClientExample.Communication
             }
         }
 
-        private async Task<ClientResponse> PostRequestResponse(string url, StringContent content)
+        private async Task<ClientResponse> PostRequestResponseAsync(string url, StringContent content)
         {
             try
             {
@@ -313,7 +313,7 @@ namespace CsobGatewayClientExample.Communication
             }
         }
 
-        private async Task<ClientResponse> PutRequestResponse(string url, StringContent content)
+        private async Task<ClientResponse> PutRequestResponseAsync(string url, StringContent content)
         {
             try
             {
@@ -331,7 +331,6 @@ namespace CsobGatewayClientExample.Communication
                             return new ClientResponse()
                             {
                                 ResponseCode = "200 - OK",
-
                                 ResponseValue = result.Content.ReadAsStringAsync().Result
                             };
                         else

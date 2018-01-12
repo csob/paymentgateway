@@ -85,53 +85,53 @@ namespace CsobGatewayClientExample
             switch (value)
             {
                 case 1:
-                    response = await gatewayClient.CallEchoGet();
+                    response = await gatewayClient.CallEchoGetAsync();
                     break;
                 case 2:
-                    response = await gatewayClient.CallEchoPost();
+                    response = await gatewayClient.CallEchoPostAsync();
                     break;
                 case 3:
-                    response = await gatewayClient.CallInit();
+                    response = await gatewayClient.CallInitAsync();
                     var responseObject = JsonConvert.DeserializeObject<PayRes>(response.ResponseValue);
                     paymentId = responseObject.PayId;
                     break;
                 case 4:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallProcess(paymentId);
+                    response = await gatewayClient.CallProcessAsync(paymentId);
                     break;
                 case 5:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallStatus(paymentId);
+                    response = await gatewayClient.CallStatusAsync(paymentId);
                     break;
                 case 6:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallClose(paymentId);
+                    response = await gatewayClient.CallCloseAsync(paymentId);
                     break;
                 case 7:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallReverse(paymentId);
+                    response = await gatewayClient.CallReverseAsync(paymentId);
                     break;
                 case 8:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallRefund(paymentId, 150000);
+                    response = await gatewayClient.CallRefundAsync(paymentId, 150000);
                     break;
                 case 9:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallOneClickInit(paymentId);
+                    response = await gatewayClient.CallOneClickInitAsync(paymentId);
                     break;
                 case 10:
                     if (!CheckPaymentId())
                         return;
-                    response = await gatewayClient.CallOneClickStart(paymentId);
+                    response = await gatewayClient.CallOneClickStartAsync(paymentId);
                     break;
                 case 11:
-                    response = await gatewayClient.CallCustomerInfo("xxx");
+                    response = await gatewayClient.CallCustomerInfoAsync("xxx");
                     break;
             }
 
