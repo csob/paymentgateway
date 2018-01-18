@@ -24,7 +24,7 @@ namespace CsobGatewayClientExample.Communication.DataObjects
 	    public static readonly string[] CURRENCY_ALLOWED_VALUES = new string[] { "CZK", "EUR", "USD", "GBP" };
 	    public static readonly string[] LANGUAGE_ALLOWED_VALUES = new string[] { "CZ", "EN", "DE", "SK" };
 	
-	    public const string DTTM_FORMAT = "YYYYMMddHHmmss";
+	    public const string DTTM_FORMAT = "yyyyMMddHHmmss";
 	
 	    protected void Add(StringBuilder sb, string value)
         {
