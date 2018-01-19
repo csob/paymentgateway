@@ -3,11 +3,8 @@ using Newtonsoft.Json;
 
 namespace CsobGatewayClientExample.Communication.DataObjects
 {
-    public class PayOneclickInitReq : SignBase, IBaseRequest
+    public class PayOneclickInitReq : SignBaseRequest
     {
-        [JsonProperty("merchantId")]
-        public string MerchantId;
-
         [JsonProperty("origPayId")]
         public string OrigPayId { get; set; }
 
@@ -23,7 +20,7 @@ namespace CsobGatewayClientExample.Communication.DataObjects
         [JsonProperty("description")]
         public string Description { get; set; }
 
-        public string ToSign()
+        public override string ToSign()
         {
             var sb = new StringBuilder();
             Add(sb, MerchantId);

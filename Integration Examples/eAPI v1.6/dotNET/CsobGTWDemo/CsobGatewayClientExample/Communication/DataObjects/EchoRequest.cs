@@ -4,12 +4,9 @@ using Newtonsoft.Json;
 namespace CsobGatewayClientExample.Communication.DataObjects
 {
 
-    public class EchoRequest : SignBase, IBaseRequest
+    public class EchoRequest : SignBaseRequest
     {
-        [JsonProperty("merchantId")]
-        public string MerchantId { get; set; }
-
-        public string ToSign()
+        public override string ToSign()
         {
             var sb = new StringBuilder();
             Add(sb, MerchantId);

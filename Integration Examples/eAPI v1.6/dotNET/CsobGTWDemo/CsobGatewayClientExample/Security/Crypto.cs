@@ -4,15 +4,23 @@ namespace CsobGatewayClientExample.Security
 {
     public static class Crypto
     {
+        public static string Sign(string inputData, byte[] privateKeyData)
+        {
+            //Decode private key
+            using (System.Security.Cryptography.RSACryptoServiceProvider rsaCryptoServiceProvider = DecodeRSAPrivateKey(privateKeyData))
+            {
+                //Sign
+                byte[] signedData = rsaCryptoServiceProvider.SignData(System.Text.Encoding.UTF8.GetBytes(inputData), new System.Security.Cryptography.SHA1CryptoServiceProvider());
+                return Convert.ToBase64String(signedData);
+            }
+        }
+
         public static string Sign(string inputData, string privatekeypath)
         {
             //Get key buffer from file
             byte[] privateKeyData = DecodePemKey(System.IO.File.ReadAllText(privatekeypath));
-            //Decode private key
-            System.Security.Cryptography.RSACryptoServiceProvider rsaCryptoServiceProvider = DecodeRSAPrivateKey(privateKeyData);
             //Sign
-            byte[] signedData = rsaCryptoServiceProvider.SignData(System.Text.Encoding.UTF8.GetBytes(inputData), new System.Security.Cryptography.SHA1CryptoServiceProvider());
-            return Convert.ToBase64String(signedData);
+            return Sign(inputData, privateKeyData);
         }
 
         public static bool Verify(string publickeypath, string dataForSigning, string signedData)
@@ -20,15 +28,17 @@ namespace CsobGatewayClientExample.Security
             //Get key buffer from file
             byte[] publicKey = DecodePemKey(System.IO.File.ReadAllText(publickeypath));
             //Decode public key
-            System.Security.Cryptography.RSACryptoServiceProvider rsaCryptoServiceProvider = DecodePublicKey(publicKey);
-            //verify
-            byte[] dataForSigningByteArray = System.Text.Encoding.UTF8.GetBytes(dataForSigning);
-            byte[] signedDataByteArray = Convert.FromBase64String(signedData);
-            return rsaCryptoServiceProvider.VerifyData(dataForSigningByteArray, new System.Security.Cryptography.SHA1CryptoServiceProvider(), signedDataByteArray);
+            using (System.Security.Cryptography.RSACryptoServiceProvider rsaCryptoServiceProvider = DecodePublicKey(publicKey))
+            {
+                //verify
+                byte[] dataForSigningByteArray = System.Text.Encoding.UTF8.GetBytes(dataForSigning);
+                byte[] signedDataByteArray = Convert.FromBase64String(signedData);
+                return rsaCryptoServiceProvider.VerifyData(dataForSigningByteArray, new System.Security.Cryptography.SHA1CryptoServiceProvider(), signedDataByteArray);
+            }
         }
 
 
-        private static byte[] DecodePemKey(string instr)
+        public static byte[] DecodePemKey(string instr)
         {
             const string pempubheader = "-----BEGIN PUBLIC KEY-----";
             const string pempubfooter = "-----END PUBLIC KEY-----";

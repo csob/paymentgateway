@@ -24,7 +24,7 @@ namespace CsobGatewayClientExample.Communication.DataObjects
         {
         }
 
-        public string toSign()
+        public override string ToSign()
         {
             var sb = new StringBuilder();
             Add(sb, PayId);

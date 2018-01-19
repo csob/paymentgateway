@@ -20,7 +20,7 @@ namespace CsobGatewayClientExample.Communication.DataObjects
             this.Amount = amount;
         }
 
-        public string ToSign()
+        public override string ToSign()
         {
             StringBuilder sb = new StringBuilder();
             Add(sb, MerchantId);
