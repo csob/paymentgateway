@@ -416,12 +416,12 @@ function woocommerce_monet_pay_init() {
                 $order->add_order_note(sprintf($this->msg ['message']));
                 $order->update_status('failed');
                 wc_add_notice(__($this->msg ['message'], 'monet') . $error_message, 'error');
-            } else if ($response->paymentStatus == PaymentStatus::$toClearing) {
+            } else if ($response->paymentStatus == PaymentStatus::$toClearing || $response->paymentStatus == PaymentStatus::$cleared) {
 
-                $this->monetWebPay->log->write('Received to_clearing status for payId: ' . $response->payId);
+                $this->monetWebPay->log->write('Received to_clearing or cleared status for payId: ' . $response->payId);
                 $this->monetWebPay->updateTransactionStatus($partsOforderNumber[0], $response);
                 $this->msg ['class'] = 'woocommerce_message woocommerce_message_info';
-                $this->msg ['message'] = sprintf(__('Platba byla zpracována a je v bance zařazena do zúčtovaní. Číslo objednavky: %s', 'monet'), $partsOforderNumber[0]);
+                $this->msg ['message'] = sprintf(__('Platba byla zpracována a je v bance zařazena do zúčtovaní/zúčtována. Číslo objednavky: %s', 'monet'), $partsOforderNumber[0]);
                 $order->add_order_note($this->msg ['message']);
                 WC()->cart->empty_cart();
                 $order->payment_complete();
