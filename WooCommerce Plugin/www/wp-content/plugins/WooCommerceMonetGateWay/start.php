@@ -4,7 +4,7 @@
  * Plugin Name: Payment gateway plugin for Woo Commerce e-shop
  * Plugin URI: www.monetplus.cz
  * Description: e-commerce plugin for CSOB Payment Gateway (https://platebnibrana.csob.cz) implemented as extension of Woo Commerce e-shop
- * Version: 1.4
+ * Version: 1.5
  * Author: MONET+, a.s.
  * Author URI: www.monetplus.cz
  * License: GNU General Public License v2 or later
