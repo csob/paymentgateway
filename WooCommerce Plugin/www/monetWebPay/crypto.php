@@ -6,7 +6,7 @@ class Constants {
 
     static $SHOP_CART_QUANTITY = 1;
     static $LANGUAGE = 'CZ';
-    static $CURRENCY = 'CZK';
+    static $SUPPORTED_CURRENCY = ['CZK', 'HUF', 'GBP', 'USD', 'EUR', 'PLN'];
     static $PAYMETHOD = 'card';
     static $PAYOPERATION = 'payment';
     static $GET_RETURNMETHOD = 'GET';
@@ -20,20 +20,17 @@ class Constants {
  * @param totalAmount total order amount in CZK
  */
 function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItemDesc) {
-    $titles;
+    $titles = '';
     // extract the titles of products for description
     foreach ($cart->get_cart() as $item => $values) {
         $product = $values['data'];
         $titles = ' ' . $product->get_title();
     }
     $titles = mb_substr(trim($titles), 0, 37, 'utf-8') . "...";
-    ;
     $totalAmount = $totalAmount * 100;
 
-    // extract shippingTotal from string <span class="amount">99&nbsp;Kc</span>
-    $shippingTotal = substr($cart->get_cart_shipping_total(), 21, 2);
-    $shippingTotal = $shippingTotal * 100;
-
+    $shippingTotal = $cart->get_shipping_total();
+    $shippingTotal = (int) $shippingTotal * 100;
     $cartData = array(
         0 => array(
             "name" => mb_substr(trim($firstCartItemDesc), 0, 20, 'utf-8'),
@@ -52,30 +49,30 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
 
 /**
  * Creates JSON data for payment/init including signature
- * @param merchantId ID of merchant assigned by bank
- * @param orderNo reference order number
- * @param dttm date and time ot request sending, format YYYYMMDDHHMMSS
- * @param totalAmount total order amount
- * @param returnUrl return URL address for back redirecting from payment gateway to e-shop
- * @param cart cart structured data
- * @param description brief payment description
- * @param customerId customer ID
- * @param privateKey merchant private key for data signing
- * @param privateKeyPassword merchant private key password
- * @param closePayment close payment flag (0/1)
- * @param merchantData merchant base64 encoded data
- * @param returnMethodPOST indicator if return method POST should be used
+ * @param string merchantId ID of merchant assigned by bank
+ * @param string orderNo reference order number
+ * @param string dttm date and time ot request sending, format YYYYMMDDHHMMSS
+ * @param double totalAmount total order amount
+ * @param string returnUrl return URL address for back redirecting from payment gateway to e-shop
+ * @param object|array cart cart structured data
+ * @param string description brief payment description
+ * @param string customerId customer ID
+ * @param string privateKey merchant private key for data signing
+ * @param string privateKeyPassword merchant private key password
+ * @param bool|int closePayment close payment flag (0/1)
+ * @param string merchantData merchant base64 encoded data
+ * @param string returnMethodPOST indicator if return method POST should be used
+ * @param array paymentInitData
  */
 function createPaymentInitData($merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description, $customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST, $ttlSec, $logoVersion, $colorSchemeVersion) {
 
     $payOperation = Constants::$PAYOPERATION;
     $payMethod = Constants::$PAYMETHOD;
-//    $currency = Constants::$CURRENCY;
     $currency = get_woocommerce_currency();
 
     $returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
     $closePayment = ($closePayment == '1') ? "true" : "false";
-    $totalAmount = $totalAmount * 100;
+    $totalAmount = (int) $totalAmount * 100;
     $titles = $cart[0]['description'];
     $shippingTotal = $cart[1]['amount'];
 
