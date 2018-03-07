@@ -5,14 +5,15 @@ require_once ('struct.php');
 
 /**
  * Creates cart with exact two items (goods, postage)
- * @param goodsDesc description of goods
- * @param totalAmount total order amount in CZK
- * @param shippingTotal shipping amount in CZK
+ * @param string goodsDesc description of goods
+ * @param double totalAmount total order amount in CZK
+ * @param double shippingTotal shipping amount in CZK
+ * @return array cartData
  */
 function createCartData($goodsDesc, $totalAmount, $shippingTotal) {
 	$goodsDesc = mb_substr(trim($goodsDesc), 0, 37, 'utf-8') . "...";
-	$totalAmount = $totalAmount * 100;
-	$shippingTotal = $shippingTotal * 100;
+	$totalAmount = (int) ($totalAmount * 100);
+	$shippingTotal = (int) ($shippingTotal * 100);
 
 	$cartData = array(
 			0 => array(
@@ -32,20 +33,23 @@ function createCartData($goodsDesc, $totalAmount, $shippingTotal) {
 }
 
 /**
- * Creates JSON data for payment/init including signature
- * @param merchantId ID of merchant assigned by bank
- * @param orderNo reference order number
- * @param dttm date and time ot request sending, format YYYYMMDDHHMMSS
- * @param totalAmount total order amount
- * @param returnUrl return URL address for back redirecting from payment gateway to e-shop
- * @param cart cart structured data
- * @param description brief payment description
- * @param customerId customer ID
- * @param privateKey merchant private key for data signing
- * @param privateKeyPassword merchant private key password
- * @param closePayment close payment flag (0/1)
- * @param merchantData merchant base64 encoded data
- * @param returnMethodPOST indicator if return method POST should be used
+ * Creates JSON data for payment/init including signature, more on
+ * https://github.com/csob/paymentgateway/wiki/eAPI-v1.7#-post-httpsapiplatebnibranacsobczapiv17paymentinit-
+ *
+ * @param string merchantId ID of merchant assigned by bank
+ * @param string orderNo reference order number
+ * @param string dttm date and time ot request sending, format YYYYMMDDHHMMSS
+ * @param double totalAmount total order amount
+ * @param string returnUrl return URL address for back redirecting from payment gateway to e-shop
+ * @param object|array cart cart structured data
+ * @param string description brief payment description
+ * @param string customerId customer ID
+ * @param string privateKey merchant private key for data signing
+ * @param string privateKeyPassword merchant private key password
+ * @param bool|int closePayment close payment flag (0/1)
+ * @param string merchantData merchant base64 encoded data
+ * @param string returnMethodPOST indicator if return method POST should be used (yes/no)
+ * @return array paymentInitData
  */
 function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $returnUrl, $cart, $description,
 	$customerId, $privateKey, $privateKeyPassword, $closePayment, $merchantData, $returnMethodPOST) {
@@ -56,7 +60,7 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 
 	$returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
 	$closePayment = ($closePayment == '1') ? "true" : "false";
-	$totalAmount = $totalAmount * 100;
+	$totalAmount = (int) ($totalAmount * 100);
 
 	$data = array (
 			"merchantId"	=>	$merchantId,
