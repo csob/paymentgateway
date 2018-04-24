@@ -27,6 +27,7 @@ class Constants {
     ];
     static $CURRENCY = [
         'CZK' => 'Česká koruna',
+        'HRK' => 'Chorvatská kuna',
         'HUF' => 'Maďarský forint',
         'GBP' => 'Britská libra',
         'USD' => 'Americký dolar',
