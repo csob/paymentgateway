@@ -6,7 +6,7 @@ class Constants {
 
     static $SHOP_CART_QUANTITY = 1;
     static $LANGUAGE = 'CZ';
-    static $SUPPORTED_CURRENCY = ['CZK', 'HUF', 'GBP', 'USD', 'EUR', 'PLN', 'RON', 'SEK', 'NOK'];
+    static $SUPPORTED_CURRENCY = ['CZK', 'HUF', 'HRK', 'GBP', 'USD', 'EUR', 'PLN', 'RON', 'SEK', 'NOK'];
     static $PAYMETHOD = 'card';
     static $PAYOPERATION = 'payment';
     static $GET_RETURNMETHOD = 'GET';
