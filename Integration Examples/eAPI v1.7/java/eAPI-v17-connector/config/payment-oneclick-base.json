@@ -1,0 +1,9 @@
+{
+  // merchantId, dttm and signature added automatically by application
+  // supported currencies: CZK,EUR,USD,GBP,HUF,PLN,HRK,RON,NOK,SEK (based on merchant configuration at CSOB)
+  "origPayId":"9501e5b534a74bb",
+  "orderNo":"55482445",
+  "totalAmount":178500,
+  "currency":"CZK",
+  "description":"Nákup žluťoučký kůň na vasobchod.cz (Lenovo ThinkPad Edge E540, Doprava PPL)"
+}
