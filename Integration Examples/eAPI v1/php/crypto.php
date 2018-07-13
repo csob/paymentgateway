@@ -11,8 +11,8 @@ require_once ('struct.php');
  */
 function createCartData($goodsDesc, $totalAmount, $shippingTotal) {
 	$goodsDesc = mb_substr(trim($goodsDesc), 0, 37, 'utf-8') . "...";
-	$totalAmount = $totalAmount * 100;
-	$shippingTotal = $shippingTotal * 100;
+	$totalAmount = (int) ($totalAmount * 100);
+	$shippingTotal = (int) ($shippingTotal * 100);
 
 	$cartData = array(
 			0 => array(
@@ -56,7 +56,7 @@ function createPaymentInitData( $merchantId, $orderNo, $dttm, $totalAmount, $ret
 
 	$returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
 	$closePayment = ($closePayment == '1') ? "true" : "false";
-	$totalAmount = $totalAmount * 100;
+	$totalAmount = (int) ($totalAmount * 100);
 
 	$data = array (
 			"merchantId"	=>	$merchantId,

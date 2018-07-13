@@ -27,10 +27,10 @@ function createCartData($cart, $totalAmount, $firstCartItemDesc, $secondCartItem
         $titles = ' ' . $product->get_title();
     }
     $titles = mb_substr(trim($titles), 0, 37, 'utf-8') . "...";
-    $totalAmount = $totalAmount * 100;
+    $totalAmount = (int) ($totalAmount * 100);
 
     $shippingTotal = $cart->get_shipping_total();
-    $shippingTotal = (int) $shippingTotal * 100;
+    $shippingTotal = (int) ($shippingTotal * 100);
     $cartData = array(
         0 => array(
             "name" => mb_substr(trim($firstCartItemDesc), 0, 20, 'utf-8'),
@@ -72,7 +72,7 @@ function createPaymentInitData($merchantId, $orderNo, $dttm, $totalAmount, $retu
 
     $returnMethod = ($returnMethodPOST == 'yes') ? Constants::$POST_RETURNMETHOD : Constants::$GET_RETURNMETHOD;
     $closePayment = ($closePayment == '1') ? "true" : "false";
-    $totalAmount = (int) $totalAmount * 100;
+    $totalAmount = (int) ($totalAmount * 100);
     $titles = $cart[0]['description'];
     $shippingTotal = $cart[1]['amount'];
 
