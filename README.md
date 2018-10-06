@@ -4,8 +4,6 @@
 
 *please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
 
-**Novinka: od února 2017 bude platební brána podporovat EET a může vám významně pomoci s evidencí tržeb v e-shopu! Již nyní najdete základní informace v [přehledu EET funkcionality](https://github.com/csob/paymentgateway/wiki/Spouštěn%C3%AD-služby-EET) a [častých otázkách na téma EET](https://github.com/csob/paymentgateway/wiki/Časté-otázky-k-EET). Technickou specifikaci rozšíření API platební brány zveřejníme během několika následujících dní.**
-
 # Platební brána ČSOB
 
 Platební brána ČSOB poskytuje služby akceptace karet Visa, Visa Electron, Visa VPAY, MasterCard, Maestro, DinersClub, mobilní peněženky MasterPass by MasterCard a platebních tlačítek ČSOB a Poštovní spořitelny v online prostředí obchodů, služeb a mobilních aplikací. K využití služeb brány je nutné uzavření slouvy s bankou. 
