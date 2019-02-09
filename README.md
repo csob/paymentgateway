@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 <p align="center">
   <img src="https://github.com/csob/paymentgateway/wiki/img/banner-new-9-2015.png/">
 </p>
