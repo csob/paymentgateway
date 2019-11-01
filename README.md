@@ -22,7 +22,7 @@ Návod na migraci z platební brány ČSOB GP Webpay na novou platební bránu �
 
 ## 3. Repozitář
 
-V [repozitáři](https://github.com/csob/paymentgateway/tree/master/Integration%20Examples) najdete ukázkovou PHP, Java a .net integraci. Z repozitáře si také stáhněte veřejný klíč brány, který budete potřebovat pro zabezpečení komunikace s platební bránou. Vlastní sadu klíčů si pak vygenerujte pomocí online nástroje, který jsme pro vás připravili na [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). Klíče pro iBránu (otevřené vývojové prostředí přístupné beze smlouvy) si můžete vygenerovat na [https://iplatebnibrana.csob.cz/keygen/](https://iplatebnibrana.csob.cz/keygen/)
+V [repozitáři](https://github.com/csob/paymentgateway/tree/master/Integration%20Examples) najdete ukázkovou PHP, Java a .NET integraci. Z repozitáře si také stáhněte veřejný klíč brány, který budete potřebovat pro zabezpečení komunikace s platební bránou. Vlastní sadu klíčů si pak vygenerujte pomocí online nástroje, který jsme pro vás připravili na [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). Klíče pro iBránu (otevřené vývojové prostředí přístupné beze smlouvy) si můžete vygenerovat na [https://iplatebnibrana.csob.cz/keygen/](https://iplatebnibrana.csob.cz/keygen/)
 
 K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Vašem uvážení např:
 
@@ -32,7 +32,7 @@ K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Va�
 
 ## 4. Problémy a pomoc při jejich řešení 
 
-Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce] (https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues. 
+Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce](https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues. 
 
 <p align="center">
   <img src="https://github.com/csob/paymentgateway/wiki/img/assets/readme-code/vbv.png/">
