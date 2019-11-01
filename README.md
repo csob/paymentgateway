@@ -4,7 +4,7 @@
 
 # Platební brána ČSOB
 
-Platební brána ČSOB poskytuje služby akceptace karet Visa, Visa Electron, Visa VPAY, MasterCard, Maestro, DinersClub, mobilní peněženky MasterPass by MasterCard a platebních tlačítek ČSOB a Poštovní spořitelny v online prostředí obchodů, služeb a mobilních aplikací. K využití služeb brány je nutné uzavření slouvy s bankou. 
+Platební brána ČSOB poskytuje služby akceptace karet (Visa, Visa Electron, Visa VPAY, MasterCard, Maestro, DinersClub, mobilní peněženky MasterPass), Apple Pay, Mall Pay a platebních tlačítek ČSOB & Poštovní spořitelny v online prostředí obchodů, služeb a mobilních aplikací. K využití služeb brány je nutné uzavření slouvy s bankou. 
 
 ## 1. Platební brána ČSOB a objednávka služeb 
 
@@ -12,9 +12,9 @@ Produktové informace najdete na [https://platebnibrana.csob.cz](https://platebn
 
 ## 2. Specifikace API, jak integrovat a testovat
 
-Platební brána má momentálně dvě rozhraní. Legacy API umožňuje přechod z již používané brány GP Webpay pro většinu obchodníků bez vývoje. Legacy API podporuje základní trasakční funkce, nepodporuje však funkce související se zjišťováním stavu transakcí a správou objednávek. Pokud ve Vašem e-shopu používáte SOAP rozhraní původní platební brány GP Webpay pro zjišťování stavů objednávek, implementujte, prosím, rovnou nové eAPI, protože Legacy API tuto funkci nemá. 
-eAPI je zcela nové, moderní RESTful API pro komunikaci e-shopu s platební bránou a také základ pro rozvoj nových služeb. Kombinuje do jednoho interfacu jak transakční, tak obslužné funkce. 
-Legacy API nebude již nadále rozvíjeno a proto doporučujeme v horizontu do léta 2016 vyvinout ve vašem e-shopu podporu eAPI. Jedině tak budete moci využívat všechny chystané funkce nové platební brány.
+Platební brána má momentálně dvě rozhraní. Hlavní rozhraní eAPI je moderní RESTful API pro komunikaci e-shopu s platební bránou a také základ pro rozvoj nových služeb. Kombinuje do jednoho interfacu jak transakční, tak obslužné funkce. Aktuálně je podporované ve verzích 1.0, 1.5, 1.6, 1.7 a 1.8. Doporučujeme při implementaci používat nejnovější verzi. Starší verze budou postupně uzavírány, počínaje verzí 1.0 na začátku roku 2020. 
+
+Druhým rozhraním je Legacy API, které umožňuje přechod z již používané brány GP Webpay pro většinu obchodníků bez vývoje. Legacy API podporuje základní trasakční funkce, nepodporuje však funkce související se zjišťováním stavu transakcí a správou objednávek. Pokud ve Vašem e-shopu používáte SOAP rozhraní původní platební brány GP Webpay pro zjišťování stavů objednávek, implementujte, prosím, rovnou nové eAPI, protože Legacy API tuto funkci nemá. Legacy API nebude již nadále rozvíjeno a bude na počátku roku 2020 uzavřeno.
 
 Než začnete bránu do vašeho shopu nebo mobilní aplikace eAPI integrovat, podívejte se, prosím, do [Wiki](https://github.com/csob/paymentgateway/wiki). Najdete zde kompletní dokumentaci k eAPI mezi e-shopem a bránou, návod jak simulovat různé transakční stavy a jaké používat testovací karty. 
 
