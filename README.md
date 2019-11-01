@@ -2,8 +2,6 @@
   <img src="https://github.com/csob/paymentgateway/wiki/img/mktg/banner-new-9-2015.png/">
 </p>
 
-*please scroll down for [English](https://github.com/csob/paymentgateway#Čsob-online-payment-gateway)* :gb:
-
 # Platební brána ČSOB
 
 Platební brána ČSOB poskytuje služby akceptace karet Visa, Visa Electron, Visa VPAY, MasterCard, Maestro, DinersClub, mobilní peněženky MasterPass by MasterCard a platebních tlačítek ČSOB a Poštovní spořitelny v online prostředí obchodů, služeb a mobilních aplikací. K využití služeb brány je nutné uzavření slouvy s bankou. 
@@ -37,23 +35,6 @@ K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Va�
 Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce] (https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues. 
 
 <p align="center">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/visa/vbv.png/">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/mc/mc_securecode.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/readme-code/vbv.png/">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/readme-code/mc_securecode.png/">
 </p>
-
-# ČSOB Online Payment Gateway
-
-The ČSOB payment gateway provides online cards acquiring services for e-shops, service providers and mobile apps. We currently support Visa, Visa Electron, Visa VPAY, MasterCard, Maestro, DinersClub and the MasterCard Mobile wallet. To use this gateway, you need to conclude a contract with the ČSOB. Please contact 800 150 150 (free from the Czech republic) for more commercial information in English. 
-
-## 1. API Documentation, how to Implement and Test your Shop Integration
-
-Before starting the integration development, please have a look into the GitHub Wiki. The API documentation as well test cases and test cards are available here in the most up-to-date version. 
-
-## 2. Repository
-
-Our GitHub repository contains example PHP and Java integration, including a fully working WooCommerce plugin. You can also download the public key of the gateway for securing the communication. You will also need to create your own set of keys using the online tool available on [https://platebnibrana.csob.cz/keygen/](https://platebnibrana.csob.cz/keygen/). 
-
-## 3. Issues, Troubleshooting and Support 
-
-Please have a loot at the FAQ first. The [technical section](https://github.com/csob/paymentgateway/wiki/Technical-FAQ) is devoted mainly to integration, the [functional and commercial section](https://github.com/csob/paymentgateway/wiki/FAQ:-Features-and-Commercial-Issues) includes answers related mainly to the business functionality of the gateway. More detail to previously solved problems can be also found in the GitHub Issues. 
-
