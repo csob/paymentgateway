@@ -1,0 +1,31 @@
+{
+  // merchantId, dttm and signature added automatically by application
+  // supported currencies: CZK,EUR,USD,GBP,HUF,PLN,HRK,RON,NOK,SEK (based on merchant configuration at CSOB)
+  "orderNo":"554822",
+  "payOperation":"customPayment",
+  "payMethod":"card",
+  "totalAmount":1500,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://vasobchod.cz/return-gateway",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "žluťoučký kůň",
+      "quantity": 1,
+      "amount": 1500,
+      "description":"Lenovo ThinkPad Edge E540"
+    },
+    {
+      "name": "Poštovné",
+      "quantity": 1,
+      "amount": 0,
+      "description": "Doprava PPL"
+    }
+  ],
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"CZ",
+  "logoVersion":3,
+  "colorSchemeVersion":2,
+  "customExpiry":"20191101121314"
+}

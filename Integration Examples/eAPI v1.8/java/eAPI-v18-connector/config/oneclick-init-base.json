@@ -1,0 +1,9 @@
+{
+  // merchantId, dttm and signature added automatically by application
+  // supported currencies: CZK,EUR,USD,GBP,HUF,PLN,HRK,RON,NOK,SEK (based on merchant configuration at CSOB)
+  "origPayId":"720e991dd95f5EJ",
+  "orderNo":"55482445",
+  "clientIp":"1.2.3.4",
+  "totalAmount":20000,
+  "currency":"CZK"
+}

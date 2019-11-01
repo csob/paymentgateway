@@ -1,0 +1,1 @@
+Please insert your merchant's private key (.key file) into CsobGTWDemo\CsobGatewayClientExample\Assets\ directory and configure CsobGTWDemo\CsobGatewayClientExample\Common\Constants.cs.
