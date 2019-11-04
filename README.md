@@ -32,9 +32,4 @@ K dispozici jsou i řešení třetích stran, jejichž použití je pouze na Va�
 
 ## 4. Problémy a pomoc při jejich řešení 
 
-Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce](https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues. 
-
-<p align="center">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/readme-code/vbv.png/">
-  <img src="https://github.com/csob/paymentgateway/wiki/img/assets/readme-code/mc_securecode.png/">
-</p>
+Nejrychleji najdete pomoc v sekci často kladených otázek. [Technická sekce](https://github.com/csob/paymentgateway/wiki/Časté-technické-dotazy) je věnována zejména integraci, ve [funkční a obchodní části](https://github.com/csob/paymentgateway/wiki/Časté-funkčn%C3%AD-a-komerčn%C3%AD-dotazy) se dozvíte více o bráně a službách banky. Větší detail k některým již dříve řešeným problémům najdete v issues.
