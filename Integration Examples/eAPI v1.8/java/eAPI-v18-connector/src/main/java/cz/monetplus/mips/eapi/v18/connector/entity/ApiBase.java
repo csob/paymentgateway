@@ -33,6 +33,12 @@ public abstract class ApiBase implements Serializable {
 		sb.append(value).append(SEP);
 	}
 
+	protected void add(StringBuilder sb, Long value) {
+		if (value != null) {
+			sb.append(value).append(SEP);
+		}
+	}
+
 	protected void add(StringBuilder sb, long value) {
 		sb.append(value).append(SEP);
 	}
