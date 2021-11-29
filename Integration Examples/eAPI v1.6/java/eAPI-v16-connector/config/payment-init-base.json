@@ -1,5 +1,4 @@
 {
-  // merchantId, dttm and signature added automatically by application
   "orderNo":"554822",
   "payOperation":"payment",
   "payMethod":"card",

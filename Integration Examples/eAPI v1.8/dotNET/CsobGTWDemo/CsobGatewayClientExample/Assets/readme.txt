@@ -1,0 +1,1 @@
+Parameters merchantId, dttm and signature are not defined in *-base.json files, they are added automatically by application.

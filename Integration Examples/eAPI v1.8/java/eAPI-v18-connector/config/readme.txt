@@ -1,0 +1,2 @@
+Parameters merchantId, dttm and signature are not defined in *-base.json files, they are added automatically by application.
+Supported currencies: CZK,EUR,USD,GBP,HUF,PLN,HRK,RON,NOK,SEK (based on merchant configuration at CSOB).

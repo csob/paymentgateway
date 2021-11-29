@@ -1,6 +1,4 @@
 {
-  // merchantId, dttm and signature added automatically by application
-  // supported currencies: CZK,EUR,USD,GBP,HUF,PLN,HRK,RON,NOK,SEK (based on merchant configuration at CSOB)
   "orderNo":"554822",
   "payOperation":"oneclickPayment",
   "payMethod":"card",
