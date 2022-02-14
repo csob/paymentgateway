@@ -95,7 +95,7 @@ function signPaymentInitData( $data, $privateKey, $privateKeyPassword) {
 	$data2Sign = $data["merchantId"] . "|" .  $data["orderNo"] . "|" . $data["dttm"] . "|" . $data["payOperation"] . "|" . $data["payMethod"] . "|" . $data["totalAmount"]
 		."|". $data["currency"] ."|". $data["closePayment"]  . "|". $data["returnUrl"] ."|". $data["returnMethod"] . "|" . $cart2Sign . "|" . $data["description"];
 
-	if(!isset($data["merchantData"])) {
+	if(isset($data["merchantData"])) {
 		$data2Sign = $data2Sign . "|" . $data["merchantData"];
 	}
 
