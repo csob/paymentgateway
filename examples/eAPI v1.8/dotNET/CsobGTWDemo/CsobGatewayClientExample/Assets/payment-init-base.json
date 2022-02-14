@@ -1,0 +1,25 @@
+{
+  "orderNo":"554822",
+  "payOperation":"payment",
+  "payMethod":"card",
+  "totalAmount":178500,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://store.example.com/return",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "žluťoučký kůň",
+      "quantity": 1,
+      "amount": 178500
+    },
+    {
+      "name": "Poštovné",
+      "quantity": 1,
+      "amount": 0
+    }
+  ],
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "ttlSec":300,
+  "language":"cs"
+}
