@@ -1,0 +1,6 @@
+# IntelliJ Idea
+**/.idea
+**/*.iml
+
+# Project outputs
+**/target/**
