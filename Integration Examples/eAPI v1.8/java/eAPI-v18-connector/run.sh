@@ -23,5 +23,4 @@ if [ -z "$JAVA_HOME" ]; then
 fi
 
 JAVA=$JAVA_HOME/bin/java
-$JAVA -jar $SERVER_HOME/target/eAPI-v18-connector-1.0.0-SNAPSHOT.jar $*
- 
+$JAVA -jar "$SERVER_HOME/target/eAPI-v18-connector-1.0.0-SNAPSHOT.jar" $*
