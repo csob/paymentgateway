@@ -1,0 +1,29 @@
+{
+  "orderNo":"554822",
+  "payOperation":"customPayment",
+  "payMethod":"card",
+  "totalAmount":1500,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://store.example.com/return",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "žluťoučký kůň",
+      "quantity": 1,
+      "amount": 1500,
+      "description":"Lenovo ThinkPad Edge E540"
+    },
+    {
+      "name": "Poštovné",
+      "quantity": 1,
+      "amount": 0,
+      "description": "Doprava PPL"
+    }
+  ],
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs",
+  "logoVersion":3,
+  "colorSchemeVersion":2,
+  "customExpiry":"20191101121314"
+}
