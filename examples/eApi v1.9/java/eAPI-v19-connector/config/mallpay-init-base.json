@@ -1,0 +1,49 @@
+{
+  "orderNo":"51966",
+  "customer": {
+    "firstName": "Adam",
+    "lastName": "Malý",
+    "email": "adam.maly@example.com",
+    "phone": "+420800300300"
+  },
+  "order": {
+    "totalPrice": {
+    	"amount":1210000,
+    	"currency":"CZK"
+    },
+    "totalVat": [{
+    	"amount":210000,
+    	"currency":"CZK",
+    	"vatRate":21
+    }],
+    "addresses": [
+    	{
+    	"addressType":"BILLING",
+    	"streetAddress":"Radlická 333",
+    	"city":"Praha 5",
+    	"zip":"15000",
+    	"country":"CZ"
+    	}
+    ],
+    "items": [
+    	{
+    	"code":"ABC123",
+    	"name":"iPhone 8S",
+	    "totalPrice": {
+	    	"amount":1210000,
+	    	"currency":"CZK"
+	    },
+	    "totalVat": {
+	    	"amount":210000,
+	    	"currency":"CZK",
+	    	"vatRate":21
+	    }
+      }
+    ]
+  },
+  "agreeTC":true,
+  "clientIp":"192.0.2.2",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh"
+}

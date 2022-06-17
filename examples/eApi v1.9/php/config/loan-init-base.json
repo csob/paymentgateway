@@ -1,0 +1,11 @@
+{
+  "orderNo":"51966",
+  "purchaseId":"ZA0019S51966-1",
+  "clientIp":"192.0.2.2",
+  "totalAmount":1789600,
+  "currency":"CZK",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs"
+}

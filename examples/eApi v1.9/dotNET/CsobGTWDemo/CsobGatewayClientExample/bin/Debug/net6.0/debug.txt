@@ -1,0 +1,15 @@
+2022-04-06 14:16:27.7482|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-11 13:34:21.9717|INFO|CsobGatewayClientExample.Commands.EchoGet|result is NULL
+2022-04-11 13:35:23.7604|INFO|CsobGatewayClientExample.Commands.EchoGet|result is NULL
+2022-04-11 13:59:51.5166|INFO|CsobGatewayClientExample.Commands.EchoGet|result is NULL
+2022-04-11 14:23:02.9950|INFO|CsobGatewayClientExample.Commands.EchoGet|result is NULL
+2022-04-11 14:23:58.4766|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-11 14:31:32.0081|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-11 14:35:57.4578|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-11 14:47:45.2049|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-11 14:47:45.3389|INFO|CsobGatewayClientExample.Commands.EchoGet|result is CsobGatewayClientExample.Communication.DataObjects.Response.EchoResponse
+2022-04-12 07:32:38.2569|INFO|CsobGatewayClientExample.Commands.EchoGet|result code: 0, result message: "OK"
+2022-04-12 07:39:05.4883|INFO|CsobGatewayClientExample.Commands.EchoPost|result code: 0, result message: "OK"
+2022-04-12 07:39:29.0834|INFO|CsobGatewayClientExample.Commands.EchoPost|result code: 0, result message: "OK"
+2022-04-12 07:40:14.3277|INFO|CsobGatewayClientExample.Commands.EchoGet|result code: 0, result message: "OK"
+2022-04-12 07:40:59.5104|INFO|CsobGatewayClientExample.Commands.EchoGet|result code: 0, result message: "OK"

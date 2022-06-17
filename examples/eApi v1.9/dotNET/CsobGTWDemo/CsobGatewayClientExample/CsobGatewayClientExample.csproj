@@ -1,0 +1,294 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <!--
+        <TargetFrameworks>netstandard2.0;net5.0;net46;</TargetFrameworks>
+    -->
+        <TargetFrameworks>net6.0;</TargetFrameworks>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <!-- <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion> -->
+        <OutputType>Exe</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>CsobGatewayClientExample</RootNamespace>
+        <AssemblyName>CsobGatewayClientExample</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+        <PlatformTarget>x64</PlatformTarget>
+        <DebugType>portable</DebugType>
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    </PropertyGroup>
+    <!--
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net50' ">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    -->
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Xml" />
+
+    </ItemGroup>
+    <!--<ItemGroup Condition=" '$(TargetFramework)' == 'net46' ">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Xml" />
+    
+    </ItemGroup>
+    -->
+    <!--
+        <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Web" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Data.DataSetExtensions" />
+        <Reference Include="Microsoft.CSharp" />
+        <Reference Include="System.Data" />
+        <Reference Include="System.Net.Http" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+-->
+
+    <ItemGroup>
+        <PackageReference Include="ManyConsole" Version="2.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+        <PackageReference Include="NLog" Version="5.0.0-rc2" />
+    </ItemGroup>
+
+    <!--
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.0" />
+  </ItemGroup>
+  
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0'">
+      <DefineConstants>NETCORE;NETSTANDARD;NETSTANDARD2_0</DefineConstants>
+  </PropertyGroup>
+
+ <PropertyGroup Condition=" '$(TargetFramework)' == 'net40'">
+        <DefineConstants>NET40;NETFULL</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG;</DefineConstants>
+  </PropertyGroup>
+-->
+    <!--
+        https://docs.microsoft.com/cs-cz/dotnet/core/project-sdk/overview
+    <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
+        <PackageReference Include="Newtonsoft.Json" Version="9.0.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
+    </ItemGroup>
+-->
+    <ItemGroup>
+
+
+        <Compile Include="Commands\ApplepayEcho.cs" />
+
+
+        <Compile Include="Commands\ApplepayInit.cs" />
+
+
+        <Compile Include="Commands\ApplepayProcess.cs" />
+
+
+        <Compile Include="Commands\ButtonInit.cs" />
+
+
+        <Compile Include="Commands\EchoCustomer.cs" />
+
+
+        <Compile Include="Commands\EchoGet.cs" />
+
+
+        <Compile Include="Commands\EchoPost.cs" />
+
+
+        <Compile Include="Commands\GooglepayEcho.cs" />
+
+
+        <Compile Include="Commands\GooglepayInit.cs" />
+
+
+        <Compile Include="Commands\GooglepayProcess.cs" />
+
+
+        <Compile Include="Commands\LoanCancel.cs" />
+
+
+        <Compile Include="Commands\LoanInit.cs" />
+
+
+        <Compile Include="Commands\LoanLogistics.cs" />
+
+
+        <Compile Include="Commands\LoanRefund.cs" />
+
+
+        <Compile Include="Commands\MallpayCancel.cs" />
+
+
+        <Compile Include="Commands\MallpayInit.cs" />
+
+
+        <Compile Include="Commands\MallpayLogistics.cs" />
+
+
+        <Compile Include="Commands\MallpayRefund.cs" />
+
+
+        <Compile Include="Commands\OneclickEcho.cs" />
+
+
+        <Compile Include="Commands\OneclickInit.cs" />
+
+
+        <Compile Include="Commands\OneclickProcess.cs" />
+
+
+        <Compile Include="Commands\PaymentClose.cs" />
+
+
+        <Compile Include="Commands\PaymentInit.cs" />
+
+
+        <Compile Include="Commands\PaymentRefund.cs" />
+
+
+        <Compile Include="Commands\PaymentReverse.cs" />
+
+
+        <Compile Include="Commands\PaymentStatus.cs" />
+
+
+        <Compile Include="Common\Constants.cs" />
+        <Compile Include="Communication\DataObjects\Address.cs" />
+        <Compile Include="Communication\DataObjects\Act\Action.cs" />
+        <Compile Include="Communication\DataObjects\ApiBase.cs" />
+        <Compile Include="Communication\DataObjects\CartItem.cs" />
+        <Compile Include="Communication\DataObjects\Customer.cs" />
+        <Compile Include="Communication\DataObjects\CustReq.cs" />
+
+
+        <Compile Include="Communication\DataObjects\EchoRequest.cs" />
+        <Compile Include="Communication\DataObjects\GooglepayInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\GooglepayProcessRequest.cs" />
+        <Compile Include="Communication\DataObjects\Act\AuthData.cs" />
+        <Compile Include="Communication\DataObjects\Auth3dsBrowser.cs" />
+        <Compile Include="Communication\DataObjects\Auth3dsSdk.cs" />
+        <Compile Include="Communication\DataObjects\LoanLogisticsRequest.cs" />
+
+        <Compile Include="Communication\DataObjects\LoanCancelRequest.cs" />
+
+        <Compile Include="Communication\DataObjects\LoanRefundRequest.cs" />
+        <Compile Include="Communication\DataObjects\MallpayCancelRequest.cs" />
+
+        <Compile Include="Communication\DataObjects\ApplepayEchoRequest.cs" />
+
+        <Compile Include="Communication\DataObjects\PaymentStatusRequest.cs" />
+        <Compile Include="Communication\DataObjects\Response\ApplepayEchoResponse.cs" />
+
+
+        <Compile Include="Communication\DataObjects\MallpayPrice.cs" />
+        <Compile Include="Communication\DataObjects\MallpayCustomer.cs" />
+        <Compile Include="Communication\DataObjects\MallpayOrder.cs" />
+        <Compile Include="Communication\DataObjects\MallpayVat.cs" />
+        <Compile Include="Communication\DataObjects\MallpayAddress.cs" />
+        <Compile Include="Communication\DataObjects\MallpayOrderItem.cs" />
+        <Compile Include="Communication\DataObjects\MallpayOrderItemRef.cs" />
+        <Compile Include="Communication\DataObjects\MallpayOrderRef.cs" />
+
+        <Compile Include="Communication\DataObjects\MallpayInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\MallpayRefundRequest.cs" />
+        <Compile Include="Communication\DataObjects\PaymentReverseRequest.cs" />
+        <Compile Include="Communication\DataObjects\MallpayLogisticsRequest.cs" />
+        <Compile Include="Communication\DataObjects\ApplepayInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\ApplepayProcessRequest.cs" />
+        <Compile Include="Communication\DataObjects\ButtonInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\GooglepayEchoRequest.cs" />
+
+        <Compile Include="Communication\DataObjects\LoanCustomer.cs" />
+        <Compile Include="Communication\DataObjects\LoanAddress.cs" />
+        <Compile Include="Communication\DataObjects\LoanInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\Response\ApplepayInitParams.cs" />
+
+        <Compile Include="Communication\DataObjects\Response\ApplepayInitResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\ApplepayProcessResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\ButtonInitResponse.cs" />
+        <Compile Include="Communication\DataObjects\EchoCustomerRequest.cs" />
+        <Compile Include="Communication\DataObjects\Response\EchoCustomerResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\EchoResponse.cs" />
+
+        <Compile Include="Communication\DataObjects\Response\GooglepayEchoResponse.cs" />
+
+        <Compile Include="Communication\DataObjects\Response\GooglepayInitParams.cs" />
+
+        <Compile Include="Communication\DataObjects\Response\GooglepayInitResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\GooglepayProcessResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\LoanInitResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\MallpayInitResponse.cs" />
+
+
+        <Compile Include="Communication\DataObjects\OneclickProcessRequest.cs" />
+        <Compile Include="Communication\DataObjects\Response\OneclickEchoResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\OneclickInitResponse.cs" />
+
+        <Compile Include="Communication\DataObjects\Response\PaymentInitResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\PaymentResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\PaymentStatusResponse.cs" />
+
+
+        <Compile Include="Communication\DataObjects\OneclickEchoRequest.cs" />
+        <Compile Include="Communication\DataObjects\OneclickInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\IBasePostRequest.cs" />
+        <Compile Include="Communication\DataObjects\Order.cs" />
+        <Compile Include="Communication\DataObjects\PaymentInitRequest.cs" />
+        <Compile Include="Communication\DataObjects\PayOneclickInitReq.cs" />
+        <Compile Include="Communication\DataObjects\PaymentRefundRequest.cs" />
+        <Compile Include="Communication\DataObjects\PayReq.cs" />
+        <Compile Include="Communication\DataObjects\Response\PayRes.cs" />
+        <Compile Include="Communication\DataObjects\Response\ProcessResponse.cs" />
+        <Compile Include="Communication\DataObjects\Response\RedirectRes.cs" />
+        <Compile Include="Communication\DataObjects\SignBase.cs" />
+        <Compile Include="Communication\DataObjects\SignBaseRequest.cs" />
+        <Compile Include="Communication\MipsConnector.cs" />
+        <Compile Include="Communication\PaymentCloseRequest.cs" />
+        <Compile Include="Program.cs" />
+        <!--		
+                <Compile Include="Properties\AssemblyInfo.cs" />
+                -->
+        <Compile Include="Security\Crypto.cs" />
+
+
+        <Compile Include="Communication\DataObjects\Ext\Extension.cs" />
+        <Compile Include="Communication\DataObjects\Ext\TrxDatesExtension.cs" />
+        <Compile Include="Communication\DataObjects\Ext\PrivateApiExtension.cs" />
+        <Compile Include="Communication\DataObjects\Ext\MaskedClnRPExtensionV16.cs" />
+
+
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="App.config" />
+        <None Include="packages.config" />
+    </ItemGroup>
+
+</Project>

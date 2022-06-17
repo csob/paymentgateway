@@ -1,0 +1,8 @@
+{
+  "orderNo":"51966",
+  "clientIp":"192.0.2.2",
+  "totalAmount":12300,
+  "currency":"CZK",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST"
+}

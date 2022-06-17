@@ -1,0 +1,19 @@
+{
+  "orderNo":"5547",
+  "payOperation":"payment",
+  "payMethod":"card",
+  "totalAmount":123400,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "Wireless headphones",
+      "quantity": 1,
+      "amount": 123400
+    }
+  ],
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs"
+}

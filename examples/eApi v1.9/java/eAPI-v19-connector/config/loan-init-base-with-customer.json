@@ -1,0 +1,23 @@
+{
+  "orderNo":"51966",
+  "purchaseId":"ZA0019S51966-2",
+  "clientIp":"192.0.2.2",
+  "totalAmount":1789600,
+  "currency":"CZK",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "customer": {
+      "firstName": "Adam",
+      "lastName": "Nový",
+      "email": "adam@example.com",
+      "phone": "+420800300300",
+      "billingAddress": {
+        "address1":"Radlická 333",
+        "city":"Praha 5",
+        "zip":"15000",
+        "country":"CZ"
+      }
+  },
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs"
+}

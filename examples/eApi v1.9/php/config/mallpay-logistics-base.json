@@ -1,0 +1,16 @@
+{
+  "event":"delivered",
+  "date":"20191020",
+  "fulfilled": {
+    "totalPrice": { "amount":24200, "currency":"CZK" },
+    "totalVat": [ { "amount":4200, "currency":"CZK", "vatRate":21 } ],
+    "items":[
+      { 
+        "code":"AX1255c",
+        "name":"Obal na iPhone XS",
+        "type":"PHYSICAL",
+        "quantity":1
+      }
+    ]
+  }
+}

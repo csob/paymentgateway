@@ -1,0 +1,10 @@
+{
+  "orderNo":"11345325",
+  "clientIp":"193.1.2.3",
+  "totalAmount":12300,
+  "currency":"CZK",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs"
+}

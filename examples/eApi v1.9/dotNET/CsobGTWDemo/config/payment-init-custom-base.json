@@ -1,0 +1,28 @@
+{
+  "orderNo":"554822",
+  "payOperation":"customPayment",
+  "payMethod":"card",
+  "totalAmount":123400,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://store.example.com/return",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "Wireless headphones",
+      "quantity": 1,
+      "amount": 123400
+    },
+    {
+      "name": "Shipping",
+      "quantity": 1,
+      "amount": 0,
+      "description": "DPL"
+    }
+  ],
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs",
+  "logoVersion":3,
+  "colorSchemeVersion":2,
+  "customExpiry":"20191101121314"
+}

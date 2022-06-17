@@ -1,0 +1,15 @@
+{
+    "name": "monetplus/examples",
+    "autoload": {
+        "psr-4": {
+         "Monetplus\\": "src/"
+        }
+    
+    },
+    "require": {
+        "guzzlehttp/guzzle": "^7.0",
+        "nategood/commando": "*",
+        "monolog/monolog": "^2.4",
+        "json-mapper/laravel-package": "^2.3"
+    }
+}

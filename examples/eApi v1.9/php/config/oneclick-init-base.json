@@ -1,0 +1,19 @@
+{
+  "origPayId":"10bb39bfcc74@HC",
+  "orderNo":"51966",
+  "clientIp":"192.0.2.2",
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "customer": {
+    "name":"Jan Novák",
+    "email":"email@example.com",
+    "mobilePhone":"+420.800300300"
+  },
+  "order": {
+    "type":"purchase",
+    "availability":"now",
+    "delivery":"digital",
+    "deliveryMode": "0",
+    "deliveryEmail": "delivery@example.com"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "orderNo":"5547",
+  "payOperation":"payment",
+  "payMethod":"card",
+  "totalAmount":123400,
+  "currency":"CZK",
+  "closePayment": true,
+  "returnUrl":"https://shop.example.com/return",
+  "returnMethod":"POST",
+  "cart":[
+    {
+      "name": "Wireless headphones",
+      "quantity": 1,
+      "amount": 123400
+    },
+    {
+      "name": "Shipping",
+      "quantity": 1,
+      "amount": 0,
+      "description": "DPL"
+    }
+  ],
+  "customer": {
+    "name":"Jan Novák",
+    "email":"jan.novak@example.com",
+    "mobilePhone":"+420.800300300",
+    "account": {
+      "createdAt":"2022-01-12T12:10:37+01:00",
+      "changedAt":"2022-01-15T15:10:12+01:00"
+    },
+    "login": {
+      "auth":"account",
+      "authAt":"2022-01-25T13:10:03+01:00"
+    }
+  },
+  "order": {
+    "type":"purchase",
+    "availability":"now",
+    "delivery":"shipping",
+    "deliveryMode": "1",
+    "addressMatch":true,
+    "billing": {
+      "address1":"Karlova 1",
+      "city":"Praha",
+      "zip":"11000",
+      "country":"CZE",
+    }
+  },
+  "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
+  "language":"cs"
+}
