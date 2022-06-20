@@ -71,7 +71,7 @@ Changelog
 **Bug fixes**
 
 * [#349](https://github.com/csob/paymentgateway/issues/349) PHP Example - wrong handling of closePayment parameter.
-* [#353](https://github.com/csob/paymentgateway/issues/353) Změny chybových hlášek při nefunkční zapamatované kartě
+* [#353](https://github.com/csob/paymentgateway/issues/353) Changes in error messages when saving card failed
 
 **Changes in eAPI 1.8 specification compared to v1.7**
 
@@ -127,7 +127,7 @@ Changelog
 
 * TSGSMIPS-821 - eAPI 1.6
 * TSGSMIPS-779 - Multilanguage support
-* TSGSMIPS-479 - Custom Multibrand s možností volby loga & barvy přes eAPI na úrovni transakce
+* TSGSMIPS-479 - Custom Multibrand (custom logo and color scheme functionality)
 * TSGSMIPS-340 - Trx dates extension
 * TSGSMIPS-9 - Improved keys generating
 * TSGSMIPS-491 - Detailed issuer identification
