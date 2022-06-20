@@ -1127,6 +1127,8 @@ class PaymentStatusResponse extends SignBase
       $sb = ApiUtilsAdd($sb, $this->resultCode);
     if (isset($this->resultMessage))
       $sb = ApiUtilsAdd($sb, $this->resultMessage);
+    if (isset($this->paymentStatus))
+      $sb = ApiUtilsAdd($sb, $this->paymentStatus);
     if (isset($this->authCode))
       $sb = ApiUtilsAdd($sb, $this->authCode);
     if (isset($this->statusDetail))
