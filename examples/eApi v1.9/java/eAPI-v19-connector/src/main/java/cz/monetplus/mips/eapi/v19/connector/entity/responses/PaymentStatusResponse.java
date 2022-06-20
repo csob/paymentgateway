@@ -41,6 +41,7 @@ public class PaymentStatusResponse extends SignBase {
         add(sb, getDttm());
         add(sb, getResultCode());
         add(sb, getResultMessage());
+	add(sb, paymentStatus);
         add(sb, getAuthCode());
         add(sb, getStatusDetail());
         if (null != getActions()) for (Action a : getActions()) add(sb, a.toSign());

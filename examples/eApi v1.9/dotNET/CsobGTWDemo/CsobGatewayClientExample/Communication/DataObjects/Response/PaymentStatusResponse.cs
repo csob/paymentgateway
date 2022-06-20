@@ -23,6 +23,7 @@ public class PaymentStatusResponse : SignBase
         Add(sb, Dttm);
         Add(sb, ResultCode);
         Add(sb, ResultMessage);
+	Add(sb, PaymentStatus);
         Add(sb, AuthCode);
         Add(sb, StatusDetail);
         Add(sb, Actions?.ToSign());
