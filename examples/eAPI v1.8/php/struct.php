@@ -2,10 +2,10 @@
 
 class Constants {
 
-    static $SHOP_CART_NAME = 'Shopping at ...';
+    static $SHOP_CART_NAME = 'Wireless headphones';
     static $SHOP_CART_QUANTITY = 1;
     static $SHOP_SHIPPING = 'Shipping';
-    static $SHOP_SHIPPING_DESC = 'PPL';
+    static $SHOP_SHIPPING_DESC = 'DPL';
     static $LANGUAGE = [
         'cs' => 'česky',
         'sk' => 'slovensky',

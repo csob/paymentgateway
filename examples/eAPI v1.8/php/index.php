@@ -73,7 +73,7 @@
                 <div class="form-group">
                     <label for="goods_desc" class="col-sm-2 control-label">Goods description</label>
                     <div class="col-sm-4">
-                        <input class="form-control text-right" name="goods_desc" id="goods_desc" value="Lenovo ThinkPad Edge E540"/>
+                        <input class="form-control text-right" name="goods_desc" id="goods_desc" value=""/>
                     </div>
                 </div>
                 <div class="form-group">

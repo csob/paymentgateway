@@ -2,21 +2,22 @@
   "orderNo":"554822",
   "payOperation":"payment",
   "payMethod":"card",
-  "totalAmount":178500,
+  "totalAmount":123400,
   "currency":"CZK",
   "closePayment": true,
   "returnUrl":"https://store.example.com/return",
   "returnMethod":"POST",
   "cart":[
     {
-      "name": "žluťoučký kůň",
+      "name": "Wireless headphones",
       "quantity": 1,
-      "amount": 178500
+      "amount": 123400
     },
     {
-      "name": "Poštovné",
+      "name": "Shipping",
       "quantity": 1,
-      "amount": 0
+      "amount": 0,
+      "description": "DPL"
     }
   ],
   "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",

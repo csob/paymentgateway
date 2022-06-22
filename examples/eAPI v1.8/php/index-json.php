@@ -23,23 +23,22 @@
   "orderNo":"554822",
   "payOperation":"payment",
   "payMethod":"card",
-  "totalAmount":1789600,
+  "totalAmount":123400,
   "currency":"CZK",
   "closePayment": true,
   "returnUrl":"https://store.example.com/return",
   "returnMethod":"POST",
   "cart":[
     {
-      "name": "žluťoučký kůň",
+      "name": "Wireless headphones",
       "quantity": 1,
-      "amount": 1789600,
-      "description":"Lenovo ThinkPad Edge E540"
+      "amount": 123400
     },
     {
-      "name": "Poštovné",
+      "name": "Shipping",
       "quantity": 1,
       "amount": 0,
-      "description": "Doprava PPL"
+      "description": "DPL"
     }
   ],
   "merchantData":"c29tZS1iYXNlNjQtZW5jb2RlZC1tZXJjaGFudC1kYXRh",
