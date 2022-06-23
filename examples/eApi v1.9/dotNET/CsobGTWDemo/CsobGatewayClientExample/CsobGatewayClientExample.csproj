@@ -71,7 +71,7 @@
 
     <ItemGroup>
         <PackageReference Include="ManyConsole" Version="2.0.1" />
-        <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
         <PackageReference Include="NLog" Version="5.0.0-rc2" />
     </ItemGroup>
 
@@ -95,7 +95,7 @@
     <!--
         https://docs.microsoft.com/cs-cz/dotnet/core/project-sdk/overview
     <ItemGroup Condition=" '$(TargetFramework)' == 'net40' ">
-        <PackageReference Include="Newtonsoft.Json" Version="9.0.1"/>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
         <PackageReference Include="Newtonsoft.Json" Version="13.0.1"/>
     </ItemGroup>
 -->
