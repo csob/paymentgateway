@@ -30,7 +30,7 @@ public class PaymentStatusResponse extends SignBase {
     @Getter
     private String statusDetail;
     @NonNull @Getter
-    private List<Action> actions = new LinkedList<>();
+    private Action actions;
     @Getter
     private List<Extension> extensions;
 
@@ -44,7 +44,7 @@ public class PaymentStatusResponse extends SignBase {
 	add(sb, paymentStatus);
         add(sb, getAuthCode());
         add(sb, getStatusDetail());
-        if (null != getActions()) for (Action a : getActions()) add(sb, a.toSign());
+        if (null != getActions()) add(sb, getActions().toSign());
         deleteLast(sb);
         return sb.toString();
     }

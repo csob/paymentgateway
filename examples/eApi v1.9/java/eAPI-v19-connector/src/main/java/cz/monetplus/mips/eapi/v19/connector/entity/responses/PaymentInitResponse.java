@@ -27,9 +27,6 @@ public class PaymentInitResponse extends SignBase {
     @Getter
     private String statusDetail;
 
-    @Getter
-    private List<Action> actions = new LinkedList<>();
-
     @Override
     public String toSign() {
         StringBuilder sb = new StringBuilder();

@@ -20,7 +20,7 @@ public class GooglepayInitResponse extends SignBase {
     private String resultMessage;
     private Integer paymentStatus;
     private String statusDetail;
-    private List<Action> actions = new LinkedList<>();
+    private Action actions;
 
     @Override
     public String toSign() {
@@ -31,7 +31,7 @@ public class GooglepayInitResponse extends SignBase {
         add(sb, getResultMessage());
         add(sb, getPaymentStatus());
         add(sb, getStatusDetail());
-        if (null != getActions()) for (Action a : getActions()) add(sb, a.toSign());
+        if (null != getActions()) add(sb, getActions().toSign());
         deleteLast(sb);
         return sb.toString();
     }

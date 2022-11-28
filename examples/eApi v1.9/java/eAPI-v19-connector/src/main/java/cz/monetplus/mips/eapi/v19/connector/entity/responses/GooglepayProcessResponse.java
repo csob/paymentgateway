@@ -20,7 +20,7 @@ public class GooglepayProcessResponse extends SignBase {
     private Long paymentStatus;
     private String authCode;
     private String statusDetail;
-    private List<Action> actions = new ArrayList<>();
+    private Action actions;
 
     @Override
     public String toSign() {
@@ -32,7 +32,7 @@ public class GooglepayProcessResponse extends SignBase {
         add(sb, paymentStatus);
         add(sb, authCode);
         add(sb, statusDetail);
-        for(Action a : actions) add(sb, a.toSign());
+        if(null != getActions()) add(sb, getActions().toSign());
         deleteLast(sb);
         return sb.toString();
     }
