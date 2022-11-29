@@ -34,7 +34,7 @@ public class Application implements CommandLineRunner {
 		try {
 			parser.parseArgument(args);
 		} catch (CmdLineException e) {
-			System.err.println(e.getMessage());
+			log.error(null, e);
 			parser.printUsage(System.err);
 			return;
 		}
