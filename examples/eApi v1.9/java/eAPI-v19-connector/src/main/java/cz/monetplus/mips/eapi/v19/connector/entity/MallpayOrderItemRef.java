@@ -1,11 +1,21 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@AllArgsConstructor @NoArgsConstructor
 public class MallpayOrderItemRef extends ApiBase  implements Signable {
-    public String code;
-    public String ean;
-    public String name;
-    public String type;
-    public Long quantity;
+    private String code;
+    private String ean;
+    private String name;
+    private String type;
+    private Long quantity;
 
     @Override
     public String toSign() {

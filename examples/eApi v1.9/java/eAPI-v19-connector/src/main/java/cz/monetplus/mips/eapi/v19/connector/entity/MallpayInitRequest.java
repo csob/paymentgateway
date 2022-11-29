@@ -1,21 +1,28 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class MallpayInitRequest  extends SignBase {
+    @NonNull
     private String merchantId;
+    @NonNull
     private String orderNo;
+    @NonNull
     private MallpayCustomer customer;
+    @NonNull
     private MallpayOrder order;
+    @NonNull
     private Boolean agreeTC;
+    @NonNull
     private String clientIp;
+    @NonNull
     private String returnUrl;
+    @NonNull
     private String returnMethod;
     private String merchantData;
     private Long ttlSec;
@@ -25,8 +32,8 @@ public class MallpayInitRequest  extends SignBase {
         StringBuilder sb = new StringBuilder();
         add(sb, merchantId);
         add(sb, orderNo);
-        if (null != customer) add(sb, customer.toSign());
-        if (null != order) add(sb, order.toSign());
+        add(sb, customer.toSign());
+        add(sb, order.toSign());
         add(sb, agreeTC);
         add(sb, dttm);
         add(sb, clientIp);

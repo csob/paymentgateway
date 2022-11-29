@@ -2,31 +2,38 @@ package cz.monetplus.mips.eapi.v19.connector.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import cz.monetplus.mips.eapi.v19.connector.entity.ext.Extension;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PaymentInitRequest extends SignBase {
+    @NonNull
     private String merchantId;
+    @NonNull
     private String orderNo;
     private String payOperation; //[payment, oneclickPayment, customPayment]
     private String payMethod; //[card, cart#LVP]
+    @NonNull
     private Long totalAmount;
+    @NonNull
     private String currency;
     private Boolean closePayment = true;
+    @NonNull
     private List<CartItem> cart;
+    @NonNull
     private String returnUrl;
+    @NonNull
     private String returnMethod; //[GET, POST]
     private Customer customer;
     private Order order;
     private String merchantData;
     private String customerId;
+    @NonNull
     private String language;
     private Integer ttlSec;
     private Integer logoVersion;

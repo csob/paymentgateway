@@ -1,5 +1,6 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
 import cz.monetplus.mips.eapi.v19.connector.entity.actions.Action;
 import lombok.AllArgsConstructor;
@@ -13,11 +14,12 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GooglepayProcessResponse extends SignBase {
     private String payId;
     private Long resultCode;
     private String resultMessage;
-    private Long paymentStatus;
+    private Integer paymentStatus;
     private String authCode;
     private String statusDetail;
     private Action actions;

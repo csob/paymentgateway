@@ -1,12 +1,14 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@NoArgsConstructor @RequiredArgsConstructor
+@RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class MallpayRefundRequest extends SignBase {
     @NonNull
     private String merchantId;
@@ -24,7 +26,7 @@ public class MallpayRefundRequest extends SignBase {
         add(sb, payId);
         add(sb, dttm);
         add(sb, amount);
-        if(refundedItems != null) for(MallpayOrderItemRef item: refundedItems) add(sb, item.toSign());
+        for(MallpayOrderItemRef item: refundedItems) add(sb, item.toSign());
         deleteLast(sb);
         return sb.toString();
     }

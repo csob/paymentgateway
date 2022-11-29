@@ -1,23 +1,30 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ButtonInitRequest extends SignBase  {
+    @NonNull
     private String merchantId;
+    @NonNull
     private String orderNo;
+    @NonNull
     private String clientIp;
+    @NonNull
     private Long totalAmount;
+    @NonNull
     private String currency;
+    @NonNull
     private String returnUrl;
+    @NonNull
     private String returnMethod;
     private String brand;
     private String merchantData;
+    @NonNull
     private String language;
 
     @Override

@@ -1,30 +1,25 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
-import cz.monetplus.mips.eapi.v19.connector.entity.actions.Action;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
-import lombok.*;
-
-import java.util.LinkedList;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@RequiredArgsConstructor @NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentInitResponse extends SignBase {
-    @NonNull @Getter
+
     private String payId;
-    @NonNull @Getter
     private Integer resultCode;
-    @NonNull @Getter
     private String resultMessage;
-    @Getter 
     private Integer paymentStatus;
-    @Getter
     private String authCode;
-    @Getter
     private String customerCode;
-    @Getter
     private String statusDetail;
 
     @Override

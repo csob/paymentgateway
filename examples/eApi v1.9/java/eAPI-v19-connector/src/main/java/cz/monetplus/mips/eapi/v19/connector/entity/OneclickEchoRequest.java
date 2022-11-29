@@ -1,9 +1,9 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import lombok.Getter;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 @RequiredArgsConstructor
 public class OneclickEchoRequest extends SignBase {
     @NonNull

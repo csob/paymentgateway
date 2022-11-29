@@ -1,24 +1,32 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class LoanInitRequest  extends SignBase {
+    @NonNull
     private String merchantId;
+    @NonNull
     private String orderNo;
+    @NonNull
     private String purchaseId;
+    @NonNull
     private String clientIp;
+    @NonNull
     private Long totalAmount;
+    @NonNull
     private String currency;
+    @NonNull
     private String returnUrl;
+    @NonNull
     private String returnMethod;
     private LoanCustomer customer;
     private String merchantData;
+    @NonNull
     private String language;
 
     @Override
@@ -33,6 +41,7 @@ public class LoanInitRequest  extends SignBase {
         add(sb, currency);
         add(sb, returnUrl);
         add(sb, returnMethod);
+        if(null != getCustomer()) add(sb, getCustomer().toSign());
         add(sb, merchantData);
         add(sb, language);
         deleteLast(sb);

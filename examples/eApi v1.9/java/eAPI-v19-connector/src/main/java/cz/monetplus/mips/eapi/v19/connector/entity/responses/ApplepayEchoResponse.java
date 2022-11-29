@@ -1,16 +1,15 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
-@RequiredArgsConstructor
 @AllArgsConstructor @NoArgsConstructor
 @Data
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplepayEchoResponse extends SignBase {
-    @NonNull
     private Integer resultCode;
-    @NonNull
     private String resultMessage;
     private ApplepayInitParams initParams;
 

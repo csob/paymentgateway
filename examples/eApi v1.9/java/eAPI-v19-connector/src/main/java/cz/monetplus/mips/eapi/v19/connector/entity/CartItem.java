@@ -1,30 +1,24 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Data
+@EqualsAndHashCode(callSuper = true)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class CartItem extends ApiBase implements Signable {
 
 	private static final long serialVersionUID = -3825192932302805075L;
 
-	@XmlElement(nillable=false)
-	public String name;
+	private String name;
 
-	@XmlElement(nillable=false)
-	public int quantity;
+	private int quantity;
 
-	@XmlElement(nillable=false)
-	public long amount;
+	private long amount;
 
-	@XmlElement(nillable=true)
-	public String description;
+	private String description;
 
-	public CartItem() {
-	}
 
 	public CartItem(String name, int quantity, long amount) {
 		this.name = name;

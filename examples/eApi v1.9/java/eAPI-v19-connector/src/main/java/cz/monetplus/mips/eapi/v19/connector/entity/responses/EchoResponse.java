@@ -1,13 +1,20 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
+@Data
+@EqualsAndHashCode(callSuper = false)
+@NoArgsConstructor @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class EchoResponse extends SignBase {
 
-	private static final long serialVersionUID = -3825192932302805075L;
-	
-	public int resultCode;
-	public String resultMessage;
+	private Integer resultCode;
+	private String resultMessage;
 
 	@Override
 	public String toSign() {

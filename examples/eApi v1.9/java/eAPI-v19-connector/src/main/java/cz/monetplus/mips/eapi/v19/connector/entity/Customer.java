@@ -1,13 +1,20 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 class Customer  extends ApiBase implements Signable {
-    public String name;
-    public String email;
-    public String homePhone;
-    public String workPhone;
-    public String mobilePhone;
-    public Account account;
-    public Login login;
+    private String name;
+    private String email;
+    private String homePhone;
+    private String workPhone;
+    private String mobilePhone;
+    private Account account;
+    private Login login;
 
     @Override
     public String toSign() {
@@ -23,15 +30,17 @@ class Customer  extends ApiBase implements Signable {
         return sb.toString();
     }
 
+    @Data
+    @EqualsAndHashCode(callSuper = false)
     public static class Account extends ApiBase implements Signable {
-        public String createdAt;
-        public String changedAt;
-        public String changedPwdAt;
-        public int orderHistory;
-        public int paymentsDay;
-        public int paymentsYear;
-        public int oneclickAdds;
-        public Boolean suspicious;
+        private String createdAt;
+        private String changedAt;
+        private String changedPwdAt;
+        private int orderHistory;
+        private int paymentsDay;
+        private int paymentsYear;
+        private int oneclickAdds;
+        private Boolean suspicious;
 
 
         @Override
@@ -52,10 +61,12 @@ class Customer  extends ApiBase implements Signable {
         
     }
 
+    @Data
+    @EqualsAndHashCode(callSuper = false)
     public static class Login extends ApiBase implements Signable {
-        public String auth;
-        public String authAt;
-        public String authData;
+        private String auth;
+        private String authAt;
+        private String authData;
 
         @Override
         public String toSign() {

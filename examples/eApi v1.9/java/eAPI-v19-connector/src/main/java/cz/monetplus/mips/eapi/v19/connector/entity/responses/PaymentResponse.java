@@ -3,13 +3,18 @@ package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.actions.Action;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
+@NoArgsConstructor @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentResponse extends SignBase {
     private String payId;
     private Long resultCode;
