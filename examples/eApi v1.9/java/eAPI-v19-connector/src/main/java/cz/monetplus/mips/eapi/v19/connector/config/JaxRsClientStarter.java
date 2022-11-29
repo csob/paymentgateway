@@ -1,24 +1,23 @@
 package cz.monetplus.mips.eapi.v19.connector.config;
 
-import com.cloudcontrolled.api.client.security.DumbX509TrustManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.apache.cxf.configuration.jsse.TLSClientParameters;
 import org.apache.cxf.configuration.security.FiltersType;
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
+import org.apache.cxf.ext.logging.LoggingInInterceptor;
+import org.apache.cxf.ext.logging.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactory;
 import org.apache.cxf.jaxrs.client.WebClient;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 
-import javax.net.ssl.KeyManager;
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.*;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.security.KeyStore;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 import java.util.List;
 
 @Slf4j
@@ -80,14 +79,18 @@ public class JaxRsClientStarter<T> {
             KeyStore keyStore = KeyStore.getInstance("JKS");
 
 			File truststore = new File(trustStore);
-            keyStore.load(new FileInputStream(truststore), trustStorePassword.toCharArray());
+			try (InputStream trustStoreStream = Files.newInputStream(truststore.toPath())) {
+				keyStore.load(trustStoreStream, trustStorePassword.toCharArray());
+			}
             TrustManagerFactory trustFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             trustFactory.init(keyStore);
             TrustManager[] tm = trustFactory.getTrustManagers();
             tlsParams.setTrustManagers(tm);
  
             truststore = new File(trustStore);
-            keyStore.load(new FileInputStream(truststore), trustStorePassword.toCharArray());
+			try(InputStream keyStoreStream = Files.newInputStream(truststore.toPath())) {
+				keyStore.load(keyStoreStream, trustStorePassword.toCharArray());
+			}
             KeyManagerFactory keyFactory = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
             keyFactory.init(keyStore, trustStorePassword.toCharArray());
             KeyManager[] km = keyFactory.getKeyManagers();
@@ -109,5 +112,19 @@ public class JaxRsClientStarter<T> {
         }
 	}
 
+	private static class DumbX509TrustManager implements X509TrustManager {
+		public void checkClientTrusted(X509Certificate[] chain, String authType)
+				throws CertificateException {
+			// not implemented
+		}
 
+		public void checkServerTrusted(X509Certificate[] chain, String authType)
+				throws CertificateException {
+			// not implemented
+		}
+
+		public X509Certificate[] getAcceptedIssuers() {
+			return new X509Certificate[]{};
+		}
+	}
 }
