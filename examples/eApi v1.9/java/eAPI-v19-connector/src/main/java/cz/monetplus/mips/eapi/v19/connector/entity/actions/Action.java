@@ -1,11 +1,10 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.actions;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import cz.monetplus.mips.eapi.v19.connector.ActionDeserializer;
-import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
+import cz.monetplus.mips.eapi.v19.connector.entity.ApiBase;
+import cz.monetplus.mips.eapi.v19.connector.entity.Signable;
 
 @JsonDeserialize(using = ActionDeserializer.class)
-public abstract class Action extends SignBase {
+public abstract class Action extends ApiBase implements Signable {
     
 }
