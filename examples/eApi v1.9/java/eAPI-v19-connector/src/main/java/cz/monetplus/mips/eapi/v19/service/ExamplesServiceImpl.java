@@ -12,11 +12,13 @@ import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 
 @Service
 @Slf4j
 public class ExamplesServiceImpl implements ExamplesService {
 
+    public static final String UNABLE_TO_DESERIALIZE_INIT_FILE = "Unable to deserialize init file";
     @Value("${merchant.id}")
     private String merchantId;
     private final NativeApiV19Service nativeApiV19Service;
@@ -30,11 +32,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         PaymentInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     PaymentInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.paymentInit(req);
@@ -86,11 +88,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         OneclickInitRequest request;
         try {
             Gson gson = new GsonBuilder().create();
-            request = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            request = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     OneclickInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         request.setMerchantId(merchantId);
         return nativeApiV19Service.oneclickInit(request);
@@ -98,7 +100,10 @@ public class ExamplesServiceImpl implements ExamplesService {
 
     @Override
     public @NonNull OneclickProcessResponse oneclickProcess(@NonNull String payId) throws MipsException {
-        return nativeApiV19Service.oneclickProcess(new OneclickProcessRequest(merchantId, payId));
+        OneclickProcessRequest oneclickProcessRequest = new OneclickProcessRequest(merchantId, payId);
+        oneclickProcessRequest.setFingerprint(new AuthData());
+        oneclickProcessRequest.getFingerprint().setBrowser(Auth3dsBrowser.getDefaultBrowserParams());
+        return nativeApiV19Service.oneclickProcess(oneclickProcessRequest);
     }
 
     @Override
@@ -116,11 +121,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         ApplepayInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     ApplepayInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         if(null != payload) req.setPayload(payload);
@@ -132,11 +137,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         GooglepayInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     GooglepayInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         if(null != payload) req.setPayload(payload);
@@ -158,11 +163,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         ButtonInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     ButtonInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.buttonInit(req);
@@ -173,11 +178,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         MallpayInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     MallpayInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.mallpayInit(req);
@@ -193,11 +198,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         MallpayLogisticsRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     MallpayLogisticsRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         if(null != payId) req.setPayId(payId);
@@ -209,14 +214,14 @@ public class ExamplesServiceImpl implements ExamplesService {
         MallpayRefundRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     MallpayRefundRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
-        if(null != payId) req.setPayId(payId);;
+        if(null != payId) req.setPayId(payId);
         return nativeApiV19Service.mallpayRefund(req);
     }
 
@@ -225,11 +230,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         LoanInitRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     LoanInitRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.loanInit(req);
@@ -245,11 +250,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         LoanLogisticsRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     LoanLogisticsRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.loanLogistics(req);
@@ -260,11 +265,11 @@ public class ExamplesServiceImpl implements ExamplesService {
         LoanRefundRequest req;
         try {
             Gson gson = new GsonBuilder().create();
-            req = gson.fromJson(FileUtils.readFileToString(initFile, "UTF-8"),
+            req = gson.fromJson(FileUtils.readFileToString(initFile, StandardCharsets.UTF_8),
                     LoanRefundRequest.class);
         } catch (Exception e) {
             log.error(null, e);
-            throw new MipsException(RespCode.INTERNAL_ERROR, "Unable to deserialize init file");
+            throw new MipsException(RespCode.INTERNAL_ERROR, UNABLE_TO_DESERIALIZE_INIT_FILE);
         }
         req.setMerchantId(merchantId);
         return nativeApiV19Service.loanRefund(req);

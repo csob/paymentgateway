@@ -3,8 +3,6 @@ package cz.monetplus.mips.eapi.v19.service;
 import java.io.File;
 import java.net.URI;
 
-import cz.monetplus.mips.eapi.v19.connector.entity.OneclickInitRequest;
-import cz.monetplus.mips.eapi.v19.connector.entity.PaymentCloseRequest;
 import cz.monetplus.mips.eapi.v19.connector.entity.responses.*;
 import lombok.NonNull;
 
@@ -26,7 +24,7 @@ public interface ExamplesService {
 
     @NonNull ApplepayEchoResponse applepayEcho() throws MipsException;
     @NonNull ApplepayInitResponse applepayInit(@NonNull File initFile, String payload) throws MipsException;
-    @NonNull ApplepayProcessResponse applepayProcess(@NonNull String PayId) throws MipsException;
+    @NonNull ApplepayProcessResponse applepayProcess(@NonNull String payId) throws MipsException;
 
     @NonNull GooglepayEchoResponse googlepayEcho() throws MipsException;
     @NonNull GooglepayInitResponse googlepayInit(@NonNull File initFile, String payload) throws MipsException;

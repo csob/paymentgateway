@@ -22,7 +22,6 @@ import java.security.*;
 import java.security.spec.X509EncodedKeySpec;
 
 @Service
-@Profile("!dev")
 @Slf4j
 public class CryptoServiceImpl implements CryptoService, InitializingBean {
 
@@ -102,8 +101,8 @@ public class CryptoServiceImpl implements CryptoService, InitializingBean {
 		try {
 			String data2Verify = signBase.toSign();
 			log.info("data to verify: '{}'", data2Verify);
-			log.info("signature: '{}'", signBase.signature);
-			return verify(mipsPublicKey, data2Verify, signBase.signature);
+			log.info("signature: '{}'", signBase.getSignature());
+			return verify(mipsPublicKey, data2Verify, signBase.getSignature());
 		}
 		catch (Exception e) {
 			log.warn("Invalid signature: ", e);
@@ -115,9 +114,9 @@ public class CryptoServiceImpl implements CryptoService, InitializingBean {
 	public void createSignature(SignBase signBase) throws MipsException {
 		signBase.fillDttm();
 		String data2Sign = signBase.toSign();
-		signBase.signature = sign(merchantPrivateKey, data2Sign);
+		signBase.setSignature(sign(merchantPrivateKey, data2Sign));
 		log.info("data to sign: '{}'", data2Sign);
-		log.info("signature: '{}'", signBase.signature);
+		log.info("signature: '{}'", signBase.getSignature());
 	}
 
 	protected String sign(PrivateKey key, String plainData) throws MipsException {
