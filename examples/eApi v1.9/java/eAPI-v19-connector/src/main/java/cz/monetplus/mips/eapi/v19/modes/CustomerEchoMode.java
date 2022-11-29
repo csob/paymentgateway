@@ -29,7 +29,7 @@ public class CustomerEchoMode implements RunMode {
 				throw new MipsException(RespCode.INVALID_PARAM, "Missing mandatory parameter customerId");
 			}
 			EchoCustomerResponse res = examplesService.echoCustomer(aConfig.customerId);
-			log.info("result code: {} [{}]", res.resultCode, res.resultMessage);
+			log.info("result code: {} [{}]", res.getResultCode(), res.getResultMessage());
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);
