@@ -1,11 +1,15 @@
 # ČSOB Online Payment Gateway
 
-The ČSOB payment gateway provides online cards acquiring services for e-shops, service providers and mobile apps. We currently support card payments (Visa, Visa Electron, Visa V Pay, MasterCard, Maestro), Apple Pay, Google Pay, Skip Pay (originally mallpay), ČSOB Payment Button and the consumer loan comparator "NEJsplátka". 
+The ČSOB payment gateway provides online cards acquiring services for e-shops, service providers and mobile apps. We currently support card payments (Visa, Visa Electron, Visa V Pay, MasterCard, Maestro), Apple Pay, Google Pay, Skip Pay (originally mallpay) and ČSOB Payment Button. 
 To use the Payment Gateway, you need to conclude a contract with the ČSOB. Please contact 800 150 150 (free from the Czech republic) for more commercial information in English. 
 
 Acceptance of Diners Club payment cards was terminated by 30.9.2022.
 
 By 6 October 2022 mallpay rebranded to Skip Pay. Except the name everything remains the same. Only in the eAPI section in the wiki and in API code mallpay is still being used (operations and parameters). Methods for mallpay (Skip Pay) remain functional.
+
+Due to Croatia's transition to the euro as its official currency, it will not be possible to make payments in Croatian kuna (HRK) from 1 January 2023. Any refunds of transactions made in the original HRK currency will only be made in full in EUR.
+
+The product NEJsplátka consumer loan comparator is not currently active.
 
 ## 1. API Documentation, how to Implement and Test your Shop Integration
 
