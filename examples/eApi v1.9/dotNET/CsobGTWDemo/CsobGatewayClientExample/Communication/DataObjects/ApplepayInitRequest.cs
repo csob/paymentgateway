@@ -47,8 +47,8 @@ public class ApplepayInitRequest : SignBaseRequest
         Add(sb, Payload);
         Add(sb, ReturnUrl);
         Add(sb, ReturnMethod);
-        Add(sb, Customer?.ToString());
-        Add(sb, Order?.ToString());
+        Add(sb, Customer?.ToSign());
+        Add(sb, Order?.ToSign());
         Add(sb, SdkUsed);
         Add(sb, MerchantData);
         Add(sb, TtlSec);
