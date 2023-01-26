@@ -13,7 +13,7 @@ The product NEJsplátka consumer loan comparator is not currently active.
 
 ## 1. API Documentation, how to Implement and Test your Shop Integration
 
-Before starting the integration development, please have a look into the GitHub Wiki. The API documentation as well test cases and test cards are available here in the most up-to-date version. 
+Before starting the integration development, please have a look into the GitHub Wiki. The API documentation as well test cases and test cards are available here in the most up-to-date version. Older versions of API will be [terminated](https://github.com/csob/paymentgateway/wiki/API-Sunset).
 
 ## 2. Repository
 
