@@ -16,6 +16,7 @@ Changelog
 * [#562](https://github.com/csob/paymentgateway/issues/562) return codes oneclick/init vs. oneclick/echo
 * [#570](https://github.com/csob/paymentgateway/issues/570) transaction expiration (`ttlSec`)
 * [#615](https://github.com/csob/paymentgateway/issues/615) validation of `vatin` parameter for mallpay changed from 10 to 12 chars
+* [#657](https://github.com/csob/paymentgateway/issues/657) added ttlSec parameter for oneclick payment
 
 **Changes in eAPI 1.9 specification compared to v1.8**
 
