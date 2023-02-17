@@ -44,15 +44,24 @@ public class GooglepayInitParams : SignBase
         var sb = new StringBuilder();
         Add(sb, ApiVersion);
         Add(sb, ApiVersionMinor);
+        Add(sb, PaymentMethodType);
         if (AllowedCardNetworks != null)
             foreach (var value in AllowedCardNetworks)
                 Add(sb, value);
         if (AllowedCardAuthMethods != null)
             foreach (var value in AllowedCardAuthMethods)
                 Add(sb, value);
-        Add(sb, GooglepayMerchantId);
-        Add(sb, MerchantName);
-        Add(sb, TotalPriceStatus);
+            Add(sb, AssuranceDetailsRequired);
+            Add(sb, BillingAddressRequired);
+            Add(sb, BillingAddressParametersFormat);
+            Add(sb, TokenizationSpecificationType);
+            Add(sb, Gateway);
+            Add(sb, GatewayMerchantId);
+            Add(sb, GooglepayMerchantId);
+            Add(sb, MerchantName);
+            Add(sb, Environment);
+            Add(sb, TotalPriceStatus);
+            Add(sb, CountryCode);
         DeleteLast(sb);
         return sb.ToString();
     }

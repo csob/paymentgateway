@@ -1542,6 +1542,9 @@ class GooglepayInitParams extends SignBase
       $sb = ApiUtilsAdd($sb, $this->apiVersion);
     if (isset($this->apiVersionMinor))
       $sb = ApiUtilsAdd($sb, $this->apiVersionMinor);
+    if(isset($this->paymentMethodType)) 
+      $sb = ApiUtilsAdd($sb, $this->paymentMethodType);
+    
     foreach ($this->allowedCardNetworks as $value) {
       $sb = ApiUtilsAdd($sb, $value);
     }
@@ -1549,13 +1552,28 @@ class GooglepayInitParams extends SignBase
     foreach ($this->allowedCardAuthMethods as $value) {
       $sb = ApiUtilsAdd($sb, $value);
     }
-
+    if (isset($this->assuranceDetailsRequired))
+      $sb = ApiUtilsAdd($sb, $this->assuranceDetailsRequired);
+    if (isset($this->billingAddressRequired))
+      $sb = ApiUtilsAdd($sb, $this->billingAddressRequired);
+    if (isset($this->billingAddressParametersFormat))
+      $sb = ApiUtilsAdd($sb, $this->billingAddressParametersFormat);
+    if (isset($this->tokenizationSpecificationType))
+      $sb = ApiUtilsAdd($sb, $this->tokenizationSpecificationType);
+    if (isset($this->gateway))
+      $sb = ApiUtilsAdd($sb, $this->gateway);
+    if (isset($this->gatewayMerchantId))
+      $sb = ApiUtilsAdd($sb, $this->gatewayMerchantId);
     if (isset($this->googlepayMerchantId))
       $sb = ApiUtilsAdd($sb, $this->googlepayMerchantId);
     if (isset($this->merchantName))
       $sb = ApiUtilsAdd($sb, $this->merchantName);
+    if (isset($this->environment))
+      $sb = ApiUtilsAdd($sb, $this->environment);
     if (isset($this->totalPriceStatus))
       $sb = ApiUtilsAdd($sb, $this->totalPriceStatus);
+    if (isset($this->countryCode))
+      $sb = ApiUtilsAdd($sb, $this->countryCode);
     return $this->removeLast($sb);
   }
 }
