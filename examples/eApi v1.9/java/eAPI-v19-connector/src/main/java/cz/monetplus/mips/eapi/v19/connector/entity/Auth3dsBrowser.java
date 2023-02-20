@@ -2,8 +2,12 @@ package cz.monetplus.mips.eapi.v19.connector.entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @JsonInclude(value = Include.NON_NULL)
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class Auth3dsBrowser extends ApiBase implements Signable {
 
     private static final long serialVersionUID = -3825192932302805075L;
@@ -15,21 +19,21 @@ public class Auth3dsBrowser extends ApiBase implements Signable {
      * This field is limited to maximum 2048 characters  and if the total length exceeds the limit, the 3DS Server truncates the excess portion.
      * This field is required for requests where deviceChannel=02 (BRW)."
      */
-    public String acceptHeader;
+    private String acceptHeader;
 
     /**
      * Boolean that represents the ability of the cardholder browser to execute Java. Value is returned from
      * the navigator.javaEnabled property.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Boolean javaEnabled;
+    private Boolean javaEnabled;
 
     /**
      * Value representing the browser language as defined in IETF BCP47. The value is limited to 1-8 characters.
      * Value is returned from navigator.language property.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public String language;
+    private String language;
 
     /**
      * Value representing the bit depth of the colour palette for displaying images, in bits per pixel. Obtained from Cardholder browser using the screen.colorDepth property. The field is limited to 1-2 characters.
@@ -45,35 +49,35 @@ public class Auth3dsBrowser extends ApiBase implements Signable {
      * <p>
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Integer colorDepth;
+    private Integer colorDepth;
 
     /**
      * Total height of the Cardholder's screen in pixels. Value is returned from the screen.height property.
      * The value is limited to 1-6 characters.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Integer screenHeight;
+    private Integer screenHeight;
 
     /**
      * Total width of the Cardholder's screen in pixels. Value is returned from the screen.width property.
      * The value is limited to 1-6 characters.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Integer screenWidth;
+    private Integer screenWidth;
 
     /**
      * Time difference between UTC time and the Cardholder browser local time, in minutes. The field is limited to 1-5 characters
      * where the values is returned from the getTimezoneOffset() method.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Integer timezone;
+    private Integer timezone;
 
     /**
      * Exact content of the HTTP user-agent header. The field is limited to maximum 2048 caracters. If the total length of the User-Agent
      * sent by the browser exceeds 2048 characters, the 3DS Server truncates the excess portion.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public String userAgent;
+    private String userAgent;
 
     /**
      * "Dimensions of the challenge window that has been displayed to the Cardholder.
@@ -92,27 +96,24 @@ public class Auth3dsBrowser extends ApiBase implements Signable {
      * 04 -> 600 x 400
      * 05 -> Full screen
      */
-    public String challengeWindowSize;
+    private String challengeWindowSize;
 
     /**
      * Boolean that represents the ability of the cardholder browser to execute JavaScript.
      * This field is required for requests where deviceChannel = 02 (BRW).
      */
-    public Boolean javascriptEnabled;
-
+    private Boolean javascriptEnabled;
 
     public static Auth3dsBrowser getDefaultBrowserParams() {
-        // viz AReq Browser Data Elements Recommendations
-        // https://drive.google.com/drive/u/1/folders/1d9_uuubnGUEZ9kecbWTFdJPDiGYHEA-F
         Auth3dsBrowser b = new Auth3dsBrowser();
         b.acceptHeader = "-";
         b.language = DEFAULT_LANGUAGE;
         b.userAgent = "-";
         b.javaEnabled = Boolean.FALSE;
         b.colorDepth = 1;
-        b.screenHeight = Integer.valueOf(0);
-        b.screenWidth = Integer.valueOf(0);
-        b.timezone = Integer.valueOf(0);
+        b.screenHeight = 0;
+        b.screenWidth = 0;
+        b.timezone = 0;
         b.javascriptEnabled = Boolean.FALSE;
         return b;
     }
@@ -120,16 +121,16 @@ public class Auth3dsBrowser extends ApiBase implements Signable {
     @Override
     public String toSign() {
         StringBuilder sb = new StringBuilder();
+        add(sb, userAgent);
         add(sb, acceptHeader);
-        add(sb, javaEnabled);
         add(sb, language);
+        add(sb, javascriptEnabled);
         add(sb, colorDepth);
         add(sb, screenHeight);
         add(sb, screenWidth);
         add(sb, timezone);
-        add(sb, userAgent);
+        add(sb, javaEnabled);
         add(sb, challengeWindowSize);
-        add(sb, javascriptEnabled);
         deleteLast(sb);
         return sb.toString();
     }

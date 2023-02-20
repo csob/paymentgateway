@@ -23,7 +23,7 @@ public class EchoGetMode implements RunMode {
 		
 		try {
 			EchoResponse res = examplesService.echoGet();
-			log.info("result code: {} [{}]", res.resultCode, res.resultMessage);
+			log.info("result code: {} [{}]", res.getResultCode(), res.getResultMessage());
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);

@@ -1,12 +1,19 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class LoanCustomer extends ApiBase implements Signable {
-    public String firstName;
-    public String lastName;
-    public String email;
-    public String phone;
-    public LoanAddress billingAddress;
-    public LoanAddress shippingAddress;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phone;
+    private LoanAddress billingAddress;
+    private LoanAddress shippingAddress;
 
     @Override
     public String toSign() {

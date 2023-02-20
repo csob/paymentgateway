@@ -1,36 +1,27 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.ext;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class MaskedClnRPExtensionV16 extends Extension {
 
 	private static final long serialVersionUID = -3825192932302805075L;
 	
-	@XmlElement
-	public String extension = PrivateApiExtension.RECURRENT_PAYMENT_MASK_CLN.getCode();
+	private String maskedCln;
 
-	@XmlElement
-	public String maskedCln;
+	private String longMaskedCln;
 
-	@XmlElement
-	public String longMaskedCln;
+	private String expiration;
 
-	@XmlElement
-	public String expiration;
-
-	public MaskedClnRPExtensionV16() {
-	}
 
 	public MaskedClnRPExtensionV16(String dttm, String maskedCln, String longMaskedCln, String expiration) {
 		this.dttm = dttm;
 		this.maskedCln = maskedCln;
 		this.longMaskedCln = longMaskedCln;
 		this.expiration = expiration;
+		this.extension = PrivateApiExtension.RECURRENT_PAYMENT_MASK_CLN.getCode();
 	}
 
 	@Override

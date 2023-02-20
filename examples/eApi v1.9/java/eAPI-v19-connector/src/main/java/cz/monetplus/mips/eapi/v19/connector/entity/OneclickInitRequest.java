@@ -2,25 +2,29 @@ package cz.monetplus.mips.eapi.v19.connector.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import cz.monetplus.mips.eapi.v19.connector.entity.ext.Extension;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
-@AllArgsConstructor @RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@RequiredArgsConstructor @AllArgsConstructor
 public class OneclickInitRequest extends SignBase  {
+	@NonNull
 	private String merchantId;
+	@NonNull
 	private String origPayId;
+	@NonNull
 	private String orderNo;
 	private String payMethod;
 	private String clientIp;
 	private Long totalAmount;
 	private String currency;
 	private Boolean closePayment;
+	@NonNull
 	private String returnUrl;
+	@NonNull
 	private String returnMethod;
 	private Customer customer;
 	private Order order;

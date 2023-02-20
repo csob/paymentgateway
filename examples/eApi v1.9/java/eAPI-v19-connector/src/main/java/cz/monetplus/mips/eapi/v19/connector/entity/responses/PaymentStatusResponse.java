@@ -1,37 +1,28 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
-import java.util.LinkedList;
-import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import cz.monetplus.mips.eapi.v19.connector.entity.actions.Action;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
+import cz.monetplus.mips.eapi.v19.connector.entity.actions.Action;
 import cz.monetplus.mips.eapi.v19.connector.entity.ext.Extension;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 
-@JsonInclude(JsonInclude.Include.NON_NULL)
-@RequiredArgsConstructor @NoArgsConstructor @AllArgsConstructor
+import java.util.List;
+
+@NoArgsConstructor @AllArgsConstructor
+@Data
+@EqualsAndHashCode(callSuper = false)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PaymentStatusResponse extends SignBase {
-    @NonNull @Getter
     private String payId;
-    @NonNull @Getter
     private Integer resultCode;
-    @NonNull @Getter
     private String resultMessage;
-    @NonNull @Getter
     private Integer paymentStatus;
-    @Getter
     private String authCode;
-    @Getter
     private String statusDetail;
-    @NonNull @Getter
-    private List<Action> actions = new LinkedList<>();
-    @Getter
+    private Action actions;
     private List<Extension> extensions;
 
     @Override
@@ -41,10 +32,10 @@ public class PaymentStatusResponse extends SignBase {
         add(sb, getDttm());
         add(sb, getResultCode());
         add(sb, getResultMessage());
-	add(sb, paymentStatus);
+	    add(sb, paymentStatus);
         add(sb, getAuthCode());
         add(sb, getStatusDetail());
-        if (null != getActions()) for (Action a : getActions()) add(sb, a.toSign());
+        if (null != getActions()) add(sb, getActions().toSign());
         deleteLast(sb);
         return sb.toString();
     }

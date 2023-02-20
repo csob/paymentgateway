@@ -2,12 +2,14 @@ package cz.monetplus.mips.eapi.v19.connector.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import cz.monetplus.mips.eapi.v19.connector.entity.ext.Extension;
 import lombok.*;
 
 @EqualsAndHashCode(callSuper = false)
 @AllArgsConstructor @NoArgsConstructor @RequiredArgsConstructor
 @Data
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class ApplepayInitRequest extends SignBase {
 
     @NonNull

@@ -1,18 +1,28 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+@Data
+@EqualsAndHashCode(callSuper = false)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
+@AllArgsConstructor @NoArgsConstructor
 class Order extends ApiBase implements Signable {
-    public String type; //[purchase, balance, prepaid, cash, check]
-    public String availability;
-    public String delivery; //[shipping, shipping_verified, instore, digital, ticket, order]
-    public String deliveryMode; //[0, 1, 2, 3]
-    public String deliveryEmail;
-    public boolean nameMatch;
-    public boolean addressMatch;
-    public Address billing;
-    public Address shipping;
-    public String shippingAddedAt;
-    public boolean reorder;
-    public GiftCards giftcards;
+    private String type; //[purchase, balance, prepaid, cash, check]
+    private String availability;
+    private String delivery; //[shipping, shipping_verified, instore, digital, ticket, order]
+    private String deliveryMode; //[0, 1, 2, 3]
+    private String deliveryEmail;
+    private boolean nameMatch;
+    private boolean addressMatch;
+    private Address billing;
+    private Address shipping;
+    private String shippingAddedAt;
+    private boolean reorder;
+    private GiftCards giftcards;
 
     @Override
     public String toSign() {
@@ -33,10 +43,12 @@ class Order extends ApiBase implements Signable {
         return sb.toString();
     }
 
+    @Data
+    @EqualsAndHashCode(callSuper = false)
     public static class GiftCards extends ApiBase implements Signable {
-        public long totalAmount;
-        public String currency;
-        public int quantity;
+        private long totalAmount;
+        private String currency;
+        private int quantity;
 
         @Override
         public String toSign() {

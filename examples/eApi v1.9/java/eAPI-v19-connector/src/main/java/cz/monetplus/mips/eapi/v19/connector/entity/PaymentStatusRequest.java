@@ -1,19 +1,20 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Getter;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Data
+@EqualsAndHashCode(callSuper = false)
+@RequiredArgsConstructor
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PaymentStatusRequest extends SignBase {
-    @Getter
-    public String merchantId;
-    @Getter
-    public String payId;
-
-    public PaymentStatusRequest(String merchantId, String payId) {
-        this.merchantId = merchantId;
-        this.payId = payId;
-    }
+    @NonNull
+    private String merchantId;
+    @NonNull
+    private String payId;
 
     @Override
     public String toSign() {

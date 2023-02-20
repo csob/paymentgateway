@@ -1,13 +1,20 @@
 package cz.monetplus.mips.eapi.v19.connector.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper = true)
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class MallpayAddress extends ApiBase implements Signable {
-    public String name;
-    public String country;
-    public String city;
-    public String streetAddress;
-    public String streetNumber;
-    public String zip;
-    public String addressType;
+    private String name;
+    private String country;
+    private String city;
+    private String streetAddress;
+    private String streetNumber;
+    private String zip;
+    private String addressType;
 
     @Override
     public String toSign() {

@@ -22,7 +22,7 @@ public class EchoPostMode implements RunMode {
 	public void proc(ArgsConfig aConfig) {
 		try {
 			EchoResponse res = examplesService.echoPost();
-			log.info("result code: {} [{}]", res.resultCode, res.resultMessage);
+			log.info("result code: {} [{}]", res.getResultCode(), res.getResultMessage());
 			
 		} catch (Exception e) {
 			throw new RuntimeException(e);

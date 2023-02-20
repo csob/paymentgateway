@@ -1,5 +1,6 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,12 +10,13 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class MallpayInitResponse extends SignBase {
-    public String payId;
-    public Long resultCode;
-    public String resultMessage;
-    public String paymentStatus;
-    public String mallpayUrl;
+    private String payId;
+    private Integer resultCode;
+    private String resultMessage;
+    private String paymentStatus;
+    private String mallpayUrl;
 
     @Override
     public String toSign() {

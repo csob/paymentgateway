@@ -1,20 +1,18 @@
 package cz.monetplus.mips.eapi.v19.connector.entity.responses;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import cz.monetplus.mips.eapi.v19.connector.entity.SignBase;
 import lombok.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = false)
 @Data
 @AllArgsConstructor @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 class ApplepayInitParams extends SignBase {
-    @NonNull
     private String countryCode;
-    @NonNull
     private List<String> supportedNetworks;
-    @NonNull
     private List<String> merchantCapabilities;
 
     @Override
