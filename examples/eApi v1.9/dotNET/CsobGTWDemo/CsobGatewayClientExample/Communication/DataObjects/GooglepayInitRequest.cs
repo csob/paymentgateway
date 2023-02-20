@@ -52,7 +52,7 @@ public class GooglepayInitRequest : SignBaseRequest
         Add(sb, ReturnMethod);
         if (null != Customer) Add(sb, Customer.ToSign());
         if (null != Order) Add(sb, Order.ToSign());
-        Add(sb, sdkUsed);
+        Add(sb, SdkUsed);
         Add(sb, MerchantData);
         Add(sb, TtlSec);
         DeleteLast(sb);
