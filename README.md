@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://github.com/csob/paymentgateway/wiki/img/mktg/banner-en.png/">
+</p>
+
 # ČSOB Online Payment Gateway
 
 The ČSOB payment gateway provides online cards acquiring services for e-shops, service providers and mobile apps. We currently support card payments (Visa, Visa Electron, Visa V Pay, MasterCard, Maestro), Apple Pay, Google Pay, Skip Pay (originally mallpay) and ČSOB Payment Button. 
