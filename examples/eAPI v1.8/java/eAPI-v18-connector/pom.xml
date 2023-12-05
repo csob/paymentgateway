@@ -18,7 +18,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<slf4j-version>1.7.30</slf4j-version>
-		<logback-version>1.2.3</logback-version>
+		<logback-version>1.2.13</logback-version>
 		<jackson-version>2.12.3</jackson-version>
 		<cxf-version>3.4.3</cxf-version>
 		<cxf-xjc-utils-version>3.3.1</cxf-xjc-utils-version>
